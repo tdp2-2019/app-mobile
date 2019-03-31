@@ -1,4 +1,4 @@
-package com.fiuba.tdpii.correapp.activity;
+package com.fiuba.tdpii.correapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
