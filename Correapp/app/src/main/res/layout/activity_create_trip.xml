@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CreateTripActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="137dp"
+        android:background="#ECECEC"
+        android:gravity="center"
+        android:text="Nuevo viaje"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="@android:dimen/app_icon_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabBackground="@color/black_87"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="#AAAAAA"
+        app:tabIndicatorHeight="4dp"
+        app:tabMode="fixed"
+        app:layout_constraintBottom_toTopOf="@id/inputs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" >
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/trip_now"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:backgroundTint="#000"
+            android:text="VIAJAR AHORA" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/reservar"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:backgroundTint="#000"
+            android:text="RESERVAR" />
+
+
+    </android.support.design.widget.TabLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/inputs"
+        android:layout_width="match_parent"
+        android:layout_height="570dp"
+        android:background="#FFFF"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        tools:layout_editor_absoluteX="0dp"
+        android:weightSum="7"
+        >
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="0.5"
+            android:backgroundTint="#000"
+            android:textColor="#FFF" />
+
+        <TextView
+            android:id="@+id/origen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="0.5"
+            android:backgroundTint="#000"
+            android:padding="10dp"
+            android:text="Origen"
+            android:textColor="@color/black_overlay" />
+
+        <TextView
+            android:id="@+id/destino"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000"
+            android:text="Destino"
+            android:padding="10dp"
+            android:textColor="@color/black_overlay"
+            android:layout_gravity="left"
+            android:layout_weight="0.5"/>
+
+        <TextView
+            android:id="@+id/mascotas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000"
+            android:text="Cantidad de mascotas"
+            android:textColor="@color/black_overlay"
+            android:padding="10dp"
+            android:layout_gravity="left"
+            android:layout_weight="0.5"/>
+        <TextView
+            android:id="@+id/fecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000"
+            android:text="Fecha"
+            android:textColor="@color/black_overlay"
+            android:padding="10dp"
+            android:layout_gravity="left"
+            android:layout_weight="0.5"/>
+        <TextView
+            android:id="@+id/hora"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000"
+            android:text="Hora"
+            android:textColor="@color/black_overlay"
+            android:padding="10dp"
+            android:layout_gravity="left"
+            android:layout_weight="0.5"/>
+
+
+        <TextView
+            android:id="@+id/empty2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:backgroundTint="#000"
+            android:textColor="#FFF" />
+        <TextView
+            android:id="@+id/payment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000"
+            android:text="Froma de pago"
+            android:textColor="@color/black_overlay"
+            android:padding="10dp"
+            android:layout_gravity="left"
+            android:layout_weight="0"/>
+        <RadioGroup
+            android:id="@+id/payment_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/efectivo"
+                android:checked="true"
+                android:buttonTint="#6892E9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_overlay"
+                android:text="Efectivo"/>
+            <RadioButton
+                android:id="@+id/tarjeta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_overlay"
+                android:buttonTint="#6892E9"
+                android:checked="false"
+                android:text="Tarjeta de crédito"/>
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="367dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:backgroundTint="#6892E9"
+            android:buttonTint="#6892E9"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="Reservar" />
+
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
