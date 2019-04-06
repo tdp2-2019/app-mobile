@@ -9,31 +9,17 @@
     >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_weight="2"
-        android:background="#ededed"
+        style="@style/HeaderLayout"
+        android:layout_weight="3"
         >
 
         <ImageView
-            android:id="@+id/image_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            app:srcCompat="@drawable/back_arrow" />
+            android:id="@+id/back_arrow"
+            style="@style/HeaderArrow" />
 
         <TextView
-            android:id="@+id/text_user_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:text="@string/activity_rate_trip"
-            android:textColor="#000000"
-            android:textSize="36sp"
-            android:layout_gravity="center" />
+            style="@style/HeaderTitle"
+            android:text="@string/activity_rate_trip" />
 
     </LinearLayout>
 
@@ -44,18 +30,12 @@
         android:gravity="center"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
-        android:layout_weight="5"
+        android:layout_weight="4"
         >
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rate_star_question"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:textSize="20sp" />
+            style="@style/Subtitle"
+            android:text="@string/rate_star_question" />
 
         <RatingBar
             android:id="@+id/rating_bar"
@@ -75,18 +55,12 @@
         android:gravity="center"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
-        android:layout_weight="4"
+        android:layout_weight="3"
         >
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rate_driver_extra_question"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:textSize="20sp" />
+            style="@style/Subtitle"
+            android:text="@string/rate_driver_extra_question" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -103,12 +77,13 @@
                 android:textColor="#000000"
                 android:textSize="14sp" />
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch_material"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="false"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:checked="false" />
+                android:paddingRight="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -123,48 +98,36 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/comment_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
+        android:layout_weight="4"
         android:gravity="center"
-        android:paddingBottom="20dp"
+        android:orientation="vertical"
         android:paddingTop="20dp"
-        android:layout_weight="5"
-        >
+        android:paddingBottom="20dp"
+        android:visibility="invisible">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rate_driver_extra_comment_question"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:textSize="20sp" />
+            style="@style/Subtitle"
+            android:text="@string/rate_driver_extra_comment_question" />
 
-        <EditText
-            android:inputType="text"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="top"
-            android:hint="@string/placeholder_comment"
-            />
+            android:hint="@string/placeholder_comment">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_submit"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp"
-        android:layout_weight="1"
-        android:background="#2196f3"
-        android:text="@string/submit"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:textSize="14sp" />
+        style="@style/AppButton" />
 
 </LinearLayout>
