@@ -35,7 +35,7 @@ public class CreateTripActivity extends AppCompatActivity {
     private Boolean now = Boolean.TRUE;
 
     private Date tripDate;
-    private
+    private Date time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +52,16 @@ public class CreateTripActivity extends AppCompatActivity {
         origen = findViewById(R.id.origen);
         destino = findViewById(R.id.destino);
         mascotas = findViewById(R.id.mascotas);
+
         fecha = findViewById(R.id.fecha);
         hora = findViewById(R.id.hora);
+
+        hora.setText("");
+        hora.setClickable(Boolean.FALSE);
+        fecha.setText("");
+        fecha.setClickable(Boolean.FALSE);
+
+
         reservarBtn = findViewById(R.id.confirm);
 
         setUpEvents();
@@ -99,9 +107,14 @@ public class CreateTripActivity extends AppCompatActivity {
 
                 switch (position){
                     case NOW_TAB_POSITION:
+//
+//                        fecha.setVisibility(View.GONE);
+//                        hora.setVisibility(View.GONE);
+                        hora.setText("");
+                        hora.setClickable(Boolean.FALSE);
 
-                        fecha.setVisibility(View.GONE);
-                        hora.setVisibility(View.GONE);
+                        fecha.setText("");
+                        fecha.setClickable(Boolean.FALSE);
 
                         now = Boolean.TRUE;
 
@@ -109,6 +122,12 @@ public class CreateTripActivity extends AppCompatActivity {
                     case LATER_TAB_POSITION:
                         fecha.setVisibility(View.VISIBLE);
                         hora.setVisibility(View.VISIBLE);
+
+                        hora.setText("Hora");
+                        hora.setClickable(Boolean.TRUE);
+
+                        fecha.setText("Fecha");
+                        fecha.setClickable(Boolean.TRUE);
 
                         now = Boolean.FALSE;
 
