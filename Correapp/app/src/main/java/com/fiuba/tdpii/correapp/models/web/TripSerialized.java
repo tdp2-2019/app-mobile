@@ -3,26 +3,46 @@ package com.fiuba.tdpii.correapp.models.web;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+
 public class TripSerialized {
 
     @Expose
-    @SerializedName("trip")
-    public Personal_medicine_reminder personal_medicine_reminder;
+    @SerializedName("trips")
+    public Trip trip;
 
-    public static class Personal_medicine_reminder {
-        @Expose
-        @SerializedName("name")
-        public String name;
-        @Expose
-        @SerializedName("notes")
-        public String notes;
-        @Expose
-        @SerializedName("date")
-        public String date;
-        @Expose
-        @SerializedName("time")
-        public String time;
+    public static class Trip {
+            @Expose
+            @SerializedName("client")
+            public String client;
+
+            @Expose
+            @SerializedName("_id")
+            public Long id;
+
+            @Expose
+            @SerializedName("_start_time")
+            public Long startTime;
+
+            @Expose
+            @SerializedName("_end_time")
+            public Long endTime;
+
+            @Expose
+            @SerializedName("_pets")
+            public String pets;
+
+
+            @Expose
+            @SerializedName("_status")
+            public String status;
+
+            @Expose
+            @SerializedName("_duration")
+            public Long duration;
+
+            @Expose
+            @SerializedName("_price")
+            public Long price;
+
     }
-
-
 }

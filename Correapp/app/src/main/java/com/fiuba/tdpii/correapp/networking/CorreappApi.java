@@ -1,28 +1,34 @@
 package com.fiuba.tdpii.correapp.networking;
 
-import com.fiuba.tdpii.correapp.models.web.TripResponse;
-import com.fiuba.tdpii.correapp.models.web.TripSerialized;
-
-import java.util.List;
+import com.fiuba.tdpii.correapp.models.web.PutTrip;
+import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
+import com.fiuba.tdpii.correapp.models.web.SerializedTrips;
+import com.fiuba.tdpii.correapp.models.web.TripPost;
+import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 
 public interface CorreappApi {
 
     @POST("/trips")
-    Call<TripResponse> createTrip(@Header("Content-Type") String content_type, @Body TripSerialized tripSerialized);
+    Call<SerializedTripPostResponse> createTrip(@Header("Content-Type") String content_type, @Body TripPost tripSerialized);
 
     @GET("/trips/{id}")
-    Call<TripResponse> getTripById(@Path("id") String id);
+    Call<SerializedTrip> getTripById(@Path("id") String id);
 
     @GET("/trips")
-    Call<List<TripResponse>> getTrips();
+    Call<SerializedTrips> getTrips();
+
+    @PUT("/trips/{id}")
+    Call<PutTrip> putDriver(@Path("id") String id, @Body TripPutRequest tripPut);
 
 
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.WaitingActivity">
+    tools:context=".activities.ChoferSeguimiento">
 
     <TextView
         android:id="@+id/title"
@@ -12,7 +12,7 @@
         android:layout_height="137dp"
         android:background="#ECECEC"
         android:gravity="center"
-        android:text="Siguiendo a sus mascotas"
+        android:text="Siguiendo el recorrido"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="@android:dimen/app_icon_size"
@@ -32,9 +32,5 @@
         tools:layout_editor_absoluteX="394dp">
 
     </fragment>
-
-
-
-
 
 </android.support.constraint.ConstraintLayout>

@@ -16,13 +16,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.RateTripDriverActivity"></activity>
+        <activity android:name=".activities.ChoferSeguimiento"></activity>
+        <activity android:name=".activities.RechazarActivity" />
+        <activity android:name=".activities.ChoferViewTripActivity" />
+        <activity android:name=".activities.ChoferActivity" />
+        <activity android:name=".activities.RateTripDriverActivity" />
         <activity android:name=".activities.SeguimientoActivity" />
         <activity android:name=".activities.WaitingActivity" />
         <activity android:name=".activities.TripsActivity" />
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.AddPetActivity" />
         <activity android:name=".activities.CreateTripActivity" />
+
+        <activity android:name=".activities.RateTripClientActivity" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

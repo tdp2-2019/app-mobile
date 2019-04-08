@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ChoferViewTripActivity">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="137dp"
+        android:background="#ECECEC"
+        android:gravity="center"
+        android:text="Nueva reserva disponible"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="@android:dimen/app_icon_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/inputs"
+        android:layout_width="match_parent"
+        android:layout_height="612dp"
+        android:background="#FFFF"
+        android:orientation="vertical"
+        android:weightSum="7"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:layout_editor_absoluteX="0dp">
+
+        <LinearLayout
+            android:id="@+id/names"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFF"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@+id/title">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:src="@drawable/client" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="45dp"
+                android:backgroundTint="#000"
+                android:id="@+id/nombre"
+                android:text="Nombre"
+                android:textColor="@color/black_overlay" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/horas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFF"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@+id/names">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="29dp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/clock_ic" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+android:id="@+id/fecha"
+                android:backgroundTint="#000"
+                android:text="Hora"
+                android:textColor="@color/black_overlay" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mascotaslayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFF"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@+id/horas">
+
+            <ImageView
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/plus" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+android:id="@+id/masctoas_text"
+                android:backgroundTint="#000"
+                android:text="Cantidad de mascotas"
+                android:textColor="@color/black_overlay" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fechas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFF"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@+id/horas">
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="33dp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/calendar" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+android:id="@+id/hora"
+                android:backgroundTint="#000"
+
+                android:text="Fecha"
+                android:textColor="@color/black_overlay" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/origen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="0.5"
+            android:backgroundTint="#000"
+            android:padding="10dp"
+            android:text="Origen"
+            android:textColor="@color/black_overlay" />
+
+        <TextView
+            android:id="@+id/destino"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="0.5"
+            android:backgroundTint="#000"
+            android:padding="10dp"
+            android:text="Destino"
+            android:textColor="@color/black_overlay" />
+
+        <TextView
+            android:id="@+id/empty2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="3"
+            android:backgroundTint="#000"
+            android:textColor="#FFF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/confirm"
+                android:layout_width="367dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+
+                android:backgroundTint="#6892E9"
+                android:buttonTint="#6892E9"
+                android:gravity="center"
+                android:text="Aceptar" />
+
+            <Button
+                android:id="@+id/rechazar"
+                android:layout_width="367dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:backgroundTint="#6892E9"
+                android:buttonTint="#6892E9"
+                android:gravity="center"
+                android:text="Rechazar" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

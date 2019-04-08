@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.WaitingActivity">
+    tools:context=".activities.ChoferActivity">
 
     <TextView
         android:id="@+id/title"
@@ -12,29 +12,28 @@
         android:layout_height="137dp"
         android:background="#ECECEC"
         android:gravity="center"
-        android:text="Siguiendo a sus mascotas"
+        android:text="Viajes disponibles"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="@android:dimen/app_icon_size"
         android:textStyle="bold"
-        android:translationZ="300dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+
+    <ListView
+        android:id="@+id/list_of_trips"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_destiny"
-        tools:layout_editor_absoluteX="394dp">
-
-    </fragment>
-
-
-
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="100dp"
+        android:background="#FFF"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintVertical_bias="0.574"
+        tools:layout_editor_absoluteX="0dp" />
 
 
 </android.support.constraint.ConstraintLayout>

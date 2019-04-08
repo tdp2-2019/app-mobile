@@ -23,6 +23,8 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
+import com.fiuba.tdpii.correapp.services.trips.TripService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -53,6 +55,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class WaitingActivity extends FragmentActivity implements OnMapReadyCallback {
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -70,10 +76,16 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
 
     private Bundle bundle;
 
+    private TripService tripService;
+    private Long tripId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waiting);
+        
+        tripService = new TripService();
+        
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(WaitingActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(WaitingActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -95,7 +107,7 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
         if (bundle != null) {
             originLocation = bundle.getParcelable("lc_origin");
             destinynLocation = bundle.getParcelable("lc_dest");
-
+            tripId = bundle.getLong("id");
         }
 
         Button sim = findViewById(R.id.simular);
@@ -112,11 +124,13 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
                     bundle.putParcelable("lc_dest",  destinynLocation);
 
 
+
                 navigationIntent.putExtra("bundle", bundle );
                 startActivity(navigationIntent);
 
             }
         });
+
 
 
     }
@@ -174,7 +188,7 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
         googleMap.addMarker(destinyMarkerOptions);
 
 
-        LatLngBounds.Builder bc = new LatLngBounds.Builder();
+        LatLngBounds.Builder bc = new LatLngBounds.Builder(); 
 
 
         List<LatLng> path = getPath(originLocation, destinynLocation);
@@ -185,6 +199,46 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
         addPoly(path, mMap);
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 40));
+
+        Handler handler = new Handler();
+        Runnable runnableCode = new Runnable() {
+            @Override
+            public void run() {
+
+                tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTrip>() {
+                    @Override
+                    public void onResponse(Call<SerializedTrip> call, Response<SerializedTrip> response) {
+
+                        response.body();
+
+                        if(response.body().getTrip().getDriverId() != null){
+
+                            Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);
+                            Bundle bundle = new Bundle();
+
+                            if(originLocation != null)
+                                bundle.putParcelable("lc_origin",  originLocation);
+                            if(destinynLocation != null)
+                                bundle.putParcelable("lc_dest",  destinynLocation);
+                            bundle.putLong("id",tripId );
+
+                            navigationIntent.putExtra("bundle", bundle );
+                            startActivity(navigationIntent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SerializedTrip> call, Throwable t) {
+
+                    }
+                });
+
+                // Do something here on the main thread
+                Log.d("Handlers", "Called on main thread");
+            }
+        };
+
+        handler.postDelayed(runnableCode, 2000);
 
     }
 

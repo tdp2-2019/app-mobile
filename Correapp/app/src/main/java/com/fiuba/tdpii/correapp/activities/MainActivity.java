@@ -21,11 +21,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent navigationIntent = new Intent(MainActivity.this, MapHomeActivity.class);
                 startActivity(navigationIntent);
-                finish();
             }
         });
 
         Button chofer = findViewById(R.id.chofer);
+        chofer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent navigationIntent = new Intent(MainActivity.this, ChoferActivity.class);
+                startActivity(navigationIntent);
+            }
+        });
 
     }
 }

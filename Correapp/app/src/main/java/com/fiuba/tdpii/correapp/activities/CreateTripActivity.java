@@ -11,11 +11,21 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
 import com.fiuba.tdpii.correapp.models.local.Pet;
+import com.fiuba.tdpii.correapp.models.web.Destination;
+import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
+import com.fiuba.tdpii.correapp.models.web.Trip;
+import com.fiuba.tdpii.correapp.models.web.TripPost;
+import com.fiuba.tdpii.correapp.models.web.TripResponse;
+import com.fiuba.tdpii.correapp.models.web.TripSerialized;
+import com.fiuba.tdpii.correapp.services.trips.TripClient;
+import com.fiuba.tdpii.correapp.services.trips.TripService;
 import com.google.android.gms.maps.model.LatLng;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -25,7 +35,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class CreateTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class CreateTripActivity extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener, TripClient {
 
 
     private static final int NOW_TAB_POSITION = 0;
@@ -34,6 +49,8 @@ public class CreateTripActivity extends AppCompatActivity implements DatePickerD
     private TabItem viajarAhora;
     private TabItem reservar;
     private TabLayout tabs;
+
+    private TripService tripService;
 
     private TextView origen;
     private TextView destino;
@@ -63,10 +80,15 @@ public class CreateTripActivity extends AppCompatActivity implements DatePickerD
     private Boolean paymentMethod;
     private Bundle bundle;
 
+
+    private Long tripId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trip);
+
+        tripService = new TripService();
 
 
         bundle = getIntent().getParcelableExtra("bundle");
@@ -356,6 +378,7 @@ public class CreateTripActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onClick(View v) {
 
+
                 if(mascota1 == null){
                     Toast.makeText(CreateTripActivity.this, "Te olvidaste de agregar a tus mascotas" , Toast.LENGTH_LONG).show();
                     return;
@@ -408,9 +431,59 @@ public class CreateTripActivity extends AppCompatActivity implements DatePickerD
 
                 }
 
+                Date time;
+                time = new Date(bundle.getLong("fecha_unix"));
+                Long hl = bundle.getLong("hora");
+                hours = hl.intValue();
+                time.setHours(hours);
+                Long ml = bundle.getLong("minutos");
+                minutes = ml.intValue();
+                time.setMinutes(minutes);
 
-                navigationIntent.putExtra("bundle", bundle );
-                startActivity(navigationIntent);
+
+                TripPost s_trip = new TripPost();
+                s_trip.setClient("Alejandra");
+                Destination destination = new Destination();
+                destination.setLat(Double.valueOf(destinyLocation.latitude).toString());
+                destination.setLong(Double.valueOf(destinyLocation.longitude).toString());
+
+                Destination source = new Destination();
+                source.setLat(Double.valueOf(originLocation.latitude).toString());
+                source.setLong(Double.valueOf(originLocation.longitude).toString());
+
+                s_trip.setStartTime(time.toString());
+                s_trip.setDestination(destination);
+                s_trip.setSource(source);
+                s_trip.setPets("meee");
+
+
+                tripService.saveNewTrip(s_trip).enqueue(new Callback<SerializedTripPostResponse>() {
+                    @Override
+                    public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+
+                        response.body();
+                        tripId = response.body().getTrip().getId();
+
+                        bundle.putLong("id",tripId );
+                        navigationIntent.putExtra("bundle", bundle );
+                        startActivity(navigationIntent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+
+                    }
+                });
+
+
+//                trip.trip = new TripSerialized.Trip();
+//                trip.trip.client = "Gustavo";
+//                trip.trip.startTime = time.getTime();
+//                trip.trip.pets = "Firulais, marcelo y chico";
+//
+//                tripService.saveNewTrip(trip);
+
+
 
 
             }
@@ -437,5 +510,31 @@ public class CreateTripActivity extends AppCompatActivity implements DatePickerD
         String[] monthNames = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
                 "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
         return monthNames[month];
+    }
+
+    @Override
+    public void onResponseSuccess(Object responseBody) {
+        TripResponse tripResponse = (TripResponse) responseBody;
+
+
+        ProgressBar loadingView = (ProgressBar) findViewById(R.id.loading);
+        loadingView.setVisibility(View.INVISIBLE);
+
+        Intent intent = new Intent(CreateTripActivity.this, SeguimientoActivity.class);
+
+
+
+        startActivity(intent);
+
+        finish();
+    }
+
+    @Override
+    public void onResponseError() {
+        Toast.makeText(this, "Se produjo un error de conexión con la api, intente luego",
+                Toast.LENGTH_LONG).show();
+        ProgressBar loadingView = (ProgressBar) findViewById(R.id.loading);
+        loadingView.setVisibility(View.INVISIBLE);
+        finish();
     }
 }
