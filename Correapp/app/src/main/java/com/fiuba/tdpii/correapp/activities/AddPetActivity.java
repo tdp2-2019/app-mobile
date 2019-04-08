@@ -67,6 +67,8 @@ public class AddPetActivity  extends AppCompatActivity {
         tipo = findViewById(R.id.tipo_de_mascota);
         size = findViewById(R.id.tamaño_de_mascota);
 
+
+
         obs = findViewById(R.id.obs);
 
         confirmBtn = findViewById(R.id.confirm);

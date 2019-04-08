@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
 import com.fiuba.tdpii.correapp.models.local.Pet;
@@ -346,6 +347,33 @@ public class CreateTripActivity extends AppCompatActivity implements DatePickerD
 
                 navigationIntent.putExtra("bundle", bundle );
                 startActivity(navigationIntent);
+
+
+            }
+        });
+
+        reservarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(mascota1 == null){
+                    Toast.makeText(CreateTripActivity.this, "Te olvidaste de agregar a tus mascotas" , Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if(!tripNow) {
+                    if (tripDate == null) {
+                        Toast.makeText(CreateTripActivity.this, "Te olvidaste el día de la reserva", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    if (hours == null) {
+                        Toast.makeText(CreateTripActivity.this, "Te olvidaste la hora de la reserva", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
+
+
 
 
             }

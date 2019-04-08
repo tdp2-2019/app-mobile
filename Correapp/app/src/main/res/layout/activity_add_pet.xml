@@ -55,9 +55,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:textColor="@color/black_overlay"
-            android:backgroundTint="@color/black_overlay"
+            android:textColor="#000"
+            android:background="@color/black_87"
+            android:backgroundTint="#DADADA"
             android:entries="@array/spinnerItems"
+            android:tooltipText="TEadasdsda"
             />
         <Spinner
             android:id="@+id/tamaño_de_mascota"
@@ -65,7 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:textColor="#000"
-            android:backgroundTint="@color/black_overlay"
+            android:background="@color/black_87"
+            android:backgroundTint="#DADADA"
             android:entries="@array/tam_items"
             />
 
