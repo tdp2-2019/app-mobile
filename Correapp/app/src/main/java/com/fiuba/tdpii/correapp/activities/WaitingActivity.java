@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -48,274 +49,75 @@ import com.google.maps.model.EncodedPolyline;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class WaitingActivity extends FragmentActivity implements OnMapReadyCallback {
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public static final int LOCATION_REQUEST_CODE = 101;
-    private static final int ZOOM = 13;
+    private static final int ZOOM = 16;
     public static final int CUSTOM_MARKER_WIDTH = 100;
     public static final int CUSTOM_MARKER_HEIGHT = 100;
 
     private LatLng originLocation;
     private LatLng destinynLocation;
 
-    private FloatingActionButton cont;
-    public static final String ORIGIN_LOCATION_KEY = "origin-location-key";
-
-    private SearchView searchView;
-    private SearchView destinySearchView;
 
     private GoogleMap mMap;
-    public static final String DESTINATION_KEY = "destination-location-key";
+
+
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_waiting);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        if (ActivityCompat.checkSelfPermission(MapActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(WaitingActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(WaitingActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
             return;
         }
         fetchLastLocation();
 
-        FloatingActionButton goBack = findViewById(R.id.back);
-        goBack.setOnClickListener(new View.OnClickListener() {
+        Button cancel = findViewById(R.id.cancelar);
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent backIntent = new Intent(MapActivity.this, MapHomeActivity.class);
+                Intent backIntent = new Intent(WaitingActivity.this, MapHomeActivity.class);
                 startActivity(backIntent);
                 finish();
             }
         });
 
-        FloatingActionButton currentLocationButton = findViewById(R.id.curr_location);
-        currentLocationButton.setOnClickListener(new View.OnClickListener() {
+        bundle = getIntent().getParcelableExtra("bundle");
+        if (bundle != null) {
+            originLocation = bundle.getParcelable("lc_origin");
+            destinynLocation = bundle.getParcelable("lc_dest");
+
+        }
+
+        Button sim = findViewById(R.id.simular);
+        sim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                originLocation = latLng;
+                Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);
+                Bundle bundle = new Bundle();
 
-                MarkerOptions markerOptions = new MarkerOptions();
+                if(originLocation != null)
+                    bundle.putParcelable("lc_origin",  originLocation);
+                if(destinynLocation != null)
+                    bundle.putParcelable("lc_dest",  destinynLocation);
 
-                // Setting the position for the marker
-                markerOptions.position(originLocation);
-//                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_leash_dog, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
-                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
 
-                // Setting the title for the marker.
-                // This will be displayed on taping the marker
-                markerOptions.title(originLocation.latitude + " : " + originLocation.longitude);
-
-                // Clears the previously touched position
-                mMap.clear();
-
-                setDestinyMarker(mMap);
-
-                // Placing a marker on the touched position
-                mMap.addMarker(markerOptions);
-                String originAddres = getAddress(originLocation);
-                LatLngBounds.Builder bc = new LatLngBounds.Builder();
-
-                bc.include(destinynLocation).include(originLocation);
-
-                List<LatLng> path = getPath(originLocation, destinynLocation);
-                path.stream().forEach(pathPoint -> {
-                    bc.include(pathPoint);
-                });
-
-                //Draw the polyline
-                addPoly(path, mMap);
-
-                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 50));
-                searchView.setQueryHint(originAddres);
-                searchView.setQuery(originAddres, false);
-
+                navigationIntent.putExtra("bundle", bundle );
+                startActivity(navigationIntent);
 
             }
         });
 
-        cont = findViewById(R.id.cont);
-        cont.setVisibility(View.VISIBLE);
-
-        cont.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent destinyIntent = new Intent(MapActivity.this, CreateTripActivity.class);
-                Bundle args = new Bundle();
-                args.putParcelable("lc_origin", originLocation);
-                args.putParcelable("lc_dest", destinynLocation);
-
-                args.putString("add_origin", searchView.getQuery().toString());
-                args.putString("add_dest", destinySearchView.getQuery().toString());
-
-                destinyIntent.putExtra("bundle", args);
-                startActivity(destinyIntent);
-            }
-        });
-
-
-        searchView = findViewById(R.id.search_origin);
-
-        searchView.onActionViewExpanded();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                searchView.clearFocus();
-            }
-        }, 300);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                originLocation = getLocation(query);
-
-                if(originLocation == null) {
-                    Toast.makeText(MapActivity.this, "No se encontro localidad", Toast.LENGTH_SHORT).show();
-
-                    return false;
-                }
-                MarkerOptions markerOptions = new MarkerOptions();
-
-                // Setting the position for the marker
-                markerOptions.position(originLocation);
-//                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_leash_dog, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
-                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
-
-                // Setting the title for the marker.
-                // This will be displayed on taping the marker
-                markerOptions.title(originLocation.latitude + " : " + originLocation.longitude);
-
-                // Clears the previously touched position
-                mMap.clear();
-
-                setDestinyMarker(mMap);
-
-                // Placing a marker on the touched position
-                mMap.addMarker(markerOptions);
-                String originAddres = getAddress(originLocation);
-                LatLngBounds.Builder bc = new LatLngBounds.Builder();
-
-                bc.include(destinynLocation).include(originLocation);
-
-                List<LatLng> path = getPath(originLocation, destinynLocation);
-                path.stream().forEach(pathPoint -> {
-                    bc.include(pathPoint);
-                });
-
-                //Draw the polyline
-                addPoly(path, mMap);
-
-
-                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 50));
-                searchView.setQueryHint(originAddres);
-                searchView.setQuery(originAddres, false);
-
-                searchView.clearFocus();
-
-
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        destinySearchView = findViewById(R.id.search_destiny);
-        destinySearchView.onActionViewExpanded();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                destinySearchView.clearFocus();
-            }
-        }, 300);
-        destinySearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                destinynLocation = getLocation(query);
-                if(destinynLocation == null) {
-                    Toast.makeText(MapActivity.this, "No se encontro localidad", Toast.LENGTH_SHORT).show();
-
-                    return false;
-                }
-                MarkerOptions markerOptions = new MarkerOptions();
-
-                // Setting the position for the marker
-                markerOptions.position(destinynLocation);
-//                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_leash_dog, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
-                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
-
-                // Setting the title for the marker.
-                // This will be displayed on taping the marker
-                markerOptions.title(destinynLocation.latitude + " : " + destinynLocation.longitude);
-
-                // Clears the previously touched position
-                mMap.clear();
-
-                setOriginMarker(mMap);
-                // Animating to the touched position
-
-                // Placing a marker on the touched position
-                mMap.addMarker(markerOptions);
-                String destinyAddres = getAddress(destinynLocation);
-                LatLngBounds.Builder bc = new LatLngBounds.Builder();
-
-                bc.include(destinynLocation).include(originLocation);
-
-                List<LatLng> path = getPath(originLocation, destinynLocation);
-                path.stream().forEach(pathPoint -> {
-                    bc.include(pathPoint);
-                });
-
-                //Draw the polyline
-                addPoly(path, mMap);
-
-
-                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 50));
-                destinySearchView.setQueryHint(destinyAddres);
-                destinySearchView.setQuery(destinyAddres, false);
-
-                destinySearchView.clearFocus();
-
-
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        searchView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        destinySearchView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-
-
-        cont.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if ( originLocation == null || destinynLocation == null ){
-                    Toast.makeText(MapActivity.this, "Te olvidaste de decir la ruta del viaje", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent destinyIntent = new Intent(MapActivity.this, CreateTripActivity.class);
-                    Bundle args = new Bundle();
-                    args.putParcelable("lc_origin", originLocation);
-                    args.putParcelable("lc_dest", destinynLocation);
-
-                    args.putString("add_origin", getAddress(originLocation));
-                    args.putString("add_dest", getAddress(destinynLocation));
-
-                    destinyIntent.putExtra("bundle", args);
-                    startActivity(destinyIntent);
-                }
-            }
-        });
 
     }
 
@@ -338,9 +140,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 if (location != null) {
                     currentLocation = location;
                     SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-                    supportMapFragment.getMapAsync(MapActivity.this);
+                    supportMapFragment.getMapAsync(WaitingActivity.this);
                 } else {
-                    Toast.makeText(MapActivity.this, "No Location recorded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WaitingActivity.this, "No Location recorded", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -349,15 +151,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        originLocation = latLng;
-        searchView.setQueryHint(getAddress(originLocation));
-
-        Bundle bundle = getIntent().getParcelableExtra("bundle");
-        destinynLocation = bundle.getParcelable("SearchQuery");
 
 
-        destinySearchView.setQueryHint(getAddress(destinynLocation));
+
 
         //MarkerOptions are used to create a new Marker.You can specify location, title etc with MarkerOptions
         MarkerOptions markerOptions = new MarkerOptions().position(originLocation).title("Origen");
@@ -406,7 +202,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 if (grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED) {
                     fetchLastLocation();
                 } else {
-                    Toast.makeText(MapActivity.this, "Location permission missing", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WaitingActivity.this, "Location permission missing", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

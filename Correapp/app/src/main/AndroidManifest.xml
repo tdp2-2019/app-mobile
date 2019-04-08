@@ -16,7 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity"></activity>
+        <activity android:name=".activities.RateTripDriverActivity"></activity>
+        <activity android:name=".activities.SeguimientoActivity" />
+        <activity android:name=".activities.WaitingActivity" />
+        <activity android:name=".activities.TripsActivity" />
+        <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.AddPetActivity" />
         <activity android:name=".activities.CreateTripActivity" />
         <!--
@@ -53,7 +57,6 @@
             android:name=".services.LocationService"
             android:enabled="true"
             android:exported="true" />
-+
     </application>
 
 </manifest>

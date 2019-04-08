@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.WaitingActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="137dp"
+        android:background="#ECECEC"
+        android:gravity="center"
+        android:text="Espere a su  chofer"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="@android:dimen/app_icon_size"
+        android:textStyle="bold"
+        android:translationZ="300dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_destiny"
+        tools:layout_editor_absoluteX="394dp">
+
+    </fragment>
+
+    <Button
+        android:id="@+id/cancelar"
+        android:layout_width="367dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="528dp"
+        android:layout_marginEnd="20dp"
+        android:layout_weight="0.5"
+        android:backgroundTint="#6892E9"
+        android:buttonTint="#6892E9"
+        android:gravity="center"
+        android:text="Cancelar viaje"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <Button
+        android:id="@+id/simular"
+        android:layout_width="367dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="460dp"
+        android:layout_marginEnd="20dp"
+        android:layout_weight="0.5"
+        android:backgroundTint="#6892E9"
+        android:buttonTint="#6892E9"
+        android:gravity="center"
+        android:text="Simular viaje"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+
+
+</android.support.constraint.ConstraintLayout>
