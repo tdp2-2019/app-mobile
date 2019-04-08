@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Correapp</string>
+    <string name="activity_rate_trip">Puntuar viaje</string>
+    <string name="submit">Enviar</string>
+    <string name="rate_star_question">¿Cuánto puntuarías este viaje?</string>
+    <string name="rate_driver_extra_question">¿El trato con el cliente fue adecuado?</string>
+    <string name="rate_driver_extra_comment_question">¿Por qué?</string>
+    <string name="no">No</string>
+    <string name="yes">Si</string>
+    <string name="placeholder_comment">Respuesta</string>
+    <string name="rate_client_improvements">¿Qué servicio mejorarías?</string>
+    <string name="rate_client_improvements_driver">Chofer</string>
+    <string name="rate_client_improvements_app">App</string>
+    <string name="rate_client_improvements_car">Auto</string>
 </resources>
