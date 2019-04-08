@@ -30,10 +30,10 @@ public class LogoActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                Intent navigationIntent = new Intent(LogoActivity.this, MainActivity.class);
+//                Intent navigationIntent = new Intent(LogoActivity.this, MapHomeActivity.class);
 
                 //TESTEO de crear
-                Intent navigationIntent = new Intent(LogoActivity.this, CreateTripActivity.class);
+                Intent navigationIntent = new Intent(LogoActivity.this, MainActivity.class);
 
                 startActivity(navigationIntent);
                 finish();

@@ -69,7 +69,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private SearchView destinySearchView;
 
     private GoogleMap mMap;
-    public static final String DESTINATION_KEY  = "destination-location-key";
+    public static final String DESTINATION_KEY = "destination-location-key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent backIntent = new Intent(MapActivity.this, MainActivity.class);
+                Intent backIntent = new Intent(MapActivity.this, MapHomeActivity.class);
                 startActivity(backIntent);
                 finish();
             }
@@ -97,7 +97,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             @Override
             public void onClick(View v) {
 
-                LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+                LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 originLocation = latLng;
 
                 MarkerOptions markerOptions = new MarkerOptions();
@@ -129,7 +129,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 });
 
                 //Draw the polyline
-                addPoly(path, mMap );
+                addPoly(path, mMap);
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 50));
                 searchView.setQueryHint(originAddres);
@@ -145,11 +145,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         cont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent destinyIntent = new Intent(MapActivity.this, ShowRouteActivity.class);
+                Intent destinyIntent = new Intent(MapActivity.this, CreateTripActivity.class);
                 Bundle args = new Bundle();
-                args.putParcelable(ORIGIN_LOCATION_KEY,originLocation);
-                args.putParcelable(DESTINATION_KEY, destinynLocation);
-                destinyIntent.putExtra("bundle", args );
+                args.putParcelable("lc_origin", originLocation);
+                args.putParcelable("lc_dest", destinynLocation);
+
+                args.putString("add_origin", searchView.getQuery().toString());
+                args.putString("add_dest", destinySearchView.getQuery().toString());
+
+                destinyIntent.putExtra("bundle", args);
                 startActivity(destinyIntent);
             }
         });
@@ -158,8 +162,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         searchView = findViewById(R.id.search_origin);
 
         searchView.onActionViewExpanded();
-        new Handler().postDelayed(new Runnable()
-        {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 searchView.clearFocus();
@@ -198,7 +201,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 });
 
                 //Draw the polyline
-                addPoly(path, mMap );
+                addPoly(path, mMap);
 
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 50));
@@ -219,8 +222,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         destinySearchView = findViewById(R.id.search_destiny);
         destinySearchView.onActionViewExpanded();
-        new Handler().postDelayed(new Runnable()
-        {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 destinySearchView.clearFocus();
@@ -260,7 +262,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 });
 
                 //Draw the polyline
-                addPoly(path, mMap );
+                addPoly(path, mMap);
 
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 50));
@@ -282,6 +284,23 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         searchView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         destinySearchView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
+
+        cont.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent destinyIntent = new Intent(MapActivity.this, CreateTripActivity.class);
+                Bundle args = new Bundle();
+                args.putParcelable("lc_origin", originLocation);
+                args.putParcelable("lc_dest", destinynLocation);
+
+                args.putString("add_origin", getAddress(originLocation));
+                args.putString("add_dest", getAddress(destinynLocation));
+
+                destinyIntent.putExtra("bundle", args);
+                startActivity(destinyIntent);
+            }
+        });
+
     }
 
     private void fetchLastLocation() {
@@ -302,18 +321,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             public void onSuccess(Location location) {
                 if (location != null) {
                     currentLocation = location;
-                    SupportMapFragment supportMapFragment= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+                    SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
                     supportMapFragment.getMapAsync(MapActivity.this);
-                }else{
-                    Toast.makeText(MapActivity.this,"No Location recorded",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MapActivity.this, "No Location recorded", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         originLocation = latLng;
         searchView.setQueryHint(getAddress(originLocation));
 
@@ -342,7 +362,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         googleMap.addMarker(destinyMarkerOptions);
 
 
-
         LatLngBounds.Builder bc = new LatLngBounds.Builder();
 
 
@@ -351,10 +370,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             bc.include(pathPoint);
         });
         bc.include(destinynLocation).include(originLocation);
-        addPoly(path, mMap );
+        addPoly(path, mMap);
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 40));
-
 
 
 //        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -392,9 +410,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     }
 
-    public void addPoly(List<LatLng> path, GoogleMap mMap){
+    public void addPoly(List<LatLng> path, GoogleMap mMap) {
         if (path.size() > 0) {
-            PolylineOptions opts  = new PolylineOptions().addAll(path).color(Color.parseColor("6892E9")).width(10).jointType(JointType.ROUND);
+            PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.parseColor("#6892E9")).width(10).jointType(JointType.ROUND);
             mMap.addPolyline(opts);
         }
     }
@@ -406,19 +424,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 if (grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED) {
                     fetchLastLocation();
                 } else {
-                    Toast.makeText(MapActivity.this,"Location permission missing",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapActivity.this, "Location permission missing", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
-    public Bitmap resizeMapIcons(Integer iconId, int width, int height){
 
-        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), iconId );
+    public Bitmap resizeMapIcons(Integer iconId, int width, int height) {
+
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), iconId);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
     }
 
-    private void setOriginMarker(final GoogleMap googleMap){
+    private void setOriginMarker(final GoogleMap googleMap) {
         MarkerOptions markerOptions = new MarkerOptions().position(originLocation).title("Origen");
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
 
@@ -426,7 +445,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         googleMap.addMarker(markerOptions);
     }
 
-    private void setDestinyMarker(final GoogleMap googleMap){
+    private void setDestinyMarker(final GoogleMap googleMap) {
         MarkerOptions markerOptions = new MarkerOptions().position(destinynLocation).title("Destino");
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
 
@@ -444,7 +463,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             // 2
             double longitude = latLng.longitude;
             double latitude = latLng.latitude;
-            addresses =  geocoder.getFromLocation(latitude,longitude , 1);
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
             // 3
             if (null != addresses && !addresses.isEmpty()) {
                 address = addresses.get(0);
@@ -465,8 +484,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         Address address = null;
         try {
-            addresses =  geocoder.getFromLocationName(search,1 , -34.6879526, -58.5990012,
-                    -34.528286,-58.346597 );
+            addresses = geocoder.getFromLocationName(search, 1, -34.6879526, -58.5990012,
+                    -34.528286, -58.346597);
             // 2
             // 3
             if (null != addresses && !addresses.isEmpty()) {
@@ -477,14 +496,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         }
 
-        return address != null ? new LatLng(address.getLatitude(),address.getLongitude() ) : null;
+        return address != null ? new LatLng(address.getLatitude(), address.getLongitude()) : null;
     }
 
-    private String getStringFromLatLng(LatLng loc){
-        return String.valueOf(loc.latitude) + "," +  String.valueOf(loc.longitude);
+    private String getStringFromLatLng(LatLng loc) {
+        return String.valueOf(loc.latitude) + "," + String.valueOf(loc.longitude);
     }
 
-    private List<LatLng> getPath(LatLng origin, LatLng destiny){
+    private List<LatLng> getPath(LatLng origin, LatLng destiny) {
 
         List<LatLng> path = new ArrayList();
 
@@ -501,14 +520,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             if (res.routes != null && res.routes.length > 0) {
                 DirectionsRoute route = res.routes[0];
 
-                if (route.legs !=null) {
-                    for(int i=0; i<route.legs.length; i++) {
+                if (route.legs != null) {
+                    for (int i = 0; i < route.legs.length; i++) {
                         DirectionsLeg leg = route.legs[i];
                         if (leg.steps != null) {
-                            for (int j=0; j<leg.steps.length;j++){
+                            for (int j = 0; j < leg.steps.length; j++) {
                                 DirectionsStep step = leg.steps[j];
-                                if (step.steps != null && step.steps.length >0) {
-                                    for (int k=0; k<step.steps.length;k++){
+                                if (step.steps != null && step.steps.length > 0) {
+                                    for (int k = 0; k < step.steps.length; k++) {
                                         DirectionsStep step1 = step.steps[k];
                                         EncodedPolyline points1 = step1.polyline;
                                         if (points1 != null) {
@@ -534,7 +553,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                     }
                 }
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
 
         }
         return path;

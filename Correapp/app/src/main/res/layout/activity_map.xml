@@ -33,7 +33,6 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/cont"
-        android:background="#FFFFFF"
         app:backgroundTint="#6892E9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,6 +41,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
+        app:fabCustomSize="85dp"
         android:src="@drawable/icon_dog_car"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +73,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="#6892E9"
+        android:backgroundTint="#FFF"
         android:src="@drawable/ic_curr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.933"
@@ -89,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toBottomOf="@+id/search_destiny"
-        app:layout_constraintBottom_toTopOf="@+id/btn_choose">
+        tools:layout_editor_absoluteX="0dp">
 
     </fragment>
 

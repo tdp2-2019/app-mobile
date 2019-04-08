@@ -7,6 +7,23 @@
     <string name="title_activity_show_route">Map</string>
     <string name="title_activity_create_trip">CreateTrip</string>
 
+    <string-array name="spinnerItems">
+        <item>Perro</item>
+        <item>Gato</item>
+        <item>Pajaro</item>
+        <item>Iguana</item>
+        <item>Hamster</item>
+        <item>Pez</item>
+        <item>Conejo</item>
+        <item>Serpiente</item>
+    </string-array>
+
+    <string-array name="tam_items">
+        <item>Chico</item>
+        <item>Mediano</item>
+        <item>Grande</item>
+    </string-array>
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->

@@ -88,7 +88,7 @@ public class DestinyMapActivity extends FragmentActivity implements OnMapReadyCa
 
         fetchLastLocation();
 
-        choose = findViewById(R.id.btn_choose);
+//        choose = findViewById(R.id.btn_choose);
         choose.setVisibility(View.GONE);
 
         choose.setOnClickListener(new View.OnClickListener() {
