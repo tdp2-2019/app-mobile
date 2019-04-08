@@ -8,4 +8,8 @@
     <string name="no">No</string>
     <string name="yes">Si</string>
     <string name="placeholder_comment">Respuesta</string>
+    <string name="rate_client_improvements">¿Qué servicio mejorarías?</string>
+    <string name="rate_client_improvements_driver">Chofer</string>
+    <string name="rate_client_improvements_app">App</string>
+    <string name="rate_client_improvements_car">Auto</string>
 </resources>
