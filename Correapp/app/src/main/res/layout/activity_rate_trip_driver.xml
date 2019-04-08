@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.RateTripActivity"
+    tools:context=".activities.RateTripDriverActivity"
     >
 
     <LinearLayout
@@ -119,6 +119,7 @@
             android:hint="@string/placeholder_comment">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/comment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
