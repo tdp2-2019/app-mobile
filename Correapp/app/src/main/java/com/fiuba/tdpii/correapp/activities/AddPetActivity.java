@@ -92,7 +92,7 @@ public class AddPetActivity  extends AppCompatActivity {
                     pet1.obs = obs.getText().toString();
 
                     pet1.tipo = tipo.getSelectedItem().toString();
-                    pet1.size = tipo.getSelectedItem().toString();
+                    pet1.size = size.getSelectedItem().toString();
 
                 } else {
                     if (pet2 == null){
@@ -101,7 +101,7 @@ public class AddPetActivity  extends AppCompatActivity {
                         pet2.nombre = nombre.getText().toString();
                         pet2.obs = obs.getText().toString();
                         pet2.tipo = tipo.getSelectedItem().toString();
-                        pet2.size = tipo.getSelectedItem().toString();
+                        pet2.size = size.getSelectedItem().toString();
 
 
                     } else{
@@ -110,7 +110,7 @@ public class AddPetActivity  extends AppCompatActivity {
                             pet3.nombre = nombre.getText().toString();
                             pet3.obs = obs.getText().toString();
                             pet3.tipo = tipo.getSelectedItem().toString();
-                            pet3.size = tipo.getSelectedItem().toString();
+                            pet3.size = size.getSelectedItem().toString();
 
                         } else{
                             Toast.makeText(AddPetActivity.this, "No pueden viajar mas de 3 mascotas juntas" , Toast.LENGTH_LONG).show();

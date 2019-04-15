@@ -454,7 +454,17 @@ public class CreateTripActivity extends AppCompatActivity
                 s_trip.setStartTime(time.toString());
                 s_trip.setDestination(destination);
                 s_trip.setSource(source);
-                s_trip.setPets("meee");
+                String petNames = "Mascotas ";
+                if (mascota1 != null){
+                    petNames = "Viaja " + mascota1.nombre + " (" +mascota1.tipo + " ," + mascota1.size + ")";
+                }
+                if(mascota2 != null){
+                    petNames = petNames.concat(" junto a " + mascota2.nombre + " (" +mascota2.tipo + " ," + mascota2.size + ")");
+                }
+                if(mascota3 != null){
+                    petNames = petNames.concat(" y a " + mascota3.nombre + " (" +mascota3.tipo + " ," + mascota3.size + ")");
+                }
+                s_trip.setPets(petNames);
 
 
                 tripService.saveNewTrip(s_trip).enqueue(new Callback<SerializedTripPostResponse>() {
