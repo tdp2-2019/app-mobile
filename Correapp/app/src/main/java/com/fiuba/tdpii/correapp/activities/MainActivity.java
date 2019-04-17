@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         chofer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent navigationIntent = new Intent(MainActivity.this, ChoferActivity.class);
+                Intent navigationIntent = new Intent(MainActivity.this, FbLoginActivity.class);
                 startActivity(navigationIntent);
             }
         });

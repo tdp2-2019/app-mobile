@@ -110,4 +110,9 @@
     <string name="rate_client_improvements_app">App</string>
     <string name="rate_client_improvements_car">Auto</string>
 
+    <string name="facebook_app_id">663094277443974</string>
+    <string name="fb_login_protocol_scheme">fb663094277443974</string>
+
+
+
 </resources>
