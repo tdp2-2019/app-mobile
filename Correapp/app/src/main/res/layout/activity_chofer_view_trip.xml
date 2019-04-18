@@ -78,7 +78,7 @@
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/clock_ic" />
+                android:src="@drawable/icon_clock" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -108,7 +108,7 @@ android:id="@+id/fecha"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/plus" />
+                android:src="@drawable/icon_plus" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -138,7 +138,7 @@ android:id="@+id/masctoas_text"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/calendar" />
+                android:src="@drawable/icon_calendar" />
 
             <TextView
                 android:layout_width="match_parent"

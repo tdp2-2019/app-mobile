@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,31 +25,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Location;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
-
-import com.fiuba.tdpii.correapp.R;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -136,7 +110,7 @@ public class DestinyMapActivity extends FragmentActivity implements OnMapReadyCa
     private void setOriginMarker(final GoogleMap googleMap){
         MarkerOptions markerOptions = new MarkerOptions().position(originLocation).title("You are Here");
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, ZOOM));
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
 
         //Adding the created the marker on the map
         googleMap.addMarker(markerOptions);
@@ -160,7 +134,7 @@ public class DestinyMapActivity extends FragmentActivity implements OnMapReadyCa
                 // Setting the position for the marker
                 markerOptions.position(latLng);
 //                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_leash_dog, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
-                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
 
                 // Setting the title for the marker.
                 // This will be displayed on taping the marker
