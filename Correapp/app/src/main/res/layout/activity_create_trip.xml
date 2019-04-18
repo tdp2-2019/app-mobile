@@ -80,6 +80,7 @@
             android:backgroundTint="#000"
             android:padding="10dp"
             android:text="Origen"
+            android:drawableRight="@drawable/icon_marker"
             android:textColor="@color/black_overlay" />
 
         <TextView
@@ -88,6 +89,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#000"
             android:text="Destino"
+            android:drawableRight="@drawable/icon_marker"
             android:padding="10dp"
             android:textColor="@color/black_overlay"
             android:layout_gravity="left"
@@ -99,31 +101,35 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#000"
             android:text="Cantidad de mascotas"
-            android:textColor="@color/black_overlay"
-            android:padding="10dp"
-            android:layout_gravity="left"
-            android:layout_weight="0.5"/>
-        <TextView
-            android:id="@+id/fecha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#000"
-            android:text="Fecha"
-            android:textColor="@color/black_overlay"
-            android:padding="10dp"
-            android:layout_gravity="left"
-            android:layout_weight="0.5"/>
-        <TextView
-            android:id="@+id/hora"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#000"
-            android:text="Hora"
+            android:drawableRight="@drawable/icon_plus"
             android:textColor="@color/black_overlay"
             android:padding="10dp"
             android:layout_gravity="left"
             android:layout_weight="0.5"/>
 
+        <TextView
+            android:id="@+id/fecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="0.5"
+            android:backgroundTint="#000"
+            android:drawableRight="@drawable/icon_calendar"
+            android:padding="10dp"
+            android:text="Fecha"
+            android:textColor="@color/black_overlay" />
+
+        <TextView
+            android:id="@+id/hora"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="0.5"
+            android:backgroundTint="#000"
+            android:drawableRight="@drawable/icon_clock"
+            android:padding="10dp"
+            android:text="Hora"
+            android:textColor="@color/black_overlay" />
 
         <TextView
             android:id="@+id/empty2"
