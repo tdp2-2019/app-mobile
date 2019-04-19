@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +40,10 @@ public class ChoferViewTripActivity extends AppCompatActivity {
     private TripService tripService;
 
     private TextView nombre;
-    private TextView fecha;
+    private ImageView imagenPerfil;
+    private TextView duracion;
     private TextView mascotas;
-    private TextView horario;
+    private TextView reserva;
     private TextView destino;
     private TextView origen;
 
@@ -58,17 +60,16 @@ public class ChoferViewTripActivity extends AppCompatActivity {
 
         tripService = new TripService();
 
-       nombre = findViewById(R.id.nombre);
-       fecha = findViewById(R.id.fecha);
-       mascotas = findViewById(R.id.masctoas_text);
-       horario = findViewById(R.id.hora);
-       destino = findViewById(R.id.destino);
-       origen = findViewById(R.id.origen);
+        nombre = findViewById(R.id.nombre);
+        imagenPerfil = findViewById(R.id.imagen_perfil);
+        duracion = findViewById(R.id.duracion);
+        mascotas = findViewById(R.id.mascotas);
+        reserva = findViewById(R.id.reserva);
+        destino = findViewById(R.id.destino);
+        origen = findViewById(R.id.origen);
 
-       aceptar = findViewById(R.id.confirm);
-       rechazar = findViewById(R.id.rechazar);
-
-
+        aceptar = findViewById(R.id.confirm);
+        rechazar = findViewById(R.id.rechazar);
 
         bundle = getIntent().getParcelableExtra("bundle");
 
@@ -82,7 +83,7 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 Trip trip = s_trip.getTrip();
 
                 nombre.setText(trip.getClient());
-                fecha.setText(Integer.valueOf(Double.valueOf(trip.getDuration()/60).intValue()).toString() + " minutos");
+                duracion.setText(Integer.valueOf(Double.valueOf(trip.getDuration()/60).intValue()).toString() + " minutos");
                 mascotas.setText(trip.getPets()!= null ? trip.getPets() : "mascotas null");
 
                 Date startDate = new Date(trip.getStartTime());
@@ -91,15 +92,13 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 calendar.setTime(startDate);
                 String dateStr = "El " + calendar.get(Calendar.DAY_OF_MONTH) + " de " + theMonth(calendar.get(Calendar.MONTH));
 
-                horario.setText(dateStr);
+                reserva.setText(dateStr);
 
                 LatLng dest = new LatLng(Double.valueOf(trip.getDestination().getLat()), Double.valueOf(trip.getDestination().getLong() ));
                 destLoc = dest;
 
                 LatLng sourc = new LatLng(Double.valueOf(trip.getSource().getLat()), Double.valueOf(trip.getSource().getLong() ));
                 orLoc = sourc;
-
-
 
                 destino.setText(getAddress(dest));
                 origen.setText(getAddress(sourc));
