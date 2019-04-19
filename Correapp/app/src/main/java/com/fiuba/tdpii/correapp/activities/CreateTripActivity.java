@@ -232,12 +232,12 @@ public class CreateTripActivity extends AppCompatActivity
 
                 switch (position){
                     case NOW_TAB_POSITION:
-//
-//                        fecha.setVisibility(View.GONE);
-//                        hora.setVisibility(View.GONE);
+
+                        hora.setVisibility(View.GONE);
                         hora.setText("");
                         hora.setClickable(Boolean.FALSE);
 
+                        fecha.setVisibility(View.GONE);
                         fecha.setText("");
                         fecha.setClickable(Boolean.FALSE);
 
