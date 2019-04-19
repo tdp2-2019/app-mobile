@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,7 @@ public class CreateTripActivity extends AppCompatActivity
     private TextView fecha;
     private TextView hora;
 
+    private ImageView backArrow;
 
     private Button reservarBtn;
 
@@ -153,6 +155,13 @@ public class CreateTripActivity extends AppCompatActivity
         fecha.setText("");
         fecha.setClickable(Boolean.FALSE);
 
+        backArrow = findViewById(R.id.back_arrow);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         reservarBtn = findViewById(R.id.confirm);
         if(tripNow) {

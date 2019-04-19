@@ -7,19 +7,25 @@
     android:background="#FFFFFF"
     tools:context=".activities.CreateTripActivity">
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
+        android:id="@+id/title_layout"
+        style="@style/HeaderLayout"
         android:layout_width="match_parent"
-        android:layout_height="137dp"
-        android:background="#ECECEC"
-        android:gravity="center"
-        android:text="Nuevo viaje"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:textSize="@android:dimen/app_icon_size"
-        android:textStyle="bold"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:translationZ="300dp"
+        >
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            style="@style/HeaderArrow" />
+
+        <TextView
+            style="@style/HeaderTitle"
+            android:text="Nuevo viaje" />
+
+    </LinearLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
@@ -32,7 +38,7 @@
         app:tabMode="fixed"
         app:layout_constraintBottom_toTopOf="@id/inputs"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" >
+        app:layout_constraintTop_toBottomOf="@+id/title_layout" >
 
         <android.support.design.widget.TabItem
             android:id="@+id/trip_now"

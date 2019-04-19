@@ -7,19 +7,24 @@
     android:background="#FFFFFF"
     tools:context=".activities.ChoferViewTripActivity">
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
+        android:id="@+id/title_layout"
+        style="@style/HeaderLayout"
         android:layout_width="match_parent"
-        android:layout_height="137dp"
-        android:background="#ECECEC"
-        android:gravity="center"
-        android:text="Nueva reserva disponible"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:textSize="@android:dimen/app_icon_size"
-        android:textStyle="bold"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            style="@style/HeaderArrow" />
+
+        <TextView
+            style="@style/HeaderTitle"
+            android:text="Nueva reserva disponible" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/inputs"
@@ -28,9 +33,10 @@
         android:background="#FFFFFF"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:paddingTop="10dp"
         android:orientation="vertical"
         android:weightSum="7"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout"
         tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout

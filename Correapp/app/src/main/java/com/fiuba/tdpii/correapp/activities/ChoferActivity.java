@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -31,6 +32,8 @@ public class ChoferActivity extends AppCompatActivity {
     private Integer tripPosition;
     private TripService tripService;
 
+    private ImageView backArrow;
+
     public static final int REQUEST_CODE = 1;
     public static final int RESULT_CODE_ADDED_PILL = 400;
 
@@ -41,6 +44,14 @@ public class ChoferActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chofer_activity);
+
+        backArrow = findViewById(R.id.back_arrow);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         tripService = new TripService();
         setupInitials();

@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
@@ -69,11 +70,12 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
 
     private GoogleMap mMap;
 
-
     private Bundle bundle;
 
     private TripService tripService;
     private Long tripId;
+
+    private ImageView backArrow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +129,13 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
             }
         });
 
-
+        backArrow = findViewById(R.id.back_arrow);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
     }
 

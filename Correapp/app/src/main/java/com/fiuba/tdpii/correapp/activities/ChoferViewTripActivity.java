@@ -47,6 +47,8 @@ public class ChoferViewTripActivity extends AppCompatActivity {
     private TextView destino;
     private TextView origen;
 
+    private ImageView backArrow;
+
     private Button aceptar;
     private Button rechazar;
 
@@ -74,6 +76,14 @@ public class ChoferViewTripActivity extends AppCompatActivity {
         bundle = getIntent().getParcelableExtra("bundle");
 
         tripId = bundle.getLong("id");
+
+        backArrow = findViewById(R.id.back_arrow);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTrip>() {
             @Override

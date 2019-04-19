@@ -4,22 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".activities.ChoferActivity">
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
+        android:id="@+id/title_layout"
+        style="@style/HeaderLayout"
         android:layout_width="match_parent"
-        android:layout_height="137dp"
-        android:background="#ECECEC"
-        android:gravity="center"
-        android:text="Viajes disponibles"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:textSize="@android:dimen/app_icon_size"
-        android:textStyle="bold"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
+        <ImageView
+            android:id="@+id/back_arrow"
+            style="@style/HeaderArrow" />
+
+        <TextView
+            style="@style/HeaderTitle"
+            android:text="Viajes disponibles" />
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/list_of_trips"
@@ -27,11 +32,11 @@
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="100dp"
-        android:background="#FFF"
+        android:background="#FFFFFF"
         android:divider="@android:color/transparent"
         android:dividerHeight="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout"
         app:layout_constraintVertical_bias="0.574"
         tools:layout_editor_absoluteX="0dp" />
 

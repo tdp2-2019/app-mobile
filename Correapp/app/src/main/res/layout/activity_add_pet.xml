@@ -4,22 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AddPetActivity">
+    tools:context=".activities.AddPetActivity"
+    android:background="#FFFFFF"
+    >
 
-
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
+        android:id="@+id/title_layout"
+        style="@style/HeaderLayout"
         android:layout_width="match_parent"
-        android:layout_height="137dp"
-        android:background="#ECECEC"
-        android:gravity="center"
-        android:text="Agregar      mascota"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:textSize="@android:dimen/app_icon_size"
-        android:textStyle="bold"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            style="@style/HeaderArrow" />
+
+        <TextView
+            style="@style/HeaderTitle"
+            android:text="Agregar mascota" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/inputs"
@@ -27,11 +33,10 @@
         android:layout_height="600dp"
         android:background="#FFFF"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout"
         tools:layout_editor_absoluteX="0dp"
         android:weightSum="8"
         >
-
 
         <EditText
             android:id="@+id/nombre"
@@ -48,7 +53,6 @@
             android:textColorHint="@color/black_overlay"
             >
         </EditText>
-
 
         <Spinner
             android:id="@+id/tipo_de_mascota"
@@ -88,31 +92,13 @@
             >
         </EditText>
 
-        <TextView
-            android:id="@+id/empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="5"
-            android:backgroundTint="#000"
-            android:textColor="@color/black_overlay"/>
-        <Button
-            android:id="@+id/confirm"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.5"
-            android:backgroundTint="#6892E9"
-            android:buttonTint="#6892E9"
-            android:gravity="center"
-            android:text="Agregar"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="646dp" />
     </LinearLayout>
 
-
-
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/AppButton"
+        android:text="Agregar" />
 
 </android.support.constraint.ConstraintLayout>
