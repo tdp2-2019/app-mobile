@@ -7,17 +7,11 @@
     android:orientation="vertical"
     tools:context=".activities.RateTripDriverActivity"
     android:background="#FFF"
-
     >
 
     <LinearLayout
         style="@style/HeaderLayout"
-        android:layout_weight="3"
         >
-
-        <ImageView
-            android:id="@+id/back_arrow"
-            style="@style/HeaderArrow" />
 
         <TextView
             style="@style/HeaderTitle"
@@ -47,7 +41,6 @@
             android:numStars="5"
             android:rating="3"
             android:stepSize="1" />
-
 
     </LinearLayout>
 

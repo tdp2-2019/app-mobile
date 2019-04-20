@@ -5,28 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#FFFFFF"
     tools:context=".activities.RateTripDriverActivity"
     >
 
     <LinearLayout
         style="@style/HeaderLayout"
-        android:layout_weight="3"
         >
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="137dp"
-            android:background="#ECECEC"
-            android:gravity="center"
-            android:text="@string/activity_rate_trip"
-            android:textAlignment="center"
-            android:textColor="#000"
-            android:textSize="@android:dimen/app_icon_size"
-            android:textStyle="bold"
-            android:translationZ="300dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            style="@style/HeaderTitle"
+            android:text="@string/activity_rate_trip" />
 
     </LinearLayout>
 
@@ -53,7 +42,6 @@
             android:rating="3"
             android:stepSize="1" />
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -63,7 +51,7 @@
         android:gravity="center"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
-        android:layout_weight="8"
+        android:layout_weight="7"
         android:background="#FFFF"
         >
 
@@ -148,19 +136,10 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/empty"
-            android:layout_width="wrap_content"
-            android:layout_height="121dp"
-            android:text="@string/rate_client_improvements_app"
-            android:textAlignment="viewEnd"
-            android:textColor="#FFF"
-            android:textSize="14sp" />
-        <Button
-            android:id="@+id/button_submit"
-            style="@style/AppButton" />
-
     </LinearLayout>
 
+    <Button
+        android:id="@+id/button_submit"
+        style="@style/AppButton" />
 
 </LinearLayout>

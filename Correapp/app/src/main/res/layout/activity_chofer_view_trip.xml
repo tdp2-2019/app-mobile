@@ -4,30 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".activities.ChoferViewTripActivity">
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="137dp"
-        android:background="#ECECEC"
-        android:gravity="center"
-        android:text="Nueva reserva disponible"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:textSize="@android:dimen/app_icon_size"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/title_layout"
+        style="@style/HeaderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            style="@style/HeaderArrow" />
+
+        <TextView
+            style="@style/HeaderTitle"
+            android:text="Nueva reserva disponible" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/inputs"
         android:layout_width="match_parent"
-        android:layout_height="612dp"
-        android:background="#FFFF"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
         android:orientation="vertical"
         android:weightSum="7"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout"
         tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
@@ -35,188 +44,303 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFF"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
-            android:weightSum="1"
             app:layout_constraintTop_toBottomOf="@+id/title">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:id="@+id/imagen_perfil"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
                 android:src="@drawable/client" />
 
             <TextView
+                android:id="@+id/nombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="45dp"
                 android:backgroundTint="#000"
-                android:id="@+id/nombre"
-                android:text="Nombre"
-                android:textColor="@color/black_overlay" />
+                android:paddingLeft="20dp"
+                android:textSize="16dp"
+                android:textColor="#000000"
+                android:layout_gravity="center_vertical"
+                android:text="Nombre" />
+
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/horas"
+            android:id="@+id/duracion_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFF"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal"
             android:weightSum="1"
             app:layout_constraintTop_toBottomOf="@+id/names">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="29dp"
-                android:layout_gravity="left"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/clock_ic" />
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_clock" />
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-android:id="@+id/fecha"
-                android:backgroundTint="#000"
-                android:text="Hora"
-                android:textColor="@color/black_overlay" />
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/duracion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1:30 hs"
+                    android:textSize="16dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Duración aproximada del viaje"
+                    android:textColor="@color/black_overlay" />
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/mascotaslayout"
+            android:id="@+id/mascotas_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFF"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal"
             android:weightSum="1"
-            app:layout_constraintTop_toBottomOf="@+id/horas">
+            app:layout_constraintTop_toBottomOf="@+id/duracion_layout"
+            >
 
             <ImageView
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:layout_gravity="left"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/plus" />
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_plus" />
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-android:id="@+id/masctoas_text"
-                android:backgroundTint="#000"
-                android:text="Cantidad de mascotas"
-                android:textColor="@color/black_overlay" />
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/mascotas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1 mascota"
+                    android:textSize="16dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Carga del viaje"
+                    android:textColor="@color/black_overlay" />
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/fechas"
+            android:id="@+id/mascotas_detalle_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFF"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:paddingLeft="35dp"
             android:orientation="horizontal"
             android:weightSum="1"
-            app:layout_constraintTop_toBottomOf="@+id/horas">
+            app:layout_constraintTop_toBottomOf="@+id/duracion_layout"
+            >
 
-            <ImageView
-                android:layout_width="42dp"
-                android:layout_height="33dp"
-                android:layout_gravity="left"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/calendar" />
-
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-android:id="@+id/hora"
-                android:backgroundTint="#000"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                >
 
-                android:text="Fecha"
-                android:textColor="@color/black_overlay" />
+                <TextView
+                    android:id="@+id/mascotas_detalle_1_descripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Perro mediano"
+                    android:textSize="16dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/mascotas_detalle_1_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Responde al nombre de Manuel"
+                    android:textColor="@color/black_overlay" />
+            </LinearLayout>
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/origen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="0.5"
-            android:backgroundTint="#000"
-            android:padding="10dp"
-            android:text="Origen"
-            android:textColor="@color/black_overlay" />
-
-        <TextView
-            android:id="@+id/destino"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="0.5"
-            android:backgroundTint="#000"
-            android:padding="10dp"
-            android:text="Destino"
-            android:textColor="@color/black_overlay" />
-
-        <TextView
-            android:id="@+id/empty2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="3"
-            android:backgroundTint="#000"
-            android:textColor="#FFF" />
 
         <LinearLayout
+            android:id="@+id/reserva_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="horizontal">
+            android:background="#FFFF"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@+id/mascotas_detalle_layout"
+            >
 
-            <Button
-                android:id="@+id/confirm"
-                android:layout_width="367dp"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
+                android:src="@drawable/icon_calendar" />
 
-                android:backgroundTint="#6892E9"
-                android:buttonTint="#6892E9"
-                android:gravity="center"
-                android:text="Aceptar" />
-
-            <Button
-                android:id="@+id/rechazar"
-                android:layout_width="367dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:backgroundTint="#6892E9"
-                android:buttonTint="#6892E9"
-                android:gravity="center"
-                android:text="Rechazar" />
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Reserva"
+                    android:textSize="16dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/reserva"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1 de Julio. 14:00 hs."
+                    android:textColor="@color/black_overlay" />
+            </LinearLayout>
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/origen_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFF"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@+id/reserva_layout"
+            >
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_marker" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/origen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Av. Santa Fe 1689. Capital Federal."
+                    android:textSize="16dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dirección de origen"
+                    android:textColor="@color/black_overlay" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/destino_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFF"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@+id/origen_layout"
+            >
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_marker" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/destino"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Av. Córdoba 1500. Capital Federal."
+                    android:textSize="16dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dirección de destino"
+                    android:textColor="@color/black_overlay" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/confirm"
+            style="@style/AppButton"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Aceptar" />
+
+        <Button
+            android:id="@+id/rechazar"
+            style="@style/AppButton"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="Rechazar" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

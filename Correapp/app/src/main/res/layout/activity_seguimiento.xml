@@ -6,20 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".activities.WaitingActivity">
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
+        android:id="@+id/title_layout"
+        style="@style/HeaderLayout"
         android:layout_width="match_parent"
-        android:layout_height="137dp"
-        android:background="#ECECEC"
-        android:gravity="center"
-        android:text="Siguiendo a sus mascotas"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:textSize="@android:dimen/app_icon_size"
-        android:textStyle="bold"
-        android:translationZ="300dp"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:translationZ="300dp"
+        >
+
+        <TextView
+            style="@style/HeaderTitle"
+            android:text="Siguiendo a tus mascotas" />
+
+    </LinearLayout>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -28,13 +29,8 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_destiny"
-        tools:layout_editor_absoluteX="394dp">
-
+        app:layout_constraintTop_toBottomOf="@+id/title_layout"
+        >
     </fragment>
-
-
-
-
 
 </android.support.constraint.ConstraintLayout>

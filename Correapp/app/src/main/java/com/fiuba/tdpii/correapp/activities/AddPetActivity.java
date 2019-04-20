@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class AddPetActivity  extends AppCompatActivity {
 
     private String nombreStr;
 
+    private ImageView backArrow;
 
     private Spinner tipo;
     private String tipoStr;
@@ -81,6 +83,13 @@ public class AddPetActivity  extends AppCompatActivity {
 
         pet3 = bundle.getParcelable("pet_3");
 
+        backArrow = findViewById(R.id.back_arrow);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -29,8 +29,6 @@ import com.google.maps.model.EncodedPolyline;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.fiuba.tdpii.correapp.activities.DestinyMapActivity.DESTINY_LOCATION_KEY;
-import static com.fiuba.tdpii.correapp.activities.DestinyMapActivity.ZOOM;
 import static com.fiuba.tdpii.correapp.activities.MapActivity.CUSTOM_MARKER_HEIGHT;
 import static com.fiuba.tdpii.correapp.activities.MapActivity.CUSTOM_MARKER_WIDTH;
 import static com.fiuba.tdpii.correapp.activities.MapActivity.DESTINATION_KEY;
@@ -80,9 +78,9 @@ public class ShowRouteActivity extends FragmentActivity implements OnMapReadyCal
                         this, R.raw.style_json));
         // Add a marker in Sydney and move the camera
 
-        mMap.addMarker(new MarkerOptions().position(originLocation).title("Origen").icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT))));
+        mMap.addMarker(new MarkerOptions().position(originLocation).title("Origen").icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT))));
 
-        mMap.addMarker(new MarkerOptions().position(destinyLocation).title("Destino").icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT))));
+        mMap.addMarker(new MarkerOptions().position(destinyLocation).title("Destino").icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT))));
 
 
         List<LatLng> path = new ArrayList();

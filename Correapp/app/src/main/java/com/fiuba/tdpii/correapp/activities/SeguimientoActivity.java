@@ -14,8 +14,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
@@ -129,13 +127,13 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
 
         //Adding the created the marker on the map
         //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
         googleMap.addMarker(markerOptions);
 
         MarkerOptions destinyMarkerOptions = new MarkerOptions().position(destinynLocation).title("Destino");
 
         //Adding the created the marker on the map
-        destinyMarkerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
+        destinyMarkerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
         googleMap.addMarker(destinyMarkerOptions);
 
 
@@ -217,7 +215,7 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
 
     private void setOriginMarker(final GoogleMap googleMap) {
         MarkerOptions markerOptions = new MarkerOptions().position(originLocation).title("Origen");
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
 
         //Adding the created the marker on the map
         googleMap.addMarker(markerOptions);
@@ -225,7 +223,7 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
 
     private void setDestinyMarker(final GoogleMap googleMap) {
         MarkerOptions markerOptions = new MarkerOptions().position(destinynLocation).title("Destino");
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.ic_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
 
         //Adding the created the marker on the map
         googleMap.addMarker(markerOptions);
