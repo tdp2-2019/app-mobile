@@ -11,6 +11,8 @@ import com.fiuba.tdpii.correapp.models.web.TripSerialized;
 import com.fiuba.tdpii.correapp.networking.ApiClient;
 import com.fiuba.tdpii.correapp.networking.CorreappApi;
 
+import java.util.List;
+
 import retrofit2.Call;
 
 public class TripService {
@@ -22,7 +24,7 @@ public class TripService {
 
     }
 
-    public Call<SerializedTrips> getTrips() {
+    public Call<List<SerializedTripPostResponse>> getTrips() {
 //        coreAPI.getTrips().enqueue(new Callback<ArrayList<TripSerialized>>() {
 //            @Override
 //            public void onResponse(Call<ArrayList<TripSerialized>> call, Response<ArrayList<TripSerialized>> response) {
@@ -56,7 +58,7 @@ public class TripService {
     }
 
 
-    public Call<SerializedTrip> getTripById(String id) {
+    public Call<SerializedTripPostResponse> getTripById(String id) {
 
         return coreAPI.getTripById(id);
 
@@ -66,7 +68,7 @@ public class TripService {
             return coreAPI.createTrip("application/json", trip);
         }
 
-        public Call<PutTrip> updateDriver(TripPutRequest body, String tripId){
+        public Call<SerializedTripPostResponse> updateDriver(TripPutRequest body, String tripId){
             return coreAPI.putDriver(tripId, body );
         }
 

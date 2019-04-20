@@ -3,7 +3,7 @@ package com.fiuba.tdpii.correapp.models.local;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Pet implements Parcelable {
+public class PetLocal implements Parcelable {
 
     public String nombre;
 
@@ -27,25 +27,25 @@ public class Pet implements Parcelable {
         dest.writeString(this.obs);
     }
 
-    public Pet() {
+    public PetLocal() {
     }
 
-    protected Pet(Parcel in) {
+    protected PetLocal(Parcel in) {
         this.nombre = in.readString();
         this.tipo = in.readString();
         this.size = in.readString();
         this.obs = in.readString();
     }
 
-    public static final Parcelable.Creator<Pet> CREATOR = new Parcelable.Creator<Pet>() {
+    public static final Parcelable.Creator<PetLocal> CREATOR = new Parcelable.Creator<PetLocal>() {
         @Override
-        public Pet createFromParcel(Parcel source) {
-            return new Pet(source);
+        public PetLocal createFromParcel(Parcel source) {
+            return new PetLocal(source);
         }
 
         @Override
-        public Pet[] newArray(int size) {
-            return new Pet[size];
+        public PetLocal[] newArray(int size) {
+            return new PetLocal[size];
         }
     };
 }

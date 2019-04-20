@@ -18,12 +18,13 @@ public class TripPost {
     @Expose
     private Destination source;
 
-
     @SerializedName("pets")
     @Expose
-    private String pets;
+    private List<Pet> pets;
 
-
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
+    }
 
     @SerializedName("start_time")
     @Expose
@@ -54,15 +55,6 @@ public class TripPost {
     public void setSource(Destination source) {
         this.source = source;
     }
-
-    public String getPets() {
-        return pets;
-    }
-
-    public void setPets(String pets) {
-        this.pets = pets;
-    }
-
 
 
     public String getStartTime() {

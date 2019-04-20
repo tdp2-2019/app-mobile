@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -209,13 +210,13 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
             @Override
             public void run() {
 
-                tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTrip>() {
+                tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
                     @Override
-                    public void onResponse(Call<SerializedTrip> call, Response<SerializedTrip> response) {
+                    public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
 
                         response.body();
 
-                        if(response.body().getTrip().getDriverId() != null){
+                        if(response.body().getDriverId() != null){
 
                             Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);
                             Bundle bundle = new Bundle();
@@ -232,7 +233,7 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
                     }
 
                     @Override
-                    public void onFailure(Call<SerializedTrip> call, Throwable t) {
+                    public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
 
                     }
                 });
