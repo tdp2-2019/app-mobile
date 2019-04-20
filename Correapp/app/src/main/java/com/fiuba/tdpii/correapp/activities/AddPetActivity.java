@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
-import com.fiuba.tdpii.correapp.models.local.Pet;
+import com.fiuba.tdpii.correapp.models.local.PetLocal;
 
 public class AddPetActivity  extends AppCompatActivity {
 //
@@ -50,11 +50,11 @@ public class AddPetActivity  extends AppCompatActivity {
 
     private Button confirmBtn;
     private Bundle bundle;
-    Pet pet1 ;
+    PetLocal pet1 ;
 
-    Pet pet2 ;
+    PetLocal pet2 ;
 
-    Pet pet3;
+    PetLocal pet3;
 
 
     @Override
@@ -96,7 +96,7 @@ public class AddPetActivity  extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(pet1 == null){
-                    pet1 = new Pet();
+                    pet1 = new PetLocal();
                     pet1.nombre = nombre.getText().toString();
                     pet1.obs = obs.getText().toString();
 
@@ -106,7 +106,7 @@ public class AddPetActivity  extends AppCompatActivity {
                 } else {
                     if (pet2 == null){
 
-                        pet2 = new Pet();
+                        pet2 = new PetLocal();
                         pet2.nombre = nombre.getText().toString();
                         pet2.obs = obs.getText().toString();
                         pet2.tipo = tipo.getSelectedItem().toString();
@@ -115,7 +115,7 @@ public class AddPetActivity  extends AppCompatActivity {
 
                     } else{
                         if(pet3 == null){
-                            pet3 = new Pet();
+                            pet3 = new PetLocal();
                             pet3.nombre = nombre.getText().toString();
                             pet3.obs = obs.getText().toString();
                             pet3.tipo = tipo.getSelectedItem().toString();
