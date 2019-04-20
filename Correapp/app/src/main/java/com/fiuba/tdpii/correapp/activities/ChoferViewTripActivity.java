@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.fiuba.tdpii.correapp.R;
 import com.fiuba.tdpii.correapp.models.web.PutTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.Trip;
 import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
@@ -85,17 +86,15 @@ public class ChoferViewTripActivity extends AppCompatActivity {
             }
         });
 
-        tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTrip>() {
+        tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
             @Override
-            public void onResponse(Call<SerializedTrip> call, Response<SerializedTrip> response) {
+            public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
 
-                SerializedTrip s_trip = response.body();
-                Trip trip = s_trip.getTrip();
+                SerializedTripPostResponse trip = response.body();
 
                 nombre.setText(trip.getClient());
                 duracion.setText(Integer.valueOf(Double.valueOf(trip.getDuration()/60).intValue()).toString() + " minutos");
-                mascotas.setText(trip.getPets()!= null ? trip.getPets() : "mascotas null");
-
+                mascotas.setText(trip.getPets().get(0).toString());
                 Date startDate = new Date(trip.getStartTime());
 
                 Calendar calendar = Calendar.getInstance();
@@ -113,12 +112,12 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 destino.setText(getAddress(dest));
                 origen.setText(getAddress(sourc));
 
-                System.out.print(response.body().getTrip().getClient());
+                System.out.print(response.body().getClient());
 
             }
 
             @Override
-            public void onFailure(Call<SerializedTrip> call, Throwable t) {
+            public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
 
             }
         });
@@ -145,9 +144,9 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 TripPutRequest putBody = new TripPutRequest();
                 putBody.setDriverId("1");
 
-                tripService.updateDriver(putBody, tripId.toString()).enqueue(new Callback<PutTrip>() {
+                tripService.updateDriver(putBody, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
                     @Override
-                    public void onResponse(Call<PutTrip> call, Response<PutTrip> response) {
+                    public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
 
                         response.body();
 
@@ -160,7 +159,7 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<PutTrip> call, Throwable t) {
+                    public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
 
                     }
                 });

@@ -7,6 +7,8 @@ import com.fiuba.tdpii.correapp.models.web.SerializedTrips;
 import com.fiuba.tdpii.correapp.models.web.TripPost;
 import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -22,13 +24,13 @@ public interface CorreappApi {
     Call<SerializedTripPostResponse> createTrip(@Header("Content-Type") String content_type, @Body TripPost tripSerialized);
 
     @GET("/trips/{id}")
-    Call<SerializedTrip> getTripById(@Path("id") String id);
+    Call<SerializedTripPostResponse> getTripById(@Path("id") String id);
 
     @GET("/trips")
-    Call<SerializedTrips> getTrips();
+    Call<List<SerializedTripPostResponse>> getTrips();
 
     @PUT("/trips/{id}")
-    Call<PutTrip> putDriver(@Path("id") String id, @Body TripPutRequest tripPut);
+    Call<SerializedTripPostResponse> putDriver(@Path("id") String id, @Body TripPutRequest tripPut);
 
 
 

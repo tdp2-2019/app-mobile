@@ -17,8 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
-import com.fiuba.tdpii.correapp.models.local.Pet;
+import com.fiuba.tdpii.correapp.models.local.PetLocal;
 import com.fiuba.tdpii.correapp.models.web.Destination;
+import com.fiuba.tdpii.correapp.models.web.Pet;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.Trip;
@@ -32,6 +33,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.Timepoint;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -75,9 +77,9 @@ public class CreateTripActivity extends AppCompatActivity
     private LatLng destinyLocation;
     private String destAddress;
 
-    private Pet mascota1;
-    private Pet mascota2;
-    private Pet mascota3;
+    private PetLocal mascota1;
+    private PetLocal mascota2;
+    private PetLocal mascota3;
 
     private Boolean paymentMethod;
     private Bundle bundle;
@@ -473,7 +475,10 @@ public class CreateTripActivity extends AppCompatActivity
                 if(mascota3 != null){
                     petNames = petNames.concat(" y a " + mascota3.nombre + " (" +mascota3.tipo + " ," + mascota3.size + ")");
                 }
-                s_trip.setPets(petNames);
+
+                Pet pet1 = new Pet();
+                pet1.setKey1(mascota1.nombre);
+                s_trip.setPets(Arrays.asList(pet1));
 
 
                 tripService.saveNewTrip(s_trip).enqueue(new Callback<SerializedTripPostResponse>() {
@@ -481,7 +486,7 @@ public class CreateTripActivity extends AppCompatActivity
                     public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
 
                         response.body();
-                        tripId = response.body().getTrip().getId();
+                        tripId = response.body().getId();
 
                         bundle.putLong("id",tripId );
                         navigationIntent.putExtra("bundle", bundle );

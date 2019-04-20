@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.fiuba.tdpii.correapp.R;
 import com.fiuba.tdpii.correapp.models.web.Destination;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.Trip;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -125,11 +126,11 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onMapReady(final GoogleMap googleMap) {
 
-        tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTrip>() {
+        tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
             @Override
-            public void onResponse(Call<SerializedTrip> call, Response<SerializedTrip> response) {
+            public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
 
-                Trip trip = response.body().getTrip();
+                SerializedTripPostResponse trip = response.body();
 
                 Destination source = trip.getSource();
                 originLocation = new LatLng(Double.valueOf(trip.getSource().getLat()), Double.valueOf(trip.getSource().getLong() ));
@@ -202,7 +203,7 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
             }
 
             @Override
-            public void onFailure(Call<SerializedTrip> call, Throwable t) {
+            public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
 
             }
         });

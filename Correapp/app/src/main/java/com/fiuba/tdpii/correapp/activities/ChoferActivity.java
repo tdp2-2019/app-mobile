@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrips;
 import com.fiuba.tdpii.correapp.models.web.Trip;
 import com.fiuba.tdpii.correapp.models.web.TripSerialized;
@@ -20,6 +21,7 @@ import com.fiuba.tdpii.correapp.services.trips.TripClient;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +30,7 @@ import retrofit2.Response;
 public class ChoferActivity extends AppCompatActivity {
 
 
-    private ArrayList<Trip> tripsArray;
+    private ArrayList<SerializedTripPostResponse> tripsArray;
     private Integer tripPosition;
     private TripService tripService;
 
@@ -61,28 +63,28 @@ public class ChoferActivity extends AppCompatActivity {
 
     private void setupInitials() {
 
-        tripsArray = new ArrayList<Trip>();
+        tripsArray = new ArrayList<SerializedTripPostResponse>();
 
-        tripService.getTripById("1").enqueue(new Callback<SerializedTrip>() {
+        tripService.getTripById("1").enqueue(new Callback<SerializedTripPostResponse>() {
             @Override
-            public void onResponse(Call<SerializedTrip> call, Response<SerializedTrip> response) {
-                System.out.print(response.body().getTrip().getClient());
+            public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+                System.out.print(response.body().getClient());
 
             }
 
             @Override
-            public void onFailure(Call<SerializedTrip> call, Throwable t) {
+            public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
 
             }
         });
-        tripService.getTrips().enqueue(new Callback<SerializedTrips>() {
+        tripService.getTrips().enqueue(new Callback<List<SerializedTripPostResponse>>() {
             @Override
-            public void onResponse(Call<SerializedTrips> call, Response<SerializedTrips> response) {
+            public void onResponse(Call<List<SerializedTripPostResponse>> call, Response<List<SerializedTripPostResponse>> response) {
 
-                SerializedTrips tripResponseArrayList = response.body();
+                List<SerializedTripPostResponse> tripResponseArrayList = response.body();
 
 
-                for (Trip trip : tripResponseArrayList.getTrips()) {
+                for (SerializedTripPostResponse trip : tripResponseArrayList) {
                     tripsArray.add(trip);
                 }
 
@@ -91,7 +93,7 @@ public class ChoferActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<SerializedTrips> call, Throwable t) {
+            public void onFailure(Call<List<SerializedTripPostResponse>> call, Throwable t) {
                 Toast.makeText(ChoferActivity.this, "FAILURE", Toast.LENGTH_SHORT).show();
 
             }
@@ -111,7 +113,7 @@ public class ChoferActivity extends AppCompatActivity {
 
                 tripPosition = position;
 
-                Trip trip = tripsArray.get(position);
+                SerializedTripPostResponse trip = tripsArray.get(position);
                 Toast.makeText(ChoferActivity.this, trip.getClient(), Toast.LENGTH_SHORT).show();
 
                 Intent navigationIntent = new Intent(ChoferActivity.this, ChoferViewTripActivity.class);
@@ -155,7 +157,7 @@ public class ChoferActivity extends AppCompatActivity {
 //
 //    }
 
-    public ChoferActivity(ArrayList<Trip> tripsArray) {
+    public ChoferActivity(ArrayList<SerializedTripPostResponse> tripsArray) {
         this.tripsArray = tripsArray;
     }
 

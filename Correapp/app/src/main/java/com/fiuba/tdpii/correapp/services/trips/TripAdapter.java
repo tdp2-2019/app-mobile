@@ -15,15 +15,16 @@ import com.fiuba.tdpii.correapp.activities.ChoferActivity;
 import com.fiuba.tdpii.correapp.activities.ChoferViewTripActivity;
 import com.fiuba.tdpii.correapp.activities.CreateTripActivity;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.Trip;
 
 import java.util.ArrayList;
 
-public class TripAdapter extends ArrayAdapter<Trip> {
+public class TripAdapter extends ArrayAdapter<SerializedTripPostResponse> {
     private Context mcon;
 
 
-    public TripAdapter(Context context, ArrayList<Trip> trips) {
+    public TripAdapter(Context context, ArrayList<SerializedTripPostResponse> trips) {
         super(context, 0, trips);
         mcon = context;
     }
@@ -31,7 +32,7 @@ public class TripAdapter extends ArrayAdapter<Trip> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        final Trip trip = getItem(position);
+        final SerializedTripPostResponse trip = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
