@@ -22,7 +22,6 @@ public class RateTripClientActivity extends AppCompatActivity {
     private Switch switchMaterial;
     private Switch switchMaterialApp;
     private Switch switchMaterialCar;
-    private ImageView backArrow;
     private Button buttonSubmit;
     private RatingBar ratingBar;
 
@@ -48,13 +47,7 @@ public class RateTripClientActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.rating_bar);
         commentLayout = findViewById(R.id.comment_layout);
         textInputComment = findViewById(R.id.comment);
-        backArrow =findViewById(R.id.back_arrow);
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RateTripClientActivity.super.onBackPressed();
-            }
-        });
+
         switchMaterial = findViewById(R.id.switch_material);
         switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
