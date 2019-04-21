@@ -28,21 +28,20 @@ public class RateTripClientActivity extends AppCompatActivity {
     private LinearLayout commentLayout;
     private EditText textInputComment;
 
-    private int tripId;
+    private Bundle bundle;
+    private Long tripId;
+    private Long driverId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_trip_driver);
 
-        Intent intent = getIntent();
-        tripId = intent.getIntExtra(TRIP_ID_KEY, 0);
 
-//        if (tripId == 0) {
-//            showErrorMessage();
-//            // finish();
-//            // return;
-//        }
+        bundle = getIntent().getParcelableExtra("bundle");
+
+        tripId = bundle.getLong("tripId");
+        driverId = bundle.getLong("driverId");
 
         ratingBar = findViewById(R.id.rating_bar);
         commentLayout = findViewById(R.id.comment_layout);
@@ -62,20 +61,28 @@ public class RateTripClientActivity extends AppCompatActivity {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: implementar puntuado de viaje para chofer. Falta servicio de API.
+
                 int rating = ratingBar.getNumStars();
                 boolean isClientGood = !switchMaterial.isChecked();
                 String comment = textInputComment.getText().toString();
 
-                Intent mainActivity = new Intent(getApplicationContext(), ChoferActivity.class);
-                startActivity(mainActivity);
+
+
+                Bundle bundle = new Bundle();
+
+                bundle.putLong("driverId",driverId );
+
+                Intent navigationIntent = new Intent(RateTripClientActivity.this, DriverProfileActivity.class);
+
+                navigationIntent.putExtra("bundle", bundle );
+                startActivity(navigationIntent);
             }
         });
     }
 
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putInt(TRIP_ID_KEY, tripId);
+        savedInstanceState.putLong(TRIP_ID_KEY, tripId);
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -84,7 +91,7 @@ public class RateTripClientActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        tripId = savedInstanceState.getInt(TRIP_ID_KEY);
+        tripId = savedInstanceState.getLong(TRIP_ID_KEY);
     }
 
     private void showErrorMessage() {

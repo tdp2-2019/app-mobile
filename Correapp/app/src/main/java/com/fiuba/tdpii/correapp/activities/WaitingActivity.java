@@ -11,6 +11,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -49,6 +50,7 @@ import com.google.maps.model.DirectionsStep;
 import com.google.maps.model.EncodedPolyline;
 
 import java.io.IOException;
+import java.nio.file.Watchable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -77,14 +79,30 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
     private Long tripId;
 
     private ImageView backArrow;
+    private CountDownTimer timer = new CountDownTimer(300000, 3000) {
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            yourMethod();
+        }
+
+        @Override
+        public void onFinish() {
+            try {
+
+            } catch (Exception e) {
+                Log.e("Error", "Error: " + e.toString());
+            }
+        }
+    }.start();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waiting);
-        
+
         tripService = new TripService();
-        
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(WaitingActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(WaitingActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -117,14 +135,13 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
                 Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);
                 Bundle bundle = new Bundle();
 
-                if(originLocation != null)
-                    bundle.putParcelable("lc_origin",  originLocation);
-                if(destinynLocation != null)
-                    bundle.putParcelable("lc_dest",  destinynLocation);
+                if (originLocation != null)
+                    bundle.putParcelable("lc_origin", originLocation);
+                if (destinynLocation != null)
+                    bundle.putParcelable("lc_dest", destinynLocation);
 
 
-
-                navigationIntent.putExtra("bundle", bundle );
+                navigationIntent.putExtra("bundle", bundle);
                 startActivity(navigationIntent);
 
             }
@@ -137,6 +154,8 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
                 onBackPressed();
             }
         });
+
+
 
     }
 
@@ -167,11 +186,57 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
         });
     }
 
+    private void yourMethod() {
+        if (tripId == null)
+            return;
+//        Toast.makeText(WaitingActivity.this, "Hago un get1", Toast.LENGTH_SHORT).show();
+        tripService.getTripById(tripId.toString()).
+                enqueue(new Callback<SerializedTripPostResponse>() {
+                    @Override
+                    public void onResponse
+                            (Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+
+                        response.body();
+//                        Toast.makeText(WaitingActivity.this, "Hago un gets2", Toast.LENGTH_SHORT).show();
+
+
+                        if(response.body().getRejecteds().size() >= 3){
+                            Intent navigationIntent = new Intent(WaitingActivity.this, TripTooManyRejectsActivity.class);
+                            timer.cancel();
+                            startActivity(navigationIntent);
+                        }
+
+                        if (response.body().getDriverId() != null) {
+
+//                            Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);
+
+                            Intent navigationIntent = new Intent(WaitingActivity.this, ClientDriverProfileActivity.class);
+
+                            Bundle bundle = new Bundle();
+
+                            if (originLocation != null)
+                                bundle.putParcelable("lc_origin", originLocation);
+                            if (destinynLocation != null)
+                                bundle.putParcelable("lc_dest", destinynLocation);
+                            bundle.putLong("tripId", tripId);
+                            bundle.putLong("driverId", response.body().getDriverId());
+
+                            navigationIntent.putExtra("bundle", bundle);
+                            timer.cancel();
+                            startActivity(navigationIntent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
-
-
 
 
         //MarkerOptions are used to create a new Marker.You can specify location, title etc with MarkerOptions
@@ -193,7 +258,7 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
         googleMap.addMarker(destinyMarkerOptions);
 
 
-        LatLngBounds.Builder bc = new LatLngBounds.Builder(); 
+        LatLngBounds.Builder bc = new LatLngBounds.Builder();
 
 
         List<LatLng> path = getPath(originLocation, destinynLocation);
@@ -205,47 +270,52 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 40));
 
-        Handler handler = new Handler();
-        Runnable runnableCode = new Runnable() {
-            @Override
-            public void run() {
-
-                tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
-                    @Override
-                    public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
-
-                        response.body();
-
-                        if(response.body().getDriverId() != null){
-
-                            Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);
-                            Bundle bundle = new Bundle();
-
-                            if(originLocation != null)
-                                bundle.putParcelable("lc_origin",  originLocation);
-                            if(destinynLocation != null)
-                                bundle.putParcelable("lc_dest",  destinynLocation);
-                            bundle.putLong("id",tripId );
-
-                            navigationIntent.putExtra("bundle", bundle );
-                            startActivity(navigationIntent);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
-
-                    }
-                });
-
-                // Do something here on the main thread
-                Log.d("Handlers", "Called on main thread");
-            }
-        };
-
-        handler.postDelayed(runnableCode, 2000);
+//        Handler handler = new Handler();
+//        Runnable runnableCode = new Runnable() {
+//            @Override
+//            public void run() {
+//                System.out.print("HOLA");
+//                tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
+//                    @Override
+//                    public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+//
+//                        response.body();
+//
+//                        if (response.body().getDriverId() != null) {
+//
+////                            Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);
+//
+//                            Intent navigationIntent = new Intent(WaitingActivity.this, ClientDriverProfileActivity.class);
+//
+//                            Bundle bundle = new Bundle();
+//
+//                            if (originLocation != null)
+//                                bundle.putParcelable("lc_origin", originLocation);
+//                            if (destinynLocation != null)
+//                                bundle.putParcelable("lc_dest", destinynLocation);
+//                            bundle.putLong("tripId", tripId);
+//                            bundle.putLong("driverId", response.body().getDriverId());
+//
+//                            navigationIntent.putExtra("bundle", bundle);
+//                            startActivity(navigationIntent);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+//
+//                    }
+//                });
+//
+//                // Do something here on the main thread
+//                Log.d("Handlers", "Called on main thread");
+//            }
+//        };
+//
+//        handler.postDelayed(runnableCode, 2000);
 
     }
+
 
     public void addPoly(List<LatLng> path, GoogleMap mMap) {
         if (path.size() > 0) {

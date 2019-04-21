@@ -4,8 +4,11 @@ import com.fiuba.tdpii.correapp.models.web.PutTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrips;
+import com.fiuba.tdpii.correapp.models.web.StartTripPutRequest;
+import com.fiuba.tdpii.correapp.models.web.TripDriverRatingRequest;
 import com.fiuba.tdpii.correapp.models.web.TripPost;
 import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
+import com.fiuba.tdpii.correapp.models.web.TripRejectionRequest;
 import com.fiuba.tdpii.correapp.models.web.TripResponse;
 import com.fiuba.tdpii.correapp.models.web.TripSerialized;
 import com.fiuba.tdpii.correapp.networking.ApiClient;
@@ -25,36 +28,7 @@ public class TripService {
     }
 
     public Call<List<SerializedTripPostResponse>> getTrips() {
-//        coreAPI.getTrips().enqueue(new Callback<ArrayList<TripSerialized>>() {
-//            @Override
-//            public void onResponse(Call<ArrayList<TripSerialized>> call, Response<ArrayList<TripSerialized>> response) {
-//                if (response.code() > 199 && response.code() < 300) {
-//                    if (response.body() != null) {
-//                        Log.i("TRIPSERVICE", response.body().toString());
-//                        delegate.onResponseSuccess(response.body());
-//                    } else {
-//                        Log.i("TRIPSERVICE", "NO RESPONSE");
-//                        delegate.onResponseError();
-//                    }
-//                } else {
-//                    if (response.body() != null) {
-//                        Log.e("TRIPSERVICE", response.body().toString());
-//                    } else {
-//                        Log.e("TRIPSERVICE", "NO RESPONSE");
-//                    }
-//                    delegate.onResponseError();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArrayList<TripSerialized>> call, Throwable t) {
-//                delegate.onResponseError();
-//                Log.e("TRIPSERVICE", t.getMessage());
-//            }
-//        });
-
-            return coreAPI.getTrips();
-
+        return coreAPI.getTrips();
     }
 
 
@@ -64,13 +38,25 @@ public class TripService {
 
     }
 
-        public Call<SerializedTripPostResponse> saveNewTrip (TripPost trip){
-            return coreAPI.createTrip("application/json", trip);
-        }
+    public Call<SerializedTripPostResponse> saveNewTrip(TripPost trip) {
+        return coreAPI.createTrip("application/json", trip);
+    }
 
-        public Call<SerializedTripPostResponse> updateDriver(TripPutRequest body, String tripId){
-            return coreAPI.putDriver(tripId, body );
-        }
+    public Call<SerializedTripPostResponse> updateDriver(TripPutRequest body, String tripId) {
+        return coreAPI.putDriver(tripId, body);
+    }
+
+    public Call<SerializedTripPostResponse> startTrip(StartTripPutRequest body, String tripId) {
+        return coreAPI.putStatus(tripId, body);
+    }
+
+    public Call<SerializedTripPostResponse> rejectTrip(TripRejectionRequest body, String tripId) {
+        return coreAPI.putRejection(tripId, body);
+    }
+
+    public Call<SerializedTripPostResponse> rateDriver(TripDriverRatingRequest body, String tripId) {
+        return coreAPI.putDriverRating(tripId, body);
+    }
 
 
 //    public Call<ArrayList<TripResponse>> getTrips(final ApiClient delegate){
@@ -103,4 +89,4 @@ public class TripService {
 //        });
 //
 //    }
-    }
+}

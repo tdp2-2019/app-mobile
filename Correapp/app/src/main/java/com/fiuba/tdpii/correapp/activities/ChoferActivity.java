@@ -35,6 +35,8 @@ public class ChoferActivity extends AppCompatActivity {
     private TripService tripService;
 
     private ImageView backArrow;
+    private Long driverId;
+    private Bundle bundle;
 
     public static final int REQUEST_CODE = 1;
     public static final int RESULT_CODE_ADDED_PILL = 400;
@@ -46,6 +48,11 @@ public class ChoferActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chofer_activity);
+
+
+        bundle = getIntent().getParcelableExtra("bundle");
+
+        driverId = bundle.getLong("driverId");
 
         backArrow = findViewById(R.id.back_arrow);
         backArrow.setOnClickListener(new View.OnClickListener() {
@@ -65,18 +72,6 @@ public class ChoferActivity extends AppCompatActivity {
 
         tripsArray = new ArrayList<SerializedTripPostResponse>();
 
-        tripService.getTripById("1").enqueue(new Callback<SerializedTripPostResponse>() {
-            @Override
-            public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
-                System.out.print(response.body().getClient());
-
-            }
-
-            @Override
-            public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
-
-            }
-        });
         tripService.getTrips().enqueue(new Callback<List<SerializedTripPostResponse>>() {
             @Override
             public void onResponse(Call<List<SerializedTripPostResponse>> call, Response<List<SerializedTripPostResponse>> response) {
@@ -119,8 +114,8 @@ public class ChoferActivity extends AppCompatActivity {
                 Intent navigationIntent = new Intent(ChoferActivity.this, ChoferViewTripActivity.class);
                 Bundle bundle = new Bundle();
 
-                bundle.putLong("id", trip.getId());
-
+                bundle.putLong("tripId", trip.getId());
+                bundle.putLong("driverId",driverId );
 
                 navigationIntent.putExtra("bundle", bundle);
                 startActivity(navigationIntent);

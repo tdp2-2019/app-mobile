@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/title_layout"
+        style="@style/HeaderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:translationZ="300dp"
+        >
+
+        <TextView
+            style="@style/HeaderTitle"
+            android:text="Viaje                  rechazado" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/inputs"
+        android:layout_width="match_parent"
+        android:layout_height="612dp"
+        android:background="#FFFF"
+        android:orientation="vertical"
+        android:weightSum="7"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/empty2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1.5"
+            android:backgroundTint="#000"
+            android:textColor="#FFF" />
+
+        <TextView
+            android:id="@+id/texto"
+            style="@style/Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:backgroundTint="#000"
+            android:padding="10dp"
+            android:text="No encontramos choferes                                                 disponibles para realizar tu viaje"
+
+            android:textAlignment="center"
+            android:textColor="#000" />
+
+
+        <TextView
+            android:id="@+id/empty3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:backgroundTint="#000"
+            android:textColor="#FFF" />
+
+        <TextView
+            android:id="@+id/subtexto"
+            style="@style/Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:backgroundTint="#000"
+            android:padding="10dp"
+            android:text="Podes intentarlo nuevamente más tarde"
+            android:textAlignment="center"
+            android:textColor="#000" />
+        <TextView
+            android:id="@+id/empty4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="2"
+            android:backgroundTint="#000"
+            android:textColor="#FFF" />
+
+        <Button
+            android:id="@+id/create_trip"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
+            android:backgroundTint="#6892E9"
+            android:buttonTint="#6892E9"
+            android:gravity="center"
+            android:text="Pedir nuevo viaje" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
