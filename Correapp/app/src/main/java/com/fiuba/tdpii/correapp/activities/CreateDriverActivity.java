@@ -72,6 +72,7 @@ public class CreateDriverActivity extends AppCompatActivity {
     private String email;
     private String firstName;
     private String lastName;
+    private String profilePictureUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class CreateDriverActivity extends AppCompatActivity {
         email = bundle.getString("email");
         firstName = bundle.getString("firstname");
         lastName = bundle.getString("lastName");
-
+        profilePictureUri = bundle.getString("picture");
 
         dni = findViewById(R.id.dni);
 
@@ -209,6 +210,8 @@ public class CreateDriverActivity extends AppCompatActivity {
 
                 bundle.putString("nombre",  nombre.getText().toString());
                 bundle.putParcelable("currentPosition", currentPosition);
+
+                bundle.putString("picture",profilePictureUri );
 
                 navigationIntent.putExtra("bundle", bundle);
                 startActivity(navigationIntent);

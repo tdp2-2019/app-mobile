@@ -139,7 +139,6 @@ public class FbLoginActivity extends AppCompatActivity {
 
 
                             Profile profile = Profile.getCurrentProfile();
-                            String id = profile.getId();
                             String link = profile.getLinkUri().toString();
                             Log.i("Link",link);
                             if (Profile.getCurrentProfile()!=null)
@@ -158,53 +157,9 @@ public class FbLoginActivity extends AppCompatActivity {
                             bundle.putString("email", email);
                             bundle.putString("firstname", firstName );
                             bundle.putString("lastName", lastName );
+                            bundle.putString("picture",profileUrl.toString() );
                             navigationIntent.putExtra("bundle", bundle );
                             startActivity(navigationIntent);
-
-//
-//                            DriverPost driver = new DriverPost();
-//                            driver.setAddress("Moldes 1423");
-//                            driver.setDni("38305615");
-//                            driver.setName(firstName);
-//                            driver.setLastname(lastName);
-//                            driver.setEmail(email);
-//                            driver.setTelephone("47860146");
-//                            driver.setCelphone("1562676821");
-//                            driver.setBrand("Peugeot");
-//                            driver.setModel("504");
-//                            driver.setLicensenumber(420420420l);
-//                            driver.setInsurancepolicynumber("ME COMERE A SUERTUDO");
-//                            driver.setEndworktime("1555707893");
-//                            driver.setStartworktime("1555679093");
-//                            driver.setCarlicenseplate("ALT420");
-//                            driver.setCarcolour("Crema");
-//                            Destination currentPosition = new Destination();
-//                            currentPosition.setLong("-58.454000");
-//                            currentPosition.setLat("-34.568900");
-//                            driver.setCurrentposition(currentPosition);
-//
-//                            driverService.saveNewDriver(driver).enqueue(new Callback<DriverPost>() {
-//                                @Override
-//                                public void onResponse(Call<DriverPost> call, Response<DriverPost> response) {
-//
-//                                    response.body();
-//                                    Long driverId = response.body().getId();
-//                                    Toast.makeText(FbLoginActivity.this, driverId.toString(), Toast.LENGTH_SHORT).show();
-//
-////                                    bundle.putLong("id",tripId );
-////                                    navigationIntent.putExtra("bundle", bundle );
-////                                    startActivity(navigationIntent);
-//                                }
-//
-//                                @Override
-//                                public void onFailure(Call<DriverPost> call, Throwable t) {
-//
-//                                }
-//                            });
-//
-//
-//
-//
 
                         } catch (JSONException e) {
                             e.printStackTrace();

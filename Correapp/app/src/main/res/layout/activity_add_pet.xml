@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:textColor="#000"
-            android:background="@color/black_87"
+            android:background="#000"
             android:backgroundTint="#DADADA"
             android:entries="@array/spinnerItems"
             android:tooltipText="TEadasdsda"

@@ -1,21 +1,19 @@
 package com.fiuba.tdpii.correapp.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.fiuba.tdpii.correapp.R;
-import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
 import com.fiuba.tdpii.correapp.services.drivers.DriverService;
-
-import org.w3c.dom.Text;
-
-import java.util.Calendar;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,9 +33,10 @@ public class DriverProfileActivity extends AppCompatActivity {
     private TextView viajesRealizados;
     private TextView antiguedad;
 
+    private ImageView profile;
 
     private Button asignaciones;
-
+    private String profileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,6 @@ public class DriverProfileActivity extends AppCompatActivity {
         asignaciones = findViewById(R.id.listado_viajes);
 
 
-
         driverService = new DriverService();
 
 
@@ -63,7 +61,14 @@ public class DriverProfileActivity extends AppCompatActivity {
 
         bundle = getIntent().getParcelableExtra("bundle");
 
+
+        profileUri = bundle.getString("picture");
         Long driverId = bundle.getLong("driverId");
+
+        profile = findViewById(R.id.imagen_perfil);
+
+        Glide.with(this).load(profileUri).into(profile);
+
 
         driverService.getDriverById(driverId.toString()).enqueue(new Callback<DriverPost>() {
 
@@ -120,4 +125,5 @@ public class DriverProfileActivity extends AppCompatActivity {
 
         });
     }
+
 }

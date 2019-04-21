@@ -39,6 +39,7 @@ public class CreateDriverCarActivity extends AppCompatActivity {
 
     private Button finalizar;
     private DriverService driverService;
+    private String profilePictureUri;
 
 
     @Override
@@ -49,6 +50,9 @@ public class CreateDriverCarActivity extends AppCompatActivity {
         driverService = new DriverService();
 
         bundle = getIntent().getParcelableExtra("bundle");
+
+        profilePictureUri = bundle.getString("picture");
+
 
         marca = findViewById(R.id.marca);
         modelo = findViewById(R.id.modelo);
@@ -127,6 +131,8 @@ public class CreateDriverCarActivity extends AppCompatActivity {
 
                     Intent navigationIntent = new Intent(CreateDriverCarActivity.this, DriverProfileActivity.class);
                     Bundle bundle = new Bundle();
+                    bundle.putString("picture",profilePictureUri );
+
                     bundle.putLong("driverId", driverId );
                     navigationIntent.putExtra("bundle", bundle);
 

@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.TripTooManyRejectsActivity"></activity>
+        <activity android:name=".activities.TripTooManyRejectsActivity" />
         <activity android:name=".activities.StartTripDriverActivity" />
         <activity android:name=".activities.ClientDriverProfileActivity" />
         <activity android:name=".activities.DriverProfileActivity" />

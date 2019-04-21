@@ -51,8 +51,9 @@
                 android:id="@+id/imagen_perfil"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:src="@drawable/uber_driver" />
+                android:layout_gravity="center"/>
+                <!--android:src="@drawable/uber_driver" -->
+                <!--/>-->
 
             <TextView
                 android:id="@+id/nombre"
