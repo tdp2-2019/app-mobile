@@ -68,6 +68,7 @@ public class RateTripDriverActivity extends AppCompatActivity {
                 TripDriverRatingRequest request = new TripDriverRatingRequest();
                 DriverRating rating = new DriverRating();
                 rating.setRating(ratingValue.longValue());
+                rating.setComment(" ");
                 request.setDriverRating(rating);
                 tripService.rateDriver(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
                     @Override
