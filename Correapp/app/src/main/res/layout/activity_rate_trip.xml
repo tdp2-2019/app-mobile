@@ -26,7 +26,7 @@
         android:gravity="center"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
-        android:layout_weight="4"
+        android:layout_weight="3"
         android:background="#FFFF"
         >
 
@@ -51,7 +51,7 @@
         android:gravity="center"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
-        android:layout_weight="7"
+        android:layout_weight="4"
         android:background="#FFFF"
         >
 
@@ -135,6 +135,35 @@
                 android:paddingRight="10dp" />
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="#FFF"
+        >
+
+        <TextView
+            style="@style/Subtitle"
+            android:text="@string/rate_client_extra_comment_question" />
+
+
+        <EditText
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:id="@+id/comment"
+            android:hint="Comentario"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

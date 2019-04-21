@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Switch;
@@ -28,6 +29,7 @@ public class RateTripDriverActivity extends AppCompatActivity {
     private Switch switchMaterialCar;
     private Button buttonSubmit;
     private RatingBar ratingBar;
+    private EditText textInputComment;
 
     private Bundle bundle;
     private Long tripId;
@@ -47,33 +49,30 @@ public class RateTripDriverActivity extends AppCompatActivity {
 
         tripService = new TripService();
 
-
         ratingBar = (RatingBar) findViewById(R.id.rating_bar);
         switchMaterialDriver = findViewById(R.id.switch_material_driver);
         switchMaterialApp =  findViewById(R.id.switch_material_app);
         switchMaterialCar =  findViewById(R.id.switch_material_car);
+        textInputComment = findViewById(R.id.comment);
 
         buttonSubmit = findViewById(R.id.button_submit);
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 Float ratingValue =  ratingBar.getRating();
-
                 boolean improveDriver = switchMaterialDriver.isChecked();
                 boolean improveApp= switchMaterialApp.isChecked();
                 boolean improveCar = switchMaterialCar.isChecked();
+                String comment = textInputComment.getText().toString();
 
                 TripDriverRatingRequest request = new TripDriverRatingRequest();
                 DriverRating rating = new DriverRating();
                 rating.setRating(ratingValue.longValue());
-                rating.setComment(" ");
+                rating.setComment(comment);
                 request.setDriverRating(rating);
                 tripService.rateDriver(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
                     @Override
                     public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
-
                         Intent mainActivity = new Intent(getApplicationContext(), MapHomeActivity.class);
                         startActivity(mainActivity);
                     }
