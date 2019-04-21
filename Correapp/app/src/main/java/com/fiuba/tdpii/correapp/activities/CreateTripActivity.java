@@ -33,6 +33,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.Timepoint;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -444,9 +445,29 @@ public class CreateTripActivity extends AppCompatActivity
                     petNames = petNames.concat(" y a " + mascota3.nombre + " (" +mascota3.tipo + " ," + mascota3.size + ")");
                 }
 
-                Pet pet1 = new Pet();
-                pet1.setKey1(mascota1.nombre);
-                s_trip.setPets(Arrays.asList(pet1));
+
+                List<Pet> pets = new ArrayList();
+
+                if(mascota1 != null){
+                    Pet pet1 = new Pet();
+                    pet1.setKey1(mascota1.nombre);
+                    pet1.setKey2(mascota1.tipo + " " + mascota1.size );
+                    pets.add(pet1);
+                }
+                if(mascota2 != null){
+                    Pet pet = new Pet();
+                    pet.setKey1(mascota2.nombre);
+                    pet.setKey2(mascota2.tipo + " " + mascota2.size );
+                    pets.add(pet);
+                }
+                if(mascota3 != null){
+                    Pet pet = new Pet();
+                    pet.setKey1(mascota3.nombre);
+                    pet.setKey2(mascota3.tipo + " " + mascota3.size );
+                    pets.add(pet);
+                }
+
+                s_trip.setPets(pets);
 
 
                 tripService.saveNewTrip(s_trip).enqueue(new Callback<SerializedTripPostResponse>() {

@@ -62,6 +62,7 @@
             android:background="@drawable/text_border_bottom_line"
             android:gravity="center_vertical"
             android:padding="10dp"
+            android:inputType="textPersonName"
             android:hint="Marca"
             android:textColorHint="@color/black_overlay"
             android:textColor="@color/black_overlay" />
@@ -76,6 +77,7 @@
             android:backgroundTint="#000"
             android:gravity="center_vertical"
             android:padding="10dp"
+            android:inputType="textPersonName"
             android:hint="Modelo"
             android:textColorHint="@color/black_overlay"
             android:textColor="@color/black_overlay" />
@@ -87,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_weight="1"
+            android:inputType="textPersonName"
             android:background="@drawable/text_border_bottom_line"
             android:backgroundTint="#000"
             android:gravity="center_vertical"
@@ -146,6 +149,7 @@
             android:backgroundTint="#000"
             android:gravity="center_vertical"
             android:padding="10dp"
+            android:inputType="text"
             android:hint="Número de seguro"
             android:textColorHint="@color/black_overlay"
 
@@ -164,6 +168,7 @@
             android:padding="10dp"
             android:textColorHint="@color/black_overlay"
             android:hint="Patente"
+            android:inputType="text"
             android:textColor="@color/black_overlay" />
         <LinearLayout
             android:layout_width="395dp"

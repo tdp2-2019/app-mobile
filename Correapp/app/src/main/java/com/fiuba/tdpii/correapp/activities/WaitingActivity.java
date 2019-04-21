@@ -200,6 +200,12 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
 //                        Toast.makeText(WaitingActivity.this, "Hago un gets2", Toast.LENGTH_SHORT).show();
 
 
+                        if(response.body().getRejecteds().size() >= 3){
+                            Intent navigationIntent = new Intent(WaitingActivity.this, TripTooManyRejectsActivity.class);
+                            timer.cancel();
+                            startActivity(navigationIntent);
+                        }
+
                         if (response.body().getDriverId() != null) {
 
 //                            Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);

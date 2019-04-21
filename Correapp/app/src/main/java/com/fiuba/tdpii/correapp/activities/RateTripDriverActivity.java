@@ -11,33 +11,41 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
+import com.fiuba.tdpii.correapp.models.web.TripDriverRatingRequest;
+import com.fiuba.tdpii.correapp.services.trips.TripService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RateTripDriverActivity extends AppCompatActivity {
 
-
-    public final static String TRIP_ID_KEY = "trip_id_key";
-
+    
     private Switch switchMaterialDriver;
     private Switch switchMaterialApp;
     private Switch switchMaterialCar;
     private Button buttonSubmit;
     private RatingBar ratingBar;
 
-    private int tripId;
+    private Bundle bundle;
+    private Long tripId;
+    private Long driverId;
+
+    private TripService tripService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_trip);
 
-        Intent intent = getIntent();
-        tripId = intent.getIntExtra(TRIP_ID_KEY, 0);
+        bundle = getIntent().getParcelableExtra("bundle");
 
-        if (tripId == 0) {
-//            showErrorMessage();
-            // finish();
-            // return;
-        }
+        tripId = bundle.getLong("tripId");
+        driverId = bundle.getLong("driverId");
+
+        tripService = new TripService();
+
 
         ratingBar = (RatingBar) findViewById(R.id.rating_bar);
         switchMaterialDriver = findViewById(R.id.switch_material_driver);
@@ -48,31 +56,35 @@ public class RateTripDriverActivity extends AppCompatActivity {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: implementar puntuado de viaje para cliente. Falta servicio de API.
-                int rating = ratingBar.getNumStars();
+
+
+                Float ratingValue =  ratingBar.getRating();
+
                 boolean improveDriver = switchMaterialDriver.isChecked();
                 boolean improveApp= switchMaterialApp.isChecked();
                 boolean improveCar = switchMaterialCar.isChecked();
 
-                Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(mainActivity);
+                TripDriverRatingRequest request = new TripDriverRatingRequest();
+                request.setDriverRating(ratingValue.doubleValue());
+                tripService.rateDriver(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
+                    @Override
+                    public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+
+                        Intent mainActivity = new Intent(getApplicationContext(), MapHomeActivity.class);
+                        startActivity(mainActivity);
+                    }
+
+                    @Override
+                    public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+
+                    }
+                });
+
+
             }
         });
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putInt(TRIP_ID_KEY, tripId);
-
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        tripId = savedInstanceState.getInt(TRIP_ID_KEY);
-    }
 
     private void showErrorMessage() {
         Toast.makeText(this, "Se produjo un error inesperado, intente nuevamente", Toast.LENGTH_LONG).show();

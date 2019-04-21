@@ -12,11 +12,17 @@ import android.location.Location;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.Destination;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
+import com.fiuba.tdpii.correapp.models.web.StartTripPutRequest;
+import com.fiuba.tdpii.correapp.services.trips.TripService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -48,48 +54,87 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-public class SeguimientoActivity extends FragmentActivity implements OnMapReadyCallback {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class StartTripDriverActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private LatLng originLocation;
+    private LatLng destinynLocation;
     private Location currentLocation;
+
     private FusedLocationProviderClient fusedLocationProviderClient;
     public static final int LOCATION_REQUEST_CODE = 101;
     private static final int ZOOM = 16;
     public static final int CUSTOM_MARKER_WIDTH = 100;
     public static final int CUSTOM_MARKER_HEIGHT = 100;
-
-    private LatLng originLocation;
-    private LatLng destinynLocation;
-
-
     private GoogleMap mMap;
-
 
     private Bundle bundle;
     private Long tripId;
     private Long driverId;
 
+    private TripService tripService;
+
+    private Button start;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seguimiento);
+        setContentView(R.layout.activity_start_trip_driver);
+        tripService = new TripService();
+
+        bundle = getIntent().getParcelableExtra("bundle");
+
+        tripId = bundle.getLong("tripId");
+        driverId = bundle.getLong("driverId");
+
+
+        start = findViewById(R.id.empezar);
+        start.setOnClickListener(v -> {
+
+            StartTripPutRequest request = new StartTripPutRequest();
+            request.setStatus("started");
+            tripService.startTrip(request, tripId.toString() ).enqueue(new Callback<SerializedTripPostResponse>() {
+                @Override
+                public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+
+                    response.body();
+
+                    bundle.putLong("tripId",tripId );
+                    bundle.putLong("driverId",driverId );
+
+                    Intent navigationIntent = new Intent(StartTripDriverActivity.this, ChoferSeguimiento.class);
+
+                    navigationIntent.putExtra("bundle", bundle );
+                    startActivity(navigationIntent);
+                }
+
+                @Override
+                public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+
+                }
+            });
+
+
+
+        });
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        if (ActivityCompat.checkSelfPermission(SeguimientoActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(SeguimientoActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(StartTripDriverActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(StartTripDriverActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
             return;
         }
         fetchLastLocation();
 
         bundle = getIntent().getParcelableExtra("bundle");
-        if (bundle != null) {
-            originLocation = bundle.getParcelable("lc_origin");
-            destinynLocation = bundle.getParcelable("lc_dest");
 
-            tripId = bundle.getLong("tripId");
-            driverId = bundle.getLong("driverId");
-        }
 
 
 
     }
+
 
     private void fetchLastLocation() {
 
@@ -108,11 +153,10 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    currentLocation = location;
                     SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-                    supportMapFragment.getMapAsync(SeguimientoActivity.this);
+                    supportMapFragment.getMapAsync(StartTripDriverActivity.this);
                 } else {
-                    Toast.makeText(SeguimientoActivity.this, "No Location recorded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StartTripDriverActivity.this, "No Location recorded", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -120,84 +164,71 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
+
+        tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
+            @Override
+            public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+
+                SerializedTripPostResponse trip = response.body();
+
+                Destination source = trip.getSource();
+                originLocation = new LatLng(Double.valueOf(trip.getSource().getLat()), Double.valueOf(trip.getSource().getLong() ));
+                destinynLocation = new LatLng(Double.valueOf(trip.getDestination().getLat()), Double.valueOf(trip.getDestination().getLong() ));
+
+                //MarkerOptions are used to create a new Marker.You can specify location, title etc with MarkerOptions
+                MarkerOptions markerOptions = new MarkerOptions().position(originLocation).title("Origen");
+
+                boolean success = googleMap.setMapStyle(
+                        MapStyleOptions.loadRawResourceStyle(
+                                getApplicationContext(), R.raw.style_json));
+
+                //Adding the created the marker on the map
+                //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
+                googleMap.addMarker(markerOptions);
+
+                MarkerOptions destinyMarkerOptions = new MarkerOptions().position(destinynLocation).title("Destino");
+
+                //Adding the created the marker on the map
+                destinyMarkerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
+                googleMap.addMarker(destinyMarkerOptions);
+
+
+                LatLngBounds.Builder bc = new LatLngBounds.Builder();
+
+
+                List<LatLng> path = getPath(originLocation, destinynLocation);
+                path.stream().forEach(pathPoint -> {
+                    bc.include(pathPoint);
+                });
+                bc.include(destinynLocation).include(originLocation);
+                addPoly(path, mMap);
+
+
+
+
+                Handler h = new Handler();
+                int delay = 4 * 100;
+                int i = 0;
+                MarkerOptions driverMarker = new MarkerOptions().position(path.get(i)).title("Chofer");
+                driverMarker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_dog_car, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
+
+                Marker driver = googleMap.addMarker(driverMarker);
+
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 40));
+//                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 40));
+
+            }
+
+            @Override
+            public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+
+            }
+        });
+
         mMap = googleMap;
 
 
-        //MarkerOptions are used to create a new Marker.You can specify location, title etc with MarkerOptions
-        MarkerOptions markerOptions = new MarkerOptions().position(originLocation).title("Origen");
-
-        boolean success = googleMap.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(
-                        this, R.raw.style_json));
-
-        //Adding the created the marker on the map
-        //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
-        googleMap.addMarker(markerOptions);
-
-        MarkerOptions destinyMarkerOptions = new MarkerOptions().position(destinynLocation).title("Destino");
-
-        //Adding the created the marker on the map
-        destinyMarkerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_marker, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
-        googleMap.addMarker(destinyMarkerOptions);
-
-
-        LatLngBounds.Builder bc = new LatLngBounds.Builder();
-
-
-        List<LatLng> path = getPath(originLocation, destinynLocation);
-        path.stream().forEach(pathPoint -> {
-            bc.include(pathPoint);
-        });
-        bc.include(destinynLocation).include(originLocation);
-        addPoly(path, mMap);
-
-
-
-
-        Handler h = new Handler();
-        int delay = 4 * 100;
-        int i = 0;
-        MarkerOptions driverMarker = new MarkerOptions().position(path.get(i)).title("Chofer");
-        driverMarker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_dog_car, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
-
-        Marker driver = googleMap.addMarker(driverMarker);
-
-        Iterator<LatLng> iter = path.iterator();
-        h.postDelayed(new Runnable(){
-            public void run(){
-
-                if(!iter.hasNext()) {
-                    Intent navigationIntent = new Intent(SeguimientoActivity.this, RateTripDriverActivity.class);
-
-
-                    Bundle bundle = new Bundle();
-
-                    if (originLocation != null)
-                        bundle.putParcelable("lc_origin", originLocation);
-                    if (destinynLocation != null)
-                        bundle.putParcelable("lc_dest", destinynLocation);
-                    bundle.putLong("tripId", tripId);
-                    bundle.putLong("driverId", driverId);
-
-
-                    navigationIntent.putExtra("bundle", bundle );
-
-                    startActivity(navigationIntent);
-                    finish();
-                } else {
-                    driver.setPosition(iter.next());
-
-                    h.postDelayed(this, delay);
-
-                }
-            }
-        }, delay);
-
-
-
-
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 40));
 
 
 
@@ -217,7 +248,7 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
                 if (grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED) {
                     fetchLastLocation();
                 } else {
-                    Toast.makeText(SeguimientoActivity.this, "Location permission missing", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StartTripDriverActivity.this, "Location permission missing", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

@@ -3,7 +3,9 @@ package com.fiuba.tdpii.correapp.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
@@ -34,6 +36,8 @@ public class DriverProfileActivity extends AppCompatActivity {
     private TextView antiguedad;
 
 
+    private Button asignaciones;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class DriverProfileActivity extends AppCompatActivity {
         viajesRealizados = findViewById(R.id.viajes_realizados);
         antiguedad = findViewById(R.id.antiguedad);
 
-
+        asignaciones = findViewById(R.id.listado_viajes);
 
 
 
@@ -106,6 +110,14 @@ public class DriverProfileActivity extends AppCompatActivity {
             }
         });
 
+        asignaciones.setOnClickListener(v -> {
 
+            Intent navigationIntent = new Intent(DriverProfileActivity.this, ChoferActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putLong("driverId", driverId );
+            navigationIntent.putExtra("bundle", bundle);
+            startActivity(navigationIntent);
+
+        });
     }
 }

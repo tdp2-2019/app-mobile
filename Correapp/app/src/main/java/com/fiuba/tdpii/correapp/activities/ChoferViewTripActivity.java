@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.Pet;
 import com.fiuba.tdpii.correapp.models.web.PutTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
@@ -37,6 +38,8 @@ import retrofit2.Response;
 public class ChoferViewTripActivity extends AppCompatActivity {
 
     private Long tripId;
+    private Long driverId;
+
     private Bundle bundle;
     private TripService tripService;
 
@@ -44,6 +47,9 @@ public class ChoferViewTripActivity extends AppCompatActivity {
     private ImageView imagenPerfil;
     private TextView duracion;
     private TextView mascotas;
+    private TextView mascotasDetalle;
+    private TextView mascotasNombres;
+
     private TextView reserva;
     private TextView destino;
     private TextView origen;
@@ -71,12 +77,17 @@ public class ChoferViewTripActivity extends AppCompatActivity {
         destino = findViewById(R.id.destino);
         origen = findViewById(R.id.origen);
 
+        mascotasDetalle = findViewById(R.id.mascotas_detalle_1_descripcion);
+        mascotasNombres = findViewById(R.id.mascotas_detalle_1_nombre);
+
+
         aceptar = findViewById(R.id.confirm);
         rechazar = findViewById(R.id.rechazar);
 
         bundle = getIntent().getParcelableExtra("bundle");
 
-        tripId = bundle.getLong("id");
+        tripId = bundle.getLong("tripId");
+        driverId = bundle.getLong("driverId");
 
         backArrow = findViewById(R.id.back_arrow);
         backArrow.setOnClickListener(new View.OnClickListener() {
@@ -94,15 +105,47 @@ public class ChoferViewTripActivity extends AppCompatActivity {
 
                 nombre.setText(trip.getClient());
                 duracion.setText(Integer.valueOf(Double.valueOf(trip.getDuration()/60).intValue()).toString() + " minutos");
-                mascotas.setText(trip.getPets().get(0).toString());
-                Date startDate = new Date(trip.getStartTime());
+                if (trip.getPets().size() == 1){
+                    mascotas.setText("1 mascota");
+                } else {
+                    mascotas.setText(trip.getPets().size()  + " mascotas");
+                }
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(startDate);
-                String dateStr = "El " + calendar.get(Calendar.DAY_OF_MONTH) + " de " + theMonth(calendar.get(Calendar.MONTH));
+                String detalle = "";
 
-                reserva.setText(dateStr);
+                for(Pet pet : trip.getPets()){
+                    detalle = detalle + pet.getKey2();
+                }
 
+                mascotasDetalle.setText(detalle);
+
+                String nombres = "";
+
+                if (trip.getPets().size() == 1) {
+                    nombres = "Responde al nombre de " + trip.getPets().get(0).getKey1();
+                } else if  (trip.getPets().size() == 2){
+
+                    nombres = "Responden a los nombres de ";
+                    nombres = nombres + trip.getPets().get(0).getKey1()  + " y " + trip.getPets().get(1).getKey1() ;
+
+                } else {
+                    nombres = "Responden a los nombres de ";
+                    nombres = nombres + trip.getPets().get(0).getKey1() + ", " + trip.getPets().get(1).getKey1() + " y " + trip.getPets().get(2).getKey1();
+                }
+
+                mascotasNombres.setText(nombres);
+
+                try {
+                    Date startDate = new Date(trip.getStartTime());
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(startDate);
+                    String dateStr = "El " + calendar.get(Calendar.DAY_OF_MONTH) + " de " + theMonth(calendar.get(Calendar.MONTH));
+
+                    reserva.setText(dateStr);
+                } catch (Exception e){
+                    reserva.setText("El día de hoy");
+                }
                 LatLng dest = new LatLng(Double.valueOf(trip.getDestination().getLat()), Double.valueOf(trip.getDestination().getLong() ));
                 destLoc = dest;
 
@@ -130,7 +173,8 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 Intent navigationIntent = new Intent(ChoferViewTripActivity.this, RechazarActivity.class);
                 Bundle bundle = new Bundle();
 
-                bundle.putLong("id", tripId);
+                bundle.putLong("tripId", tripId);
+                bundle.putLong("driverId",driverId );
 
                 navigationIntent.putExtra("bundle", bundle);
                 startActivity(navigationIntent);
@@ -142,7 +186,8 @@ public class ChoferViewTripActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 TripPutRequest putBody = new TripPutRequest();
-                putBody.setDriverId("1");
+                putBody.setDriverId(driverId.toString());
+                putBody.setStatus("accepted");
 
                 tripService.updateDriver(putBody, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
                     @Override
@@ -150,9 +195,10 @@ public class ChoferViewTripActivity extends AppCompatActivity {
 
                         response.body();
 
-                        bundle.putLong("id",tripId );
+                        bundle.putLong("tripId",tripId );
+                        bundle.putLong("driverId",driverId );
 
-                        Intent navigationIntent = new Intent(ChoferViewTripActivity.this, ChoferSeguimiento.class);
+                        Intent navigationIntent = new Intent(ChoferViewTripActivity.this, StartTripDriverActivity.class);
 
                         navigationIntent.putExtra("bundle", bundle );
                         startActivity(navigationIntent);

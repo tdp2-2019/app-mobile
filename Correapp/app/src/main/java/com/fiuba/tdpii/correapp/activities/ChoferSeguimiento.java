@@ -72,6 +72,7 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
 
     private Bundle bundle;
     private Long tripId;
+    private Long driverId;
 
     private TripService tripService;
 
@@ -89,7 +90,8 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
 
         bundle = getIntent().getParcelableExtra("bundle");
     
-        tripId = bundle.getLong("id");
+        tripId = bundle.getLong("tripId");
+        driverId = bundle.getLong("driverId");
 
         tripService = new TripService();
 
@@ -183,7 +185,12 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
                         if(!iter.hasNext()){
                             Intent navigationIntent = new Intent(ChoferSeguimiento.this, RateTripClientActivity.class);
 
-                            //TODO aca van datos del viaje
+                            Bundle bundle = new Bundle();
+
+                            bundle.putLong("tripId",tripId );
+                            bundle.putLong("driverId",driverId );
+
+                            navigationIntent.putExtra("bundle",bundle );
                             startActivity(navigationIntent);
                             finish();
                         } else {

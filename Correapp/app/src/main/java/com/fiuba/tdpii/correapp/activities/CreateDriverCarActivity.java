@@ -122,7 +122,7 @@ public class CreateDriverCarActivity extends AppCompatActivity {
 
                     response.body();
                     Long driverId = response.body().getId();
-                    Toast.makeText(CreateDriverCarActivity.this, driverId.toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(CreateDriverCarActivity.this, driverId.toString(), Toast.LENGTH_SHORT).show();
 
 
                     Intent navigationIntent = new Intent(CreateDriverCarActivity.this, DriverProfileActivity.class);
@@ -140,43 +140,6 @@ public class CreateDriverCarActivity extends AppCompatActivity {
                 }
             });
 
-
-
-
-
-
-
-//
-//            Intent navigationIntent = new Intent(CreateDriverActivity.this, CreateDriverCarActivity.class);
-//            Bundle bundle = new Bundle();
-//
-////
-////                bundle.putBoolean("viajar_ahora", tripNow);
-////
-////                bundle.putParcelable("pet_1", mascota1);
-////                bundle.putParcelable("pet_2", mascota2);
-////                bundle.putParcelable("pet_3", mascota3);
-////
-////
-////                bundle.putLong("id", tripId);
-//
-//            bundle.putString("dni",  dni.getText().toString());
-//            bundle.putString("nombre",  nombre.getText().toString());
-//            bundle.putString("apellido",  apellido.getText().toString());
-//            bundle.putString("userName",  userName.getText().toString());
-//            bundle.putString("email",  emailView.getText().toString());
-//
-//            bundle.putString("cel",  cel.getText().toString());
-//
-//            bundle.putString("tel",  tel.getText().toString());
-//
-//            bundle.putString("direccion",  direccion.getText().toString());
-//
-//            bundle.putString("nombre",  nombre.getText().toString());
-//            bundle.putParcelable("currentPosition", currentPosition);
-//
-//            navigationIntent.putExtra("bundle", bundle);
-//            startActivity(navigationIntent);
 
         });
 
