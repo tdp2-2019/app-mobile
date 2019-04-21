@@ -21,15 +21,31 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="16dp" />
 
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="452dp"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:text="¿Qué usuario sos?"
+        android:textColor="#000"
+        android:textSize="30sp"
+        android:textStyle="normal"
+        android:backgroundTint="@color/black_overlay"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
     <Button
         android:id="@+id/client"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="324dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="#6892E9"
-        android:text="Quiero un viaje"
+        android:text="CLiente"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fullscreen_content"
@@ -41,8 +57,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
         android:layout_marginTop="324dp"
-        android:backgroundTint="@color/black_overlay"
-        android:text="Quiero llevar"
+        android:backgroundTint="#6892E9"
+        android:text="Chofer"
         app:layout_constraintStart_toEndOf="@+id/client"
         app:layout_constraintTop_toBottomOf="@+id/fullscreen_content" />
 

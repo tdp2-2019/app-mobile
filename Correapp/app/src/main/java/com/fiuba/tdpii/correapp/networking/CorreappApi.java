@@ -6,6 +6,7 @@ import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrips;
 import com.fiuba.tdpii.correapp.models.web.TripPost;
 import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
+import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
 
 import java.util.List;
 
@@ -33,6 +34,12 @@ public interface CorreappApi {
     Call<SerializedTripPostResponse> putDriver(@Path("id") String id, @Body TripPutRequest tripPut);
 
 
+    @POST("/drivers")
+    Call<DriverPost> createDriver(@Header("Content-Type") String content_type, @Body DriverPost driverSerializedPost);
+
+
+    @GET("/drivers/{id}")
+    Call<DriverPost> getDriverById(@Path("id") String id);
 
 //        @POST("/personal_medicine_reminder")
 //        Call<Void> createPill(@Header("Authorization") String accessToken, @Header("Content-Type") String content_type, @Body PillSerialized pillSerialized);
