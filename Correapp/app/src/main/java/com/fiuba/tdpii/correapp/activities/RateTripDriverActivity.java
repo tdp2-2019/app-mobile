@@ -11,6 +11,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.DriverRating;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.TripDriverRatingRequest;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
@@ -65,7 +66,9 @@ public class RateTripDriverActivity extends AppCompatActivity {
                 boolean improveCar = switchMaterialCar.isChecked();
 
                 TripDriverRatingRequest request = new TripDriverRatingRequest();
-                request.setDriverRating(ratingValue.doubleValue());
+                DriverRating rating = new DriverRating();
+                rating.setRating(ratingValue.longValue());
+                request.setDriverRating(rating);
                 tripService.rateDriver(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
                     @Override
                     public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {

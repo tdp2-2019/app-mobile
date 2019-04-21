@@ -4,19 +4,15 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class TripDriverRatingRequest {
-
-
     @SerializedName("driver_rating")
     @Expose
-    private Double driverRating;
+    private DriverRating driverRating;
 
-
-    public Double getDriverRating() {
+    public DriverRating getDriverRating() {
         return driverRating;
     }
 
-    public void setDriverRating(Double driverRating) {
+    public void setDriverRating(DriverRating driverRating) {
         this.driverRating = driverRating;
     }
-
 }
