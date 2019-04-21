@@ -14,6 +14,13 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
+import com.fiuba.tdpii.correapp.models.web.TripPutClientRatingRequest;
+import com.fiuba.tdpii.correapp.services.trips.TripService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RateTripClientActivity extends AppCompatActivity {
 
@@ -32,11 +39,14 @@ public class RateTripClientActivity extends AppCompatActivity {
     private Long tripId;
     private Long driverId;
 
+    private TripService tripService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_trip_driver);
 
+        tripService = new TripService();
 
         bundle = getIntent().getParcelableExtra("bundle");
 
@@ -62,20 +72,27 @@ public class RateTripClientActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                int rating = ratingBar.getNumStars();
+                Float ratingValue = ratingBar.getRating();
                 boolean isClientGood = !switchMaterial.isChecked();
                 String comment = textInputComment.getText().toString();
 
+                TripPutClientRatingRequest request = new TripPutClientRatingRequest();
+                request.setUserRating(ratingValue.doubleValue());
+                tripService.rateClient(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
+                    @Override
+                    public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong("driverId",driverId );
+                        Intent navigationIntent = new Intent(RateTripClientActivity.this, DriverProfileActivity.class);
+                        navigationIntent.putExtra("bundle", bundle );
+                        startActivity(navigationIntent);
+                    }
 
+                    @Override
+                    public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
 
-                Bundle bundle = new Bundle();
-
-                bundle.putLong("driverId",driverId );
-
-                Intent navigationIntent = new Intent(RateTripClientActivity.this, DriverProfileActivity.class);
-
-                navigationIntent.putExtra("bundle", bundle );
-                startActivity(navigationIntent);
+                    }
+                });
             }
         });
     }
