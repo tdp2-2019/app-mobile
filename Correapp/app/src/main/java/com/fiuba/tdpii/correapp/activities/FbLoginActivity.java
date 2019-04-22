@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -67,6 +69,8 @@ public class FbLoginActivity extends AppCompatActivity {
     private DriverService driverService;
 
 
+    private Button continueButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +83,23 @@ public class FbLoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_fb_login);
 
+        continueButton = findViewById(R.id.login_button2);
+        continueButton.setVisibility(View.GONE);
+
+
         final AccessToken[] accessToken = {AccessToken.getCurrentAccessToken()};
         boolean isLoggedIn = accessToken[0] != null && !accessToken[0].isExpired();
 
+
+
         if (isLoggedIn) {
-            setFacebookData(accessToken[0]);
+            continueButton.setVisibility(View.VISIBLE);
+            continueButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setFacebookData(accessToken[0]);
+                }
+            });
         }
 
         callbackManager = CallbackManager.Factory.create();
