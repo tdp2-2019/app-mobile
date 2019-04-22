@@ -186,6 +186,43 @@
                     android:layout_height="wrap_content"
                     android:text="Responde al nombre de Manuel"
                     android:textColor="@color/black_overlay" />
+
+                <TextView
+                    android:id="@+id/mascotas_detalle_2_descripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Perro mediano"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:textSize="16dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/mascotas_detalle_2_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Responde al nombre de Manuel"
+                    android:visibility="gone"
+                    android:textColor="@color/black_overlay" />
+
+                <TextView
+                    android:id="@+id/mascotas_detalle_3_descripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Perro mediano"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:textSize="16dp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/mascotas_detalle_3_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Responde al nombre de Manuel"
+                    android:visibility="gone"
+                    android:textColor="@color/black_overlay" />
+
             </LinearLayout>
 
         </LinearLayout>
