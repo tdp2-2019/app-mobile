@@ -7,7 +7,8 @@
     <string name="title_activity_show_route">Map</string>
     <string name="title_activity_create_trip">CreateTrip</string>
 
-    <string-array name="spinnerItems">
+    <string-array name="items_tipos_de_mascotas">
+        <item>Tipo de mascota</item>
         <item>Perro</item>
         <item>Gato</item>
         <item>Pajaro</item>
@@ -18,7 +19,8 @@
         <item>Serpiente</item>
     </string-array>
 
-    <string-array name="tam_items">
+    <string-array name="items_tamano_mascotas">
+        <item>Tamaño</item>
         <item>Chico</item>
         <item>Mediano</item>
         <item>Grande</item>

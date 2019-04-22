@@ -99,6 +99,21 @@ public class AddPetActivity  extends AppCompatActivity {
                     Toast.makeText(AddPetActivity.this, "Te olvidaste el nombre de tu mascota" , Toast.LENGTH_LONG).show();
                     return;
                 }
+                if (nombre.getText().toString().isEmpty()) {
+                    Toast.makeText(AddPetActivity.this, "Te olvidaste el nombre de tu mascota", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (tipo.getSelectedItem().toString().compareTo("Tipo de mascota") == 0) {
+                    Toast.makeText(AddPetActivity.this, "Te olvidaste el tipo de tu mascota", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (size.getSelectedItem().toString().compareTo("Tamaño") == 0) {
+                    Toast.makeText(AddPetActivity.this, "Te olvidaste el tamaño", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 if(pet1 == null){
                     pet1 = new PetLocal();
                     pet1.nombre = nombre.getText().toString();

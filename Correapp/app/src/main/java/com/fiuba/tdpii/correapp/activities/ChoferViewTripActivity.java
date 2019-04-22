@@ -45,6 +45,7 @@ public class ChoferViewTripActivity extends AppCompatActivity {
     private Bundle bundle;
     private TripService tripService;
 
+    private TextView titulo;
     private TextView nombre;
     private ImageView imagenPerfil;
     private TextView duracion;
@@ -71,6 +72,7 @@ public class ChoferViewTripActivity extends AppCompatActivity {
 
         tripService = new TripService();
 
+        titulo = findViewById(R.id.title);
         nombre = findViewById(R.id.nombre);
         imagenPerfil = findViewById(R.id.imagen_perfil);
         duracion = findViewById(R.id.duracion);
@@ -150,10 +152,12 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                     String dateStr = "El " + calendar.get(Calendar.DAY_OF_MONTH) + " de " + theMonth(calendar.get(Calendar.MONTH));
 
                     reserva.setText(dateStr);
+                    titulo.setText("Nueva reserva disponible");
                 } catch (Exception e){
                     reserva.setText("El día de hoy");
                     LinearLayout reservaLayout = findViewById(R.id.reserva_layout);
                     reservaLayout.setVisibility(View.GONE);
+                    titulo.setText("Nuevo viaje disponible");
                 }
                 LatLng dest = new LatLng(Double.valueOf(trip.getDestination().getLat()), Double.valueOf(trip.getDestination().getLong() ));
                 destLoc = dest;

@@ -191,7 +191,7 @@
         android:id="@+id/confirm"
         android:layout_width="match_parent"
         style="@style/AppButton"
-        android:text="Reservar"
+        android:text="Viajar"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <ProgressBar
