@@ -153,30 +153,30 @@ public class ClientDriverProfileActivity extends AppCompatActivity {
 
             }
         });
-
-        tripService.getTrips().enqueue(new Callback<List<SerializedTripPostResponse>>() {
-            @Override
-            public void onResponse(Call<List<SerializedTripPostResponse>> call, Response<List<SerializedTripPostResponse>> response) {
-
-                List<SerializedTripPostResponse> tripResponseArrayList = response.body();
-
-                Integer cantidadDeViajes = 0;
-                for (SerializedTripPostResponse trip : tripResponseArrayList) {
-                    if (trip.getStatus().equals("finished") && trip.getDriverId().equals(driverId)) {
-                        cantidadDeViajes++;
-                    }
-                }
-
-                String viajesRealizadosStr = cantidadDeViajes + " viajes realizados";
-                viajesRealizados.setText(viajesRealizadosStr);
-
-            }
-
-            @Override
-            public void onFailure(Call<List<SerializedTripPostResponse>> call, Throwable t) {
-
-            }
-        });
+//
+//        tripService.getTrips().enqueue(new Callback<List<SerializedTripPostResponse>>() {
+//            @Override
+//            public void onResponse(Call<List<SerializedTripPostResponse>> call, Response<List<SerializedTripPostResponse>> response) {
+//
+//                List<SerializedTripPostResponse> tripResponseArrayList = response.body();
+//
+//                Integer cantidadDeViajes = 0;
+//                for (SerializedTripPostResponse trip : tripResponseArrayList) {
+//                    if (trip.getStatus().equals("finished") && trip.getDriverId().equals(driverId)) {
+//                        cantidadDeViajes++;
+//                    }
+//                }
+//
+//                String viajesRealizadosStr = cantidadDeViajes + " viajes realizados";
+//                viajesRealizados.setText(viajesRealizadosStr);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<SerializedTripPostResponse>> call, Throwable t) {
+//
+//            }
+//        });
 
 
 //        //Esperando status started
@@ -222,7 +222,33 @@ public class ClientDriverProfileActivity extends AppCompatActivity {
 //        };
 //
 //        handler.postDelayed(runnableCode, 2000);
+        tripService.getTripsDoneByDriver(driverId.toString()).enqueue(new Callback<List<SerializedTripPostResponse>>() {
 
+            @Override
+            public void onResponse(Call<List<SerializedTripPostResponse>> call, Response<List<SerializedTripPostResponse>> response) {
+
+                if (response.code() == 404) {
+
+                    String viajesRealizadosDriver = "0";
+                    String viajesRealizadosStr = viajesRealizadosDriver + " viajes realizados";
+                    viajesRealizados.setText(viajesRealizadosStr);
+                } else {
+                    List<SerializedTripPostResponse> trips = response.body();
+                    String viajesRealizadosDriver = String.valueOf(trips.size());
+                    String viajesRealizadosStr = viajesRealizadosDriver + " viajes realizados";
+                    viajesRealizados.setText(viajesRealizadosStr);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<SerializedTripPostResponse>> call, Throwable t) {
+
+                String viajesRealizadosDriver = "0";
+                String viajesRealizadosStr = viajesRealizadosDriver + " viajes realizados";
+                viajesRealizados.setText(viajesRealizadosStr);
+            }
+        });
 
     }
 
