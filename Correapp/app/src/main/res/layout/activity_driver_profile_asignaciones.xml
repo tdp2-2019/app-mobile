@@ -218,7 +218,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="Ver viajes asignados"
+        android:text="Ver viajes disponibles"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 
