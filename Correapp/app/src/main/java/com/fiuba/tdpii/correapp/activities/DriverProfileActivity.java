@@ -99,7 +99,7 @@ public class DriverProfileActivity extends AppCompatActivity {
                 String autoStr = driver.getBrand() + " " + driver.getModel() + " " + driver.getCarcolour();
                 auto.setText(autoStr);
 
-                String ratingDriver = driver.getRating() != null ? driver.getRating().toString() : "3.0";
+                String ratingDriver = driver.getRating() != null ? String.format("%.3f", driver.getRating()) : "3.0";
                 String puntajeStr = "Puntaje " + ratingDriver;
                 puntaje.setText(puntajeStr);
 

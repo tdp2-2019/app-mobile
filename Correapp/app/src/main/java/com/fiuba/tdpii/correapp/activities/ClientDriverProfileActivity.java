@@ -49,7 +49,7 @@ public class ClientDriverProfileActivity extends AppCompatActivity {
     private Long driverId;
     private Long tripId;
 
-    private CountDownTimer timer = new CountDownTimer(300000, 3000) {
+    private CountDownTimer timer = new CountDownTimer(30000000, 3000) {
 
         @Override
         public void onTick(long millisUntilFinished) {
@@ -111,7 +111,7 @@ public class ClientDriverProfileActivity extends AppCompatActivity {
                 String autoStr = driver.getBrand() + " " + driver.getModel() + " " + driver.getCarcolour();
                 auto.setText(autoStr);
 
-                String ratingDriver = driver.getRating() != null ? driver.getRating().toString() : "3.0";
+                String ratingDriver = driver.getRating() != null ? String.format("%.3f", driver.getRating()) : "3.0";
                 String puntajeStr = "Puntaje " + ratingDriver;
                 puntaje.setText(puntajeStr);
 

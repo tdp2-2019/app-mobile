@@ -134,8 +134,10 @@ public class FbLoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 // App code
                 accessToken[0] = loginResult.getAccessToken();
-                setFacebookData(accessToken[0]);
-
+                boolean isLoggedIn = accessToken[0] != null && !accessToken[0].isExpired();
+                if (isLoggedIn) {
+                    setFacebookData(accessToken[0]);
+                }
             }
 
 

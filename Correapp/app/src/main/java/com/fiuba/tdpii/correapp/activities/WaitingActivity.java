@@ -80,7 +80,7 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
     private Long tripId;
 
     private ImageView backArrow;
-    private CountDownTimer timer = new CountDownTimer(300000, 3000) {
+    private CountDownTimer timer = new CountDownTimer(30000000, 3000) {
 
         @Override
         public void onTick(long millisUntilFinished) {
@@ -111,15 +111,6 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
         }
         fetchLastLocation();
 
-        Button cancel = findViewById(R.id.cancelar);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent backIntent = new Intent(WaitingActivity.this, MapHomeActivity.class);
-                startActivity(backIntent);
-                finish();
-            }
-        });
 
         bundle = getIntent().getParcelableExtra("bundle");
         if (bundle != null) {
@@ -128,25 +119,6 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
             tripId = bundle.getLong("id");
         }
 
-        Button sim = findViewById(R.id.simular);
-        sim.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);
-                Bundle bundle = new Bundle();
-
-                if (originLocation != null)
-                    bundle.putParcelable("lc_origin", originLocation);
-                if (destinynLocation != null)
-                    bundle.putParcelable("lc_dest", destinynLocation);
-
-
-                navigationIntent.putExtra("bundle", bundle);
-                startActivity(navigationIntent);
-
-            }
-        });
 
         backArrow = findViewById(R.id.back_arrow);
         backArrow.setOnClickListener(new View.OnClickListener() {
@@ -155,8 +127,6 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
                 onBackPressed();
             }
         });
-
-
 
     }
 
