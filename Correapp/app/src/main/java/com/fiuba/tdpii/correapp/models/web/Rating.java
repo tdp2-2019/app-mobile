@@ -3,7 +3,7 @@ package com.fiuba.tdpii.correapp.models.web;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DriverRating {
+public class Rating {
 
         @SerializedName("rating")
         @Expose

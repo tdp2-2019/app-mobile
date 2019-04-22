@@ -7,15 +7,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.Rating;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
-import com.fiuba.tdpii.correapp.models.web.TripPutClientRatingRequest;
+import com.fiuba.tdpii.correapp.models.web.TripClientRatingRequest;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
 
 import retrofit2.Call;
@@ -76,8 +76,11 @@ public class RateTripClientActivity extends AppCompatActivity {
                 boolean isClientGood = !switchMaterial.isChecked();
                 String comment = textInputComment.getText().toString();
 
-                TripPutClientRatingRequest request = new TripPutClientRatingRequest();
-                request.setUserRating(ratingValue.doubleValue());
+                TripClientRatingRequest request = new TripClientRatingRequest();
+                Rating rating = new Rating();
+                rating.setRating(ratingValue.longValue());
+                rating.setComment(comment);
+                request.setRating(rating);
                 tripService.rateClient(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
                     @Override
                     public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
