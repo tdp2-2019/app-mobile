@@ -38,9 +38,8 @@
         android:id="@+id/empezar"
         style="@style/AppButton"
         android:layout_width="match_parent"
-        android:layout_marginBottom="36dp"
+        android:layout_height="wrap_content"
         android:text="Empezar viaje"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="20dp" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

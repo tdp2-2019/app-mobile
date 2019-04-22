@@ -40,6 +40,7 @@
     <Button
         android:id="@+id/cancelar"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/simular"
         style="@style/AppButton"
         android:text="Cancelar viaje" />
@@ -47,6 +48,7 @@
     <Button
         android:id="@+id/simular"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         style="@style/AppButton"
         android:text="Simular viaje" />
