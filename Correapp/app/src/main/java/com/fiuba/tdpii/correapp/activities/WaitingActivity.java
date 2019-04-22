@@ -184,6 +184,14 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
                                     if(response.body().size() >= 3){
                                         Intent navigationIntent = new Intent(WaitingActivity.this, TripTooManyRejectsActivity.class);
                                         timer.cancel();
+
+                                        Bundle bundle = new Bundle();
+
+
+                                        bundle.putLong("tripId", tripId);
+
+                                        navigationIntent.putExtra("bundle", bundle);
+
                                         startActivity(navigationIntent);
                                     }
                                 }
