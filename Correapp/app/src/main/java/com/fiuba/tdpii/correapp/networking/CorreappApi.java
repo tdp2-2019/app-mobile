@@ -1,5 +1,6 @@
 package com.fiuba.tdpii.correapp.networking;
 
+import com.fiuba.tdpii.correapp.models.web.DriversByTrip;
 import com.fiuba.tdpii.correapp.models.web.PutTrip;
 import com.fiuba.tdpii.correapp.models.web.Rejected;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
@@ -69,18 +70,8 @@ public interface CorreappApi {
     @GET("/trips/{id}/rejects")
     Call<List<Rejected>> getRejectedByTrips(@Path("id") String tripId);
 
-//        @POST("/personal_medicine_reminder")
-//        Call<Void> createPill(@Header("Authorization") String accessToken, @Header("Content-Type") String content_type, @Body PillSerialized pillSerialized);
-//
-//        @GET("/personal_medicine_reminder")
-//        Call<ArrayList<PillResponse>> getPillsForToday(@Header("Authorization") String accessToken);
-//
-//        //TODO
-//        @PUT("/personal_medicine_reminder")
-//        Call<Void> drinkedPill(@Header("Authorization") String accessToken, @Path("id") String id);
-//
-//        @POST("/users/sessions")
-//        Call<UserSession> createUserSession(@Body UserSessionRequest sessionRequest);
+    @GET("/trips/{id}/drivers")
+    Call<List<DriversByTrip>> getDriversByTrip(@Path("id") String tripId);
 
 }
 
