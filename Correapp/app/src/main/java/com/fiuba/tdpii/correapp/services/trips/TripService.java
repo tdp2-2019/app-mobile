@@ -1,17 +1,12 @@
 package com.fiuba.tdpii.correapp.services.trips;
 
-import com.fiuba.tdpii.correapp.models.web.PutTrip;
-import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
-import com.fiuba.tdpii.correapp.models.web.SerializedTrips;
 import com.fiuba.tdpii.correapp.models.web.StartTripPutRequest;
+import com.fiuba.tdpii.correapp.models.web.TripClientRatingRequest;
 import com.fiuba.tdpii.correapp.models.web.TripDriverRatingRequest;
 import com.fiuba.tdpii.correapp.models.web.TripPost;
-import com.fiuba.tdpii.correapp.models.web.TripPutClientRatingRequest;
 import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
 import com.fiuba.tdpii.correapp.models.web.TripRejectionRequest;
-import com.fiuba.tdpii.correapp.models.web.TripResponse;
-import com.fiuba.tdpii.correapp.models.web.TripSerialized;
 import com.fiuba.tdpii.correapp.networking.ApiClient;
 import com.fiuba.tdpii.correapp.networking.CorreappApi;
 
@@ -59,7 +54,7 @@ public class TripService {
         return coreAPI.putDriverRating(tripId, body);
     }
 
-    public Call<SerializedTripPostResponse> rateClient(TripPutClientRatingRequest body, String tripId) {
+    public Call<SerializedTripPostResponse> rateClient(TripClientRatingRequest body, String tripId) {
         return coreAPI.putClientRating(tripId, body);
     }
 

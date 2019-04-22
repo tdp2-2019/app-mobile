@@ -6,13 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
-import com.fiuba.tdpii.correapp.models.web.DriverRating;
+import com.fiuba.tdpii.correapp.models.web.Rating;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.TripDriverRatingRequest;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
@@ -66,10 +65,10 @@ public class RateTripDriverActivity extends AppCompatActivity {
                 String comment = textInputComment.getText().toString();
 
                 TripDriverRatingRequest request = new TripDriverRatingRequest();
-                DriverRating rating = new DriverRating();
+                Rating rating = new Rating();
                 rating.setRating(ratingValue.longValue());
                 rating.setComment(comment);
-                request.setDriverRating(rating);
+                request.setRating(rating);
                 tripService.rateDriver(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
                     @Override
                     public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
