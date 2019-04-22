@@ -64,7 +64,6 @@ public class FbLoginActivity extends AppCompatActivity {
     private String email;
     private String firstName;
     private String lastName;
-    private String birthday;
     private Uri profileUrl;
     private DriverService driverService;
 
@@ -91,13 +90,15 @@ public class FbLoginActivity extends AppCompatActivity {
         boolean isLoggedIn = accessToken[0] != null && !accessToken[0].isExpired();
 
 
-
         if (isLoggedIn) {
             continueButton.setVisibility(View.VISIBLE);
             continueButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setFacebookData(accessToken[0]);
+                    boolean isLoggedIn = accessToken[0] != null && !accessToken[0].isExpired();
+                    if (isLoggedIn) {
+                        setFacebookData(accessToken[0]);
+                    }
                 }
             });
         }
@@ -137,10 +138,11 @@ public class FbLoginActivity extends AppCompatActivity {
 
             }
 
+
             @Override
             public void onCancel() {
                 // App code
-
+                System.out.print("ln");
             }
 
             @Override
@@ -233,7 +235,7 @@ public class FbLoginActivity extends AppCompatActivity {
                     }
                 });
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,email,first_name,last_name,address,birthday");
+        parameters.putString("fields", "id,email,first_name,last_name");
         request.setParameters(parameters);
         request.executeAsync();
     }
