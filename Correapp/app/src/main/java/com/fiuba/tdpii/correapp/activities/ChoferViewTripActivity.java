@@ -57,7 +57,6 @@ public class ChoferViewTripActivity extends AppCompatActivity {
     private TextView destino;
     private TextView origen;
 
-    private ImageView backArrow;
 
     private Button aceptar;
     private Button rechazar;
@@ -92,13 +91,6 @@ public class ChoferViewTripActivity extends AppCompatActivity {
         tripId = bundle.getLong("tripId");
         driverId = bundle.getLong("driverId");
 
-        backArrow = findViewById(R.id.back_arrow);
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
         tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
             @Override
@@ -111,10 +103,11 @@ public class ChoferViewTripActivity extends AppCompatActivity {
 
 
                 Long duracionTrip = trip.getDuration();
-                if(duracionTrip < 60){
-                    duracion.setText(duracionTrip + " minutos");
+                Long min = duracionTrip / 60;
+                if(min < 60){
+                    duracion.setText(min + " minutos");
                 } else {
-                    Long min = duracionTrip / 60;
+
                     Long hs = min / 60;
                     min = min % 60;
                     duracion.setText(hs.toString() + ":" + min.toString() + " hs");

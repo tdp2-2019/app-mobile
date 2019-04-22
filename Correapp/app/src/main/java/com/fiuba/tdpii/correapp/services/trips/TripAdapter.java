@@ -41,11 +41,11 @@ public class TripAdapter extends ArrayAdapter<SerializedTripPostResponse> {
         TextView nameView = convertView.findViewById(R.id.nombre);
         nameView.setText(trip.getClient());
 
-        TextView dest = convertView.findViewById(R.id.id);
-        dest.setText(trip.getId().toString());
+        TextView id = convertView.findViewById(R.id.id);
+        id.setText(trip.getId().toString());
 
-
-
+        TextView dest = convertView.findViewById(R.id.destino);
+        dest.setText(trip.getDestination().getLat().substring(0, 6) + ", " +  trip.getDestination().getLong().substring(0, 6));
 
         return convertView;
     }
