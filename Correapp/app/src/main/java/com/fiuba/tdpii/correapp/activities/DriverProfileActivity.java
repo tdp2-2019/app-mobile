@@ -104,11 +104,6 @@ public class DriverProfileActivity extends AppCompatActivity {
                 puntaje.setText(puntajeStr);
 
 
-                String workTimeStr = driver.getStartworktime();
-//                Long workTime = Long.parseLong(workTimeStr);
-
-//                Date now = Calendar.getInstance().getTime();
-
                 String signUp = driver.getSignupDate().substring(0, 10);
 
                 //2019-04-22T00:00:00.000Z
