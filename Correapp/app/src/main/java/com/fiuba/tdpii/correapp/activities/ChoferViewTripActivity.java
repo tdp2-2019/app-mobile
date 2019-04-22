@@ -107,10 +107,20 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 SerializedTripPostResponse trip = response.body();
 
                 nombre.setText(trip.getClient());
-                Long min = trip.getDuration() / 60;
-                Long hs = min / 60;
-                min = min % 60;
-                duracion.setText(hs.toString() + ":" + min.toString() + " hs.");
+
+
+
+                Long duracionTrip = trip.getDuration();
+                if(duracionTrip < 60){
+                    duracion.setText(duracionTrip + " minutos");
+                } else {
+                    Long min = duracionTrip / 60;
+                    Long hs = min / 60;
+                    min = min % 60;
+                    duracion.setText(hs.toString() + ":" + min.toString() + " hs");
+                }
+
+
                 if (trip.getPets().size() == 1){
                     mascotas.setText("1 mascota");
                 } else {
@@ -258,5 +268,9 @@ public class ChoferViewTripActivity extends AppCompatActivity {
         return address != null ? address.getAddressLine(0) : "";
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 
 }
