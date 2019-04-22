@@ -67,6 +67,19 @@ public class DriverPost {
     @Expose
     private String photoUrl;
 
+    public String getSignupDate() {
+        return signupDate;
+    }
+
+    public void setSignupDate(String signupDate) {
+        this.signupDate = signupDate;
+    }
+
+    @SerializedName("signup_date")
+    @Expose
+    private String signupDate;
+
+
     public String getPhotoUrl() {
         return photoUrl;
     }

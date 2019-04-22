@@ -1,6 +1,7 @@
 package com.fiuba.tdpii.correapp.networking;
 
 import com.fiuba.tdpii.correapp.models.web.PutTrip;
+import com.fiuba.tdpii.correapp.models.web.Rejected;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrips;
@@ -22,6 +23,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface CorreappApi {
@@ -57,6 +59,15 @@ public interface CorreappApi {
 
     @PUT("/trips/{id}")
     Call<SerializedTripPostResponse> putClientRating(@Path("id") String tripId, @Body TripClientRatingRequest body);
+
+    @GET("/drivers")
+    Call<List<DriverPost>> getDriversByEmail(@Query("email") String email);
+
+    @GET("/trips")
+    Call<List<SerializedTripPostResponse>> getTripsDoneByDriver(@Query("driver_id") String driverId, @Query("status") String accepted);
+
+    @GET("/trips/{id}/rejects")
+    Call<List<Rejected>> getRejectedByTrips(@Path("id") String tripId);
 
 //        @POST("/personal_medicine_reminder")
 //        Call<Void> createPill(@Header("Authorization") String accessToken, @Header("Content-Type") String content_type, @Body PillSerialized pillSerialized);

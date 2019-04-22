@@ -164,7 +164,6 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 destino.setText(getAddress(dest));
                 origen.setText(getAddress(sourc));
 
-                System.out.print(response.body().getClient());
 
             }
 

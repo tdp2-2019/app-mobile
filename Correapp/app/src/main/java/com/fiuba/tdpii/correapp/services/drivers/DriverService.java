@@ -68,6 +68,10 @@ public class DriverService {
             return coreAPI.putDriver(tripId, body );
         }
 
+        public Call<List<DriverPost>> getDriversByEmail(String email){
+            return coreAPI.getDriversByEmail(email);
+        }
+
 
 //    public Call<ArrayList<TripResponse>> getTrips(final ApiClient delegate){
 //        coreAPI.getTrips().enqueue(new Callback<ArrayList<TripResponse>>() {

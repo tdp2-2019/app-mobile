@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.Rejected;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
@@ -200,13 +201,32 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
 //                        Toast.makeText(WaitingActivity.this, "Hago un gets2", Toast.LENGTH_SHORT).show();
 
 
-                        if(response.body().getRejecteds().size() >= 3){
-                            Intent navigationIntent = new Intent(WaitingActivity.this, TripTooManyRejectsActivity.class);
-                            timer.cancel();
-                            startActivity(navigationIntent);
-                        }
+                        tripService.getRejectedsByTrip(tripId.toString()).enqueue(new Callback<List<Rejected>>() {
+                            @Override
+                            public void onResponse(Call<List<Rejected>> call, Response<List<Rejected>> response) {
+                                List<Rejected> rejections = response.body();
 
-                        if (response.body().getDriverId() != null) {
+                                if(response.code()==404) {
+                                    System.out.print("he");
+                                } else {
+
+
+                                    if(response.body().size() >= 3){
+                                        Intent navigationIntent = new Intent(WaitingActivity.this, TripTooManyRejectsActivity.class);
+                                        timer.cancel();
+                                        startActivity(navigationIntent);
+                                    }
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<Rejected>> call, Throwable t) {
+
+                            }
+                        });
+
+                        if (response.body().getDriverId() != null && (response.body().getStatus().equals("accepted") || response.body().getStatus().equals("started"))) {
 
 //                            Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);
 
@@ -464,6 +484,12 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
 
         }
         return path;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
     }
 
 }

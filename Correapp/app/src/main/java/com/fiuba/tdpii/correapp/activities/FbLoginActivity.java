@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -29,6 +30,13 @@ import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
 import com.fiuba.tdpii.correapp.services.drivers.DriverService;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +44,11 @@ import org.json.JSONObject;
 import java.net.URI;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,7 +82,7 @@ public class FbLoginActivity extends AppCompatActivity {
         final AccessToken[] accessToken = {AccessToken.getCurrentAccessToken()};
         boolean isLoggedIn = accessToken[0] != null && !accessToken[0].isExpired();
 
-        if(isLoggedIn){
+        if (isLoggedIn) {
             setFacebookData(accessToken[0]);
         }
 
@@ -132,8 +144,7 @@ public class FbLoginActivity extends AppCompatActivity {
 
     }
 
-    private void setFacebookData(final AccessToken accessToken)
-    {
+    private void setFacebookData(final AccessToken accessToken) {
         GraphRequest request = GraphRequest.newMeRequest(
                 accessToken,
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -141,36 +152,64 @@ public class FbLoginActivity extends AppCompatActivity {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         // Application code
                         try {
-                            Log.i("Response",response.toString());
+                            Log.i("Response", response.toString());
 
                             email = response.getJSONObject().getString("email");
                             firstName = response.getJSONObject().getString("first_name");
                             lastName = response.getJSONObject().getString("last_name");
 
 
-
                             Profile profile = Profile.getCurrentProfile();
                             String link = profile.getLinkUri().toString();
-                            Log.i("Link",link);
-                            if (Profile.getCurrentProfile()!=null)
-                            {
+                            Log.i("Link", link);
+                            if (Profile.getCurrentProfile() != null) {
                                 Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
                                 profileUrl = Profile.getCurrentProfile().getProfilePictureUri(200, 200);
                             }
 
                             Log.i("Login" + "Email", email);
-                            Log.i("Login"+ "FirstName", firstName);
+                            Log.i("Login" + "FirstName", firstName);
                             Log.i("Login" + "LastName", lastName);
 
-                            Intent navigationIntent = new Intent(FbLoginActivity.this, CreateDriverActivity.class);
-                            Bundle bundle = new Bundle();
 
-                            bundle.putString("email", email);
-                            bundle.putString("firstname", firstName );
-                            bundle.putString("lastName", lastName );
-                            bundle.putString("picture",profileUrl.toString() );
-                            navigationIntent.putExtra("bundle", bundle );
-                            startActivity(navigationIntent);
+                            driverService.getDriversByEmail(email).enqueue(new Callback<List<DriverPost>>() {
+                                @Override
+                                public void onResponse(Call<List<DriverPost>> call, Response<List<DriverPost>> response) {
+
+
+                                    if (response.code() == 404) {
+                                        Intent navigationIntent = new Intent(FbLoginActivity.this, CreateDriverActivity.class);
+                                        Bundle bundle = new Bundle();
+
+                                        bundle.putString("email", email);
+                                        bundle.putString("firstname", firstName);
+                                        bundle.putString("lastName", lastName);
+                                        bundle.putString("picture", profileUrl.toString());
+                                        navigationIntent.putExtra("bundle", bundle);
+                                        startActivity(navigationIntent);
+                                    } else {
+
+
+                                        List<DriverPost> drivers = response.body();
+                                        DriverPost driver = drivers.get(0);
+
+                                        Long driverId = driver.getId();
+
+                                        Intent navigationIntent = new Intent(FbLoginActivity.this, DriverProfileActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong("driverId", driverId);
+                                        navigationIntent.putExtra("bundle", bundle);
+                                        startActivity(navigationIntent);
+
+                                    }
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<List<DriverPost>> call, Throwable t) {
+
+                                }
+                            });
 
                         } catch (JSONException e) {
                             e.printStackTrace();

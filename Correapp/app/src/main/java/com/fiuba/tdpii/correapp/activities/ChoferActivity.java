@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.Rejected;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrips;
@@ -80,10 +81,42 @@ public class ChoferActivity extends AppCompatActivity {
 
 
                 for (SerializedTripPostResponse trip : tripResponseArrayList) {
-                    tripsArray.add(trip);
+                    if(trip.getStatus() != null && trip.getStatus().equals("created") && trip.getDriverId() == null) {
+
+                        tripService.getRejectedsByTrip(trip.getId().toString()).enqueue(new Callback<List<Rejected>>() {
+
+                            @Override
+                            public void onResponse(Call<List<Rejected>> call, Response<List<Rejected>> response) {
+
+                                List<Rejected> rejections = response.body();
+
+                                if(response.code()==404) {
+                                    tripsArray.add(trip);
+                                } else {
+                                    Boolean rechazado = Boolean.FALSE;
+                                    for (Rejected rejection : rejections) {
+                                        if (rejection.getDriverId().equals(driverId)) {
+                                            rechazado = Boolean.TRUE;
+                                        }
+                                    }
+
+                                    if (!rechazado) {
+                                        tripsArray.add(trip);
+                                    }
+                                }
+                                displayTrips();
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<Rejected>> call, Throwable t) {
+
+                            }
+                        });
+
+                    }
                 }
 
-                displayTrips();
+//                displayTrips();
 
             }
 
@@ -120,61 +153,13 @@ public class ChoferActivity extends AppCompatActivity {
                 navigationIntent.putExtra("bundle", bundle);
                 startActivity(navigationIntent);
 
-
-                //    Intent intent = new Intent(PillboxActivity.this, DrinkedPillActivity.class);
-                // intent.putExtra("pill", pill);
-                // startActivityForResult(intent, REQUEST_CODE);
             }
         });
     }
 
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        try {
-//            super.onActivityResult(requestCode, resultCode, data);
-//
-//            if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-//                TripSerialized trip = (TripSerialized) data.getSerializableExtra("trip");
-//                tripsArray.set(tripPosition, trip);
-//                displayTrips();
-//
-//            } else if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE_ADDED_PILL) {
-//                ProgressBar loadingView = (ProgressBar) findViewById(R.id.loading);
-//                loadingView.setVisibility(View.VISIBLE);
-//                tripsArray = new ArrayList<TripSerialized>();
-//                tripService.getTrips(this);
-//            }
-//        } catch (Exception ex) {
-//            Toast.makeText(this, ex.toString(),
-//                    Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
 
     public ChoferActivity(ArrayList<SerializedTripPostResponse> tripsArray) {
         this.tripsArray = tripsArray;
     }
-
-//    @Override
-//    public void onResponseSuccess(Object responseBody) {
-//        ArrayList<TripSerialized> tripResponseArrayList = (ArrayList<TripSerialized>) responseBody;
-//
-//        for (TripSerialized trip : tripResponseArrayList) {
-//            tripsArray.add(trip);
-//        }
-//
-//        ProgressBar loadingView = (ProgressBar) findViewById(R.id.loading);
-//        loadingView.setVisibility(View.INVISIBLE);
-//        displayTrips();
-//    }
-//
-//    public void onResponseError() {
-//        Toast.makeText(this, "Se produjo un error de conexión con la api, intente luego",
-//                Toast.LENGTH_LONG).show();
-//        ProgressBar loadingView = (ProgressBar) findViewById(R.id.loading);
-//        loadingView.setVisibility(View.INVISIBLE);
-//        finish();
-//    }
 
 }

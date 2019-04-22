@@ -20,6 +20,7 @@ import com.fiuba.tdpii.correapp.R;
 import com.fiuba.tdpii.correapp.models.web.Destination;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
+import com.fiuba.tdpii.correapp.models.web.StartTripPutRequest;
 import com.fiuba.tdpii.correapp.models.web.Trip;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -183,6 +184,21 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
                     public void run(){
 
                         if(!iter.hasNext()){
+
+                            StartTripPutRequest request = new StartTripPutRequest();
+                            request.setStatus("finished");
+                            tripService.startTrip(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
+                                @Override
+                                public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+
+                                }
+                            });
+
                             Intent navigationIntent = new Intent(ChoferSeguimiento.this, RateTripClientActivity.class);
 
                             Bundle bundle = new Bundle();

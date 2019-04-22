@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF"
     tools:context=".activities.RechazarActivity">
 
     <LinearLayout
@@ -30,7 +31,7 @@
     <LinearLayout
         android:id="@+id/inputs"
         android:layout_width="match_parent"
-        android:layout_height="612dp"
+        android:layout_height="650dp"
         android:background="#FFFF"
         android:orientation="vertical"
         android:weightSum="7"

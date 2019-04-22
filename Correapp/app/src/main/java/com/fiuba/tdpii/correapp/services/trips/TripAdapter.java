@@ -41,8 +41,8 @@ public class TripAdapter extends ArrayAdapter<SerializedTripPostResponse> {
         TextView nameView = convertView.findViewById(R.id.nombre);
         nameView.setText(trip.getClient());
 
-        TextView dest = convertView.findViewById(R.id.destino);
-        dest.setText(trip.getDestination().getLat() + trip.getDestination().getLong());
+        TextView dest = convertView.findViewById(R.id.id);
+        dest.setText(trip.getId().toString());
 
 
 
