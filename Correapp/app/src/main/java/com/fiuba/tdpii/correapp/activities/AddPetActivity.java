@@ -95,6 +95,10 @@ public class AddPetActivity  extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if(nombre.getText() == null || nombre.getText().equals("")) {
+                    Toast.makeText(AddPetActivity.this, "Te olvidaste el nombre de tu mascota" , Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if(pet1 == null){
                     pet1 = new PetLocal();
                     pet1.nombre = nombre.getText().toString();

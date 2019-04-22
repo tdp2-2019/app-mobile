@@ -89,7 +89,7 @@ public class ChoferActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<SerializedTripPostResponse>> call, Throwable t) {
-                Toast.makeText(ChoferActivity.this, "FAILURE", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChoferActivity.this, "No hay viajes asignados", Toast.LENGTH_SHORT).show();
 
             }
         });

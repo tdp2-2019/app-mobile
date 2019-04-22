@@ -56,19 +56,18 @@ public class DriverProfileActivity extends AppCompatActivity {
         driverService = new DriverService();
 
 
-
+        DriverProfileActivity activity = this;
 
 
         bundle = getIntent().getParcelableExtra("bundle");
 
 
-        profileUri = bundle.getString("picture");
         Long driverId = bundle.getLong("driverId");
 
         profile = findViewById(R.id.imagen_perfil);
 
-        Glide.with(this).load(profileUri).into(profile);
 
+//        Glide.with(this).load(driver.getPhotoUrl()).into(profile);
 
         driverService.getDriverById(driverId.toString()).enqueue(new Callback<DriverPost>() {
 
@@ -76,6 +75,10 @@ public class DriverProfileActivity extends AppCompatActivity {
             public void onResponse(Call<DriverPost> call, Response<DriverPost> response) {
 
                 DriverPost driver = response.body();
+
+                if(driver.getPhotoUrl() != null && !driver.getPhotoUrl().equals(""))
+                    Glide.with(activity).load(driver.getPhotoUrl()).into(profile);
+
 
                 String nombreStr = driver.getName() + " " + driver.getLastname();
                 nombre.setText(nombreStr);

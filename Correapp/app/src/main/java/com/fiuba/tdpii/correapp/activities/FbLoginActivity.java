@@ -64,6 +64,10 @@ public class FbLoginActivity extends AppCompatActivity {
         final AccessToken[] accessToken = {AccessToken.getCurrentAccessToken()};
         boolean isLoggedIn = accessToken[0] != null && !accessToken[0].isExpired();
 
+        if(isLoggedIn){
+            setFacebookData(accessToken[0]);
+        }
+
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -94,7 +98,7 @@ public class FbLoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 // App code
                 accessToken[0] = loginResult.getAccessToken();
-                setFacebookData(loginResult);
+                setFacebookData(accessToken[0]);
 
             }
 
@@ -121,10 +125,10 @@ public class FbLoginActivity extends AppCompatActivity {
 
     }
 
-    private void setFacebookData(final LoginResult loginResult)
+    private void setFacebookData(final AccessToken accessToken)
     {
         GraphRequest request = GraphRequest.newMeRequest(
-                loginResult.getAccessToken(),
+                accessToken,
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {

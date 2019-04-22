@@ -22,6 +22,7 @@ import retrofit2.Response;
 public class CreateDriverCarActivity extends AppCompatActivity {
 
 
+    private static final Double DEFAULT_RANKING = 3d;
     private Bundle bundle;
 
 
@@ -110,6 +111,9 @@ public class CreateDriverCarActivity extends AppCompatActivity {
             driver.setStartworktime(String.valueOf(new Date().getTime()));
             driver.setCarlicenseplate(patente.getText().toString());
             driver.setCarcolour(color.getText().toString());
+
+            driver.setPhotoUrl(profilePictureUri);
+            driver.setRating(DEFAULT_RANKING);
 
             LatLng currentPosition = bundle.getParcelable("currentPosition");
 
