@@ -142,7 +142,6 @@ public class ChoferActivity extends AppCompatActivity {
                 tripPosition = position;
 
                 SerializedTripPostResponse trip = tripsArray.get(position);
-                Toast.makeText(ChoferActivity.this, trip.getClient(), Toast.LENGTH_SHORT).show();
 
                 Intent navigationIntent = new Intent(ChoferActivity.this, ChoferViewTripActivity.class);
                 Bundle bundle = new Bundle();
