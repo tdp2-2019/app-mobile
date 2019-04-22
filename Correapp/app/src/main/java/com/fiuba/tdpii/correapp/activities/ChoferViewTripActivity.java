@@ -6,10 +6,12 @@ import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,7 +82,6 @@ public class ChoferViewTripActivity extends AppCompatActivity {
         mascotasDetalle = findViewById(R.id.mascotas_detalle_1_descripcion);
         mascotasNombres = findViewById(R.id.mascotas_detalle_1_nombre);
 
-
         aceptar = findViewById(R.id.confirm);
         rechazar = findViewById(R.id.rechazar);
 
@@ -104,36 +105,42 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 SerializedTripPostResponse trip = response.body();
 
                 nombre.setText(trip.getClient());
-                duracion.setText(Integer.valueOf(Double.valueOf(trip.getDuration()/60).intValue()).toString() + " minutos");
+                Long min = trip.getDuration() / 60;
+                Long hs = min / 60;
+                min = min % 60;
+                duracion.setText(hs.toString() + ":" + min.toString() + " hs.");
                 if (trip.getPets().size() == 1){
                     mascotas.setText("1 mascota");
                 } else {
                     mascotas.setText(trip.getPets().size()  + " mascotas");
                 }
 
-                String detalle = "";
-
+                int count = 1;
                 for(Pet pet : trip.getPets()){
-                    detalle = detalle + pet.getKey2();
+                    switch (count) {
+                        case 1:
+                            mascotasDetalle.setText(pet.getKey2());
+                            mascotasNombres.setText("Responde al nombre de " + pet.getKey1());
+                            break;
+                        case 2:
+                            TextView detalle2 = findViewById(R.id.mascotas_detalle_2_descripcion);
+                            detalle2.setText(pet.getKey2());
+                            detalle2.setVisibility(View.VISIBLE);
+                            TextView nombres2 = findViewById(R.id.mascotas_detalle_2_nombre);
+                            nombres2.setText("Responde al nombre de " + pet.getKey1());
+                            nombres2.setVisibility(View.VISIBLE);
+                            break;
+                        case 3:
+                            TextView detalle3 = findViewById(R.id.mascotas_detalle_3_descripcion);
+                            detalle3.setText(pet.getKey2());
+                            detalle3.setVisibility(View.VISIBLE);
+                            TextView nombres3 = findViewById(R.id.mascotas_detalle_3_nombre);
+                            nombres3.setText("Responde al nombre de " + pet.getKey1());
+                            nombres3.setVisibility(View.VISIBLE);
+                            break;
+                    }
+                    count++;
                 }
-
-                mascotasDetalle.setText(detalle);
-
-                String nombres = "";
-
-                if (trip.getPets().size() == 1) {
-                    nombres = "Responde al nombre de " + trip.getPets().get(0).getKey1();
-                } else if  (trip.getPets().size() == 2){
-
-                    nombres = "Responden a los nombres de ";
-                    nombres = nombres + trip.getPets().get(0).getKey1()  + " y " + trip.getPets().get(1).getKey1() ;
-
-                } else {
-                    nombres = "Responden a los nombres de ";
-                    nombres = nombres + trip.getPets().get(0).getKey1() + ", " + trip.getPets().get(1).getKey1() + " y " + trip.getPets().get(2).getKey1();
-                }
-
-                mascotasNombres.setText(nombres);
 
                 try {
                     Date startDate = new Date(trip.getStartTime());
@@ -145,6 +152,8 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                     reserva.setText(dateStr);
                 } catch (Exception e){
                     reserva.setText("El día de hoy");
+                    LinearLayout reservaLayout = findViewById(R.id.reserva_layout);
+                    reservaLayout.setVisibility(View.GONE);
                 }
                 LatLng dest = new LatLng(Double.valueOf(trip.getDestination().getLat()), Double.valueOf(trip.getDestination().getLong() ));
                 destLoc = dest;

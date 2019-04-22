@@ -30,10 +30,10 @@ public class SerializedTripPostResponse {
         private List<Pet> pets = null;
         @SerializedName("driver_rating")
         @Expose
-        private Double driverRating;
+        private Rating driverRating;
         @SerializedName("user_rating")
         @Expose
-        private Double userRating;
+        private Rating userRating;
         @SerializedName("status")
         @Expose
         private String status;
@@ -116,7 +116,7 @@ public class SerializedTripPostResponse {
             return driverRating;
         }
 
-        public void setDriverRating(Double driverRating) {
+        public void setDriverRating(Rating driverRating) {
             this.driverRating = driverRating;
         }
 
@@ -124,7 +124,7 @@ public class SerializedTripPostResponse {
             return userRating;
         }
 
-        public void setUserRating(Double userRating) {
+        public void setUserRating(Rating userRating) {
             this.userRating = userRating;
         }
 

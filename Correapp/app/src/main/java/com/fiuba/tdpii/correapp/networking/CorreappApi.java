@@ -5,6 +5,7 @@ import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrips;
 import com.fiuba.tdpii.correapp.models.web.StartTripPutRequest;
+import com.fiuba.tdpii.correapp.models.web.TripClientRatingRequest;
 import com.fiuba.tdpii.correapp.models.web.TripDriverRatingRequest;
 import com.fiuba.tdpii.correapp.models.web.TripPost;
 import com.fiuba.tdpii.correapp.models.web.TripPutClientRatingRequest;
@@ -55,7 +56,7 @@ public interface CorreappApi {
     Call<SerializedTripPostResponse> putDriverRating(@Path("id") String tripId, @Body TripDriverRatingRequest body);
 
     @PUT("/trips/{id}")
-    Call<SerializedTripPostResponse> putClientRating(@Path("id") String tripId, @Body TripPutClientRatingRequest body);
+    Call<SerializedTripPostResponse> putClientRating(@Path("id") String tripId, @Body TripClientRatingRequest body);
 
 //        @POST("/personal_medicine_reminder")
 //        Call<Void> createPill(@Header("Authorization") String accessToken, @Header("Content-Type") String content_type, @Body PillSerialized pillSerialized);
