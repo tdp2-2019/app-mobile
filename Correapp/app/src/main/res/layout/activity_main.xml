@@ -39,6 +39,7 @@
 
     <Button
         android:id="@+id/client"
+        style="@style/AppButton"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
@@ -53,6 +54,7 @@
 
     <Button
         android:id="@+id/chofer"
+        style="@style/AppButton"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"

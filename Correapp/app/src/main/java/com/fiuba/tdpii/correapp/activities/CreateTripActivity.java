@@ -224,6 +224,8 @@ public class CreateTripActivity extends AppCompatActivity
 
                         tripNow = Boolean.TRUE;
 
+                        reservarBtn.setText("Viajar");
+
                         break;
                     case LATER_TAB_POSITION:
                         fecha.setVisibility(View.VISIBLE);
@@ -244,6 +246,8 @@ public class CreateTripActivity extends AppCompatActivity
                         fecha.setClickable(Boolean.TRUE);
 
                         tripNow = Boolean.FALSE;
+
+                        reservarBtn.setText("Reservar");
 
                         break;
                 }
