@@ -59,8 +59,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public static final int CUSTOM_MARKER_WIDTH = 100;
     public static final int CUSTOM_MARKER_HEIGHT = 100;
 
-    private LatLng originLocation;
-    private LatLng destinynLocation;
+    private LatLng originLocation = null;
+    private LatLng destinynLocation = null;
 
     private FloatingActionButton cont;
     public static final String ORIGIN_LOCATION_KEY = "origin-location-key";
@@ -75,6 +75,26 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        searchView = findViewById(R.id.search_origin);
+        destinySearchView = findViewById(R.id.search_destiny);
+
+        Bundle bundle = getIntent().getParcelableExtra("bundle");
+        if (bundle != null) {
+            if (bundle.getParcelable("lc_origin") != null) {
+                originLocation = bundle.getParcelable("lc_origin");
+            }
+            if (bundle.getParcelable("lc_dest") != null) {
+                destinynLocation = bundle.getParcelable("lc_dest");
+            }
+            if (bundle.getString("add_origin") != null) {
+                searchView.setQuery(bundle.getString("add_origin"), false);
+            }
+            if (bundle.getString("add_dest") != null) {
+                searchView.setQuery(bundle.getString("add_dest"), false);
+            }
+        }
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(MapActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -146,7 +166,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             @Override
             public void onClick(View v) {
                 Intent destinyIntent = new Intent(MapActivity.this, CreateTripActivity.class);
-                Bundle args = new Bundle();
+                Bundle args = getIntent().getParcelableExtra("bundle");
+                if (args == null) {
+                    args = new Bundle();
+                }
                 args.putParcelable("lc_origin", originLocation);
                 args.putParcelable("lc_dest", destinynLocation);
 
@@ -157,9 +180,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 startActivity(destinyIntent);
             }
         });
-
-
-        searchView = findViewById(R.id.search_origin);
 
         searchView.onActionViewExpanded();
         new Handler().postDelayed(new Runnable() {
@@ -226,7 +246,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
-        destinySearchView = findViewById(R.id.search_destiny);
         destinySearchView.onActionViewExpanded();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -304,7 +323,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                     Toast.makeText(MapActivity.this, "Te olvidaste de decir la ruta del viaje", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent destinyIntent = new Intent(MapActivity.this, CreateTripActivity.class);
-                    Bundle args = new Bundle();
+                    Bundle args = getIntent().getParcelableExtra("bundle");
+                    if (args == null) {
+                        args = new Bundle();
+                    }
                     args.putParcelable("lc_origin", originLocation);
                     args.putParcelable("lc_dest", destinynLocation);
 
@@ -316,7 +338,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 }
             }
         });
-
     }
 
     private void fetchLastLocation() {
@@ -349,13 +370,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        originLocation = latLng;
+
+        if (originLocation == null) {
+            LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            originLocation = latLng;
+        }
         searchView.setQueryHint(getAddress(originLocation));
 
-        Bundle bundle = getIntent().getParcelableExtra("bundle");
-        destinynLocation = bundle.getParcelable("SearchQuery");
-
+        if (destinynLocation == null) {
+            Bundle bundle = getIntent().getParcelableExtra("bundle");
+            destinynLocation = bundle.getParcelable("SearchQuery");
+        }
 
         destinySearchView.setQueryHint(getAddress(destinynLocation));
 

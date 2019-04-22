@@ -134,8 +134,74 @@ public class CreateTripActivity extends AppCompatActivity
 
         origen = findViewById(R.id.origen);
         origen.setText(orAddress);
+        origen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent navigationIntent = new Intent(CreateTripActivity.this, MapActivity.class);
+                Bundle bundle = new Bundle();
+
+                if(originLocation != null)
+                    bundle.putParcelable("lc_origin",  originLocation);
+                if(destinyLocation != null)
+                    bundle.putParcelable("lc_dest",  destinyLocation);
+                if(orAddress != null)
+                    bundle.putString("add_origin", orAddress);
+                if(destAddress != null)
+                    bundle.putString("add_dest", destAddress);
+
+                bundle.putBoolean("viajar_ahora", tripNow );
+
+                bundle.putParcelable("pet_1", mascota1 );
+                bundle.putParcelable("pet_2", mascota2 );
+                bundle.putParcelable("pet_3", mascota3 );
+
+                if(tripDate != null)
+                    bundle.putLong("fecha_unix",  tripDate.getTime());
+
+                if(hours != null)
+                    bundle.putLong("hora", hours);
+                if(minutes != null)
+                    bundle.putLong("minutos", minutes);
+
+                navigationIntent.putExtra("bundle", bundle );
+                startActivity(navigationIntent);
+            }
+        });
         destino = findViewById(R.id.destino);
         destino.setText(destAddress);
+        destino.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent navigationIntent = new Intent(CreateTripActivity.this, MapActivity.class);
+                Bundle bundle = new Bundle();
+
+                if(originLocation != null)
+                    bundle.putParcelable("lc_origin",  originLocation);
+                if(destinyLocation != null)
+                    bundle.putParcelable("lc_dest",  destinyLocation);
+                if(orAddress != null)
+                    bundle.putString("add_origin", orAddress);
+                if(destAddress != null)
+                    bundle.putString("add_dest", destAddress);
+
+                bundle.putBoolean("viajar_ahora", tripNow );
+
+                bundle.putParcelable("pet_1", mascota1 );
+                bundle.putParcelable("pet_2", mascota2 );
+                bundle.putParcelable("pet_3", mascota3 );
+
+                if(tripDate != null)
+                    bundle.putLong("fecha_unix",  tripDate.getTime());
+
+                if(hours != null)
+                    bundle.putLong("hora", hours);
+                if(minutes != null)
+                    bundle.putLong("minutos", minutes);
+
+                navigationIntent.putExtra("bundle", bundle );
+                startActivity(navigationIntent);
+            }
+        });
         mascotas = findViewById(R.id.mascotas);
         String petNames = "Mascotas ";
         if (mascota1 != null){
