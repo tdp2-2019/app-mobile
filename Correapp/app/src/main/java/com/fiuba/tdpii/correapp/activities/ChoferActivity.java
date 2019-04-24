@@ -11,6 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.DriversByTrip;
+import com.fiuba.tdpii.correapp.models.web.Rejected;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrips;
@@ -21,7 +23,9 @@ import com.fiuba.tdpii.correapp.services.trips.TripClient;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +41,8 @@ public class ChoferActivity extends AppCompatActivity {
     private ImageView backArrow;
     private Long driverId;
     private Bundle bundle;
+
+    private Boolean fetched = Boolean.FALSE;
 
     public static final int REQUEST_CODE = 1;
     public static final int RESULT_CODE_ADDED_PILL = 400;
@@ -78,103 +84,123 @@ public class ChoferActivity extends AppCompatActivity {
 
                 List<SerializedTripPostResponse> tripResponseArrayList = response.body();
 
-
                 for (SerializedTripPostResponse trip : tripResponseArrayList) {
-                    tripsArray.add(trip);
+                    if (trip.getStatus() != null && trip.getStatus().equals("created") && trip.getDriverId() == null) {
+                        tripService.getDriversByTrip(trip.getId().toString()).enqueue(new Callback<List<DriversByTrip>>() {
+                            @Override
+                            public void onResponse(Call<List<DriversByTrip>> call, Response<List<DriversByTrip>> response) {
+                                List<DriversByTrip> drivers = response.body();
+                                tripService.getRejectedsByTrip(trip.getId().toString()).enqueue(new Callback<List<Rejected>>() {
+
+                                    @Override
+                                    public void onResponse(Call<List<Rejected>> call, Response<List<Rejected>> response) {
+
+                                        List<Rejected> rejections = response.body();
+
+                                        if (response.code() == 404) {
+
+                                            if (drivers.get(0).getDriverId().equals(driverId)) {
+                                                tripsArray.add(trip);
+                                                fetched = Boolean.TRUE;
+                                            }
+
+                                        } else {
+
+                                            Map<Long, Long> ids = getRejectedDriverIds(rejections);
+                                            Integer index = 0;
+                                            while (Boolean.TRUE) {
+                                                DriversByTrip bestDriver = drivers.get(index);
+                                                if(bestDriver.getRing() >= 11){
+                                                    break;
+                                                }
+                                                if (bestDriver.getDriverId().equals(driverId)) {
+                                                    if (!ids.containsKey(driverId)) {
+                                                        tripsArray.add(trip);
+                                                        fetched = Boolean.TRUE;
+                                                        break;
+                                                    } else{
+                                                        //is rejected
+                                                        break;
+                                                    }
+                                                } else {
+                                                    if (!ids.containsKey(bestDriver.getDriverId())) {
+                                                        break;
+                                                    } else {
+                                                        index++;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        displayTrips();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<List<Rejected>> call, Throwable t) {
+                                        System.out.print("see");
+                                    }
+                                });
+                            }
+                            @Override
+                            public void onFailure(Call<List<DriversByTrip>> call, Throwable t) {
+                                System.out.print("see");
+
+                            }
+                        });
+                    }
                 }
-
-                displayTrips();
-
             }
 
             @Override
             public void onFailure(Call<List<SerializedTripPostResponse>> call, Throwable t) {
-                Toast.makeText(ChoferActivity.this, "FAILURE", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChoferActivity.this, "No hay viajes asignados", Toast.LENGTH_SHORT).show();
 
             }
         });
 
+    }
+
+    private Map<Long, Long> getRejectedDriverIds(List<Rejected> rejections) {
+
+        Map<Long, Long> response = new HashMap<>();
+
+        for (Rejected rejection : rejections) {
+            response.put(rejection.getDriverId(), rejection.getTripId());
+        }
+        return response;
     }
 
     private void displayTrips() {
-        final ListView tripList = (ListView) findViewById(R.id.list_of_trips);
-        TripAdapter tripAdapter = new TripAdapter(this, tripsArray);
-        tripList.setAdapter(tripAdapter);
-        tripList.setSelection(this.tripsArray.size());
+        if(fetched) {
+            final ListView tripList = (ListView) findViewById(R.id.list_of_trips);
+            TripAdapter tripAdapter = new TripAdapter(this, tripsArray);
+            tripList.setAdapter(tripAdapter);
+            tripList.setSelection(this.tripsArray.size());
 
-        tripList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            tripList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+                public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
 
-                tripPosition = position;
+                    tripPosition = position;
 
-                SerializedTripPostResponse trip = tripsArray.get(position);
-                Toast.makeText(ChoferActivity.this, trip.getClient(), Toast.LENGTH_SHORT).show();
+                    SerializedTripPostResponse trip = tripsArray.get(position);
 
-                Intent navigationIntent = new Intent(ChoferActivity.this, ChoferViewTripActivity.class);
-                Bundle bundle = new Bundle();
+                    Intent navigationIntent = new Intent(ChoferActivity.this, ChoferViewTripActivity.class);
+                    Bundle bundle = new Bundle();
 
-                bundle.putLong("tripId", trip.getId());
-                bundle.putLong("driverId",driverId );
+                    bundle.putLong("tripId", trip.getId());
+                    bundle.putLong("driverId", driverId);
 
-                navigationIntent.putExtra("bundle", bundle);
-                startActivity(navigationIntent);
+                    navigationIntent.putExtra("bundle", bundle);
+                    startActivity(navigationIntent);
 
-
-                //    Intent intent = new Intent(PillboxActivity.this, DrinkedPillActivity.class);
-                // intent.putExtra("pill", pill);
-                // startActivityForResult(intent, REQUEST_CODE);
-            }
-        });
+                }
+            });
+        }
     }
 
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        try {
-//            super.onActivityResult(requestCode, resultCode, data);
-//
-//            if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-//                TripSerialized trip = (TripSerialized) data.getSerializableExtra("trip");
-//                tripsArray.set(tripPosition, trip);
-//                displayTrips();
-//
-//            } else if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE_ADDED_PILL) {
-//                ProgressBar loadingView = (ProgressBar) findViewById(R.id.loading);
-//                loadingView.setVisibility(View.VISIBLE);
-//                tripsArray = new ArrayList<TripSerialized>();
-//                tripService.getTrips(this);
-//            }
-//        } catch (Exception ex) {
-//            Toast.makeText(this, ex.toString(),
-//                    Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
 
     public ChoferActivity(ArrayList<SerializedTripPostResponse> tripsArray) {
         this.tripsArray = tripsArray;
     }
-
-//    @Override
-//    public void onResponseSuccess(Object responseBody) {
-//        ArrayList<TripSerialized> tripResponseArrayList = (ArrayList<TripSerialized>) responseBody;
-//
-//        for (TripSerialized trip : tripResponseArrayList) {
-//            tripsArray.add(trip);
-//        }
-//
-//        ProgressBar loadingView = (ProgressBar) findViewById(R.id.loading);
-//        loadingView.setVisibility(View.INVISIBLE);
-//        displayTrips();
-//    }
-//
-//    public void onResponseError() {
-//        Toast.makeText(this, "Se produjo un error de conexión con la api, intente luego",
-//                Toast.LENGTH_LONG).show();
-//        ProgressBar loadingView = (ProgressBar) findViewById(R.id.loading);
-//        loadingView.setVisibility(View.INVISIBLE);
-//        finish();
-//    }
 
 }

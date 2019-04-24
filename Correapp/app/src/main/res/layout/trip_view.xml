@@ -77,4 +77,15 @@
                 app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="#FFFFFF"
+        android:text="Id"
+        android:textColor="@color/black_overlay"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputs" />
 </android.support.constraint.ConstraintLayout>

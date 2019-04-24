@@ -1,8 +1,8 @@
 package com.fiuba.tdpii.correapp.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,6 +13,9 @@ import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
 import com.fiuba.tdpii.correapp.services.drivers.DriverService;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -22,6 +25,7 @@ import retrofit2.Response;
 public class CreateDriverCarActivity extends AppCompatActivity {
 
 
+    private static final Double DEFAULT_RANKING = 3d;
     private Bundle bundle;
 
 
@@ -92,8 +96,6 @@ public class CreateDriverCarActivity extends AppCompatActivity {
             }
 
 
-
-
             DriverPost driver = new DriverPost();
             driver.setAddress(bundle.getString("direccion"));
             driver.setDni(bundle.getString("dni"));
@@ -110,6 +112,15 @@ public class CreateDriverCarActivity extends AppCompatActivity {
             driver.setStartworktime(String.valueOf(new Date().getTime()));
             driver.setCarlicenseplate(patente.getText().toString());
             driver.setCarcolour(color.getText().toString());
+
+            driver.setPhotoUrl(profilePictureUri);
+
+
+
+            Date cDate = new Date();
+            String fDate = new SimpleDateFormat("MM-dd-yyyy").format(cDate);
+
+            driver.setSignupDate(fDate);
 
             LatLng currentPosition = bundle.getParcelable("currentPosition");
 

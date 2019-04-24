@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.Rejected;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
@@ -79,7 +80,7 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
     private Long tripId;
 
     private ImageView backArrow;
-    private CountDownTimer timer = new CountDownTimer(300000, 3000) {
+    private CountDownTimer timer = new CountDownTimer(30000000, 3000) {
 
         @Override
         public void onTick(long millisUntilFinished) {
@@ -110,15 +111,6 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
         }
         fetchLastLocation();
 
-        Button cancel = findViewById(R.id.cancelar);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent backIntent = new Intent(WaitingActivity.this, MapHomeActivity.class);
-                startActivity(backIntent);
-                finish();
-            }
-        });
 
         bundle = getIntent().getParcelableExtra("bundle");
         if (bundle != null) {
@@ -127,25 +119,6 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
             tripId = bundle.getLong("id");
         }
 
-        Button sim = findViewById(R.id.simular);
-        sim.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);
-                Bundle bundle = new Bundle();
-
-                if (originLocation != null)
-                    bundle.putParcelable("lc_origin", originLocation);
-                if (destinynLocation != null)
-                    bundle.putParcelable("lc_dest", destinynLocation);
-
-
-                navigationIntent.putExtra("bundle", bundle);
-                startActivity(navigationIntent);
-
-            }
-        });
 
         backArrow = findViewById(R.id.back_arrow);
         backArrow.setOnClickListener(new View.OnClickListener() {
@@ -154,8 +127,6 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
                 onBackPressed();
             }
         });
-
-
 
     }
 
@@ -200,13 +171,40 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
 //                        Toast.makeText(WaitingActivity.this, "Hago un gets2", Toast.LENGTH_SHORT).show();
 
 
-                        if(response.body().getRejecteds().size() >= 3){
-                            Intent navigationIntent = new Intent(WaitingActivity.this, TripTooManyRejectsActivity.class);
-                            timer.cancel();
-                            startActivity(navigationIntent);
-                        }
+                        tripService.getRejectedsByTrip(tripId.toString()).enqueue(new Callback<List<Rejected>>() {
+                            @Override
+                            public void onResponse(Call<List<Rejected>> call, Response<List<Rejected>> response) {
+                                List<Rejected> rejections = response.body();
 
-                        if (response.body().getDriverId() != null) {
+                                if(response.code()==404) {
+                                    System.out.print("he");
+                                } else {
+
+
+                                    if(response.body().size() >= 3){
+                                        Intent navigationIntent = new Intent(WaitingActivity.this, TripTooManyRejectsActivity.class);
+                                        timer.cancel();
+
+                                        Bundle bundle = new Bundle();
+
+
+                                        bundle.putLong("tripId", tripId);
+
+                                        navigationIntent.putExtra("bundle", bundle);
+
+                                        startActivity(navigationIntent);
+                                    }
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<Rejected>> call, Throwable t) {
+
+                            }
+                        });
+
+                        if (response.body().getDriverId() != null && (response.body().getStatus().equals("accepted") || response.body().getStatus().equals("started"))) {
 
 //                            Intent navigationIntent = new Intent(WaitingActivity.this, SeguimientoActivity.class);
 
@@ -464,6 +462,12 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
 
         }
         return path;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
     }
 
 }

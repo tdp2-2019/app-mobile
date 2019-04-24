@@ -9,11 +9,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.Rejected;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
 import com.fiuba.tdpii.correapp.services.drivers.DriverService;
+import com.fiuba.tdpii.correapp.services.trips.TripService;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +34,8 @@ public class DriverProfileActivity extends AppCompatActivity {
 
 
     private DriverService driverService;
+    private TripService tripService;
+
 
     private Bundle bundle;
 
@@ -54,21 +67,20 @@ public class DriverProfileActivity extends AppCompatActivity {
 
 
         driverService = new DriverService();
+        tripService = new TripService();
 
-
-
+        DriverProfileActivity activity = this;
 
 
         bundle = getIntent().getParcelableExtra("bundle");
 
 
-        profileUri = bundle.getString("picture");
         Long driverId = bundle.getLong("driverId");
 
         profile = findViewById(R.id.imagen_perfil);
 
-        Glide.with(this).load(profileUri).into(profile);
 
+//        Glide.with(this).load(driver.getPhotoUrl()).into(profile);
 
         driverService.getDriverById(driverId.toString()).enqueue(new Callback<DriverPost>() {
 
@@ -77,35 +89,45 @@ public class DriverProfileActivity extends AppCompatActivity {
 
                 DriverPost driver = response.body();
 
+                if (driver.getPhotoUrl() != null && !driver.getPhotoUrl().equals(""))
+                    Glide.with(activity).load(driver.getPhotoUrl()).into(profile);
+
+
                 String nombreStr = driver.getName() + " " + driver.getLastname();
                 nombre.setText(nombreStr);
 
                 String autoStr = driver.getBrand() + " " + driver.getModel() + " " + driver.getCarcolour();
                 auto.setText(autoStr);
 
-                String ratingDriver = driver.getRating()!= null ? driver.getRating().toString() : "3.0";
+                String ratingDriver = driver.getRating() != null ? String.format("%.3f", driver.getRating()) : "3.0";
                 String puntajeStr = "Puntaje " + ratingDriver;
                 puntaje.setText(puntajeStr);
 
-                String viajesRealizadosDriver = "189";
-                String viajesRealizadosStr = viajesRealizadosDriver + " viajes realizados";
-                viajesRealizados.setText(viajesRealizadosStr);
 
-                String workTimeStr = driver.getStartworktime();
-//                Long workTime = Long.parseLong(workTimeStr);
+                String signUp = driver.getSignupDate().substring(0, 10);
 
-//                Date now = Calendar.getInstance().getTime();
+                //2019-04-22T00:00:00.000Z
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date dateSignUp = format.parse(signUp);
 
-                String antiguedadStr = "Antiguedad: 3 meses";
-//                int diffInDays = (int)( (now.getTime() - workTime)
-//                        / (1000 * 60 * 60 * 24) );
-//
-//                if(diffInDays < 30){
-//                    antiguedadStr = antiguedadStr + diffInDays + " días";
-//                } else{
-//                    antiguedadStr = antiguedadStr + (int) Math.ceil((double)diffInDays / 30) + " meses";
-//                }
-                antiguedad.setText(antiguedadStr);
+                    Date now = new Date();
+
+                    int months = monthsBetween(dateSignUp, now);
+
+                    if (months == 0) {
+                        int days = getDaysDifference(dateSignUp, now);
+                        String antiguedadStr = days + " dias";
+                        antiguedad.setText(antiguedadStr);
+                    } else {
+                        String antiguedadStr = months + " meses";
+                        antiguedad.setText(antiguedadStr);
+                    }
+
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
             }
 
@@ -114,16 +136,96 @@ public class DriverProfileActivity extends AppCompatActivity {
 
             }
         });
+//
+//        tripService.getTrips().enqueue(new Callback<List<SerializedTripPostResponse>>() {
+//            @Override
+//            public void onResponse(Call<List<SerializedTripPostResponse>> call, Response<List<SerializedTripPostResponse>> response) {
+//
+//                List<SerializedTripPostResponse> tripResponseArrayList = response.body();
+//
+//                Integer cantidadDeViajes = 0;
+//                for (SerializedTripPostResponse trip : tripResponseArrayList) {
+//                    if (trip.getStatus().equals("finished") && trip.getDriverId().equals(driverId)) {
+//                            cantidadDeViajes++;
+//                    }
+//                }
+//
+//                String viajesRealizadosStr = cantidadDeViajes + " viajes realizados";
+//                viajesRealizados.setText(viajesRealizadosStr);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<SerializedTripPostResponse>> call, Throwable t) {
+//
+//            }
+//        });
 
+
+        tripService.getTripsDoneByDriver(driverId.toString()).enqueue(new Callback<List<SerializedTripPostResponse>>() {
+
+            @Override
+            public void onResponse(Call<List<SerializedTripPostResponse>> call, Response<List<SerializedTripPostResponse>> response) {
+
+                if (response.code() == 404) {
+
+                    String viajesRealizadosDriver = "0";
+                    String viajesRealizadosStr = viajesRealizadosDriver + " viajes realizados";
+                    viajesRealizados.setText(viajesRealizadosStr);
+                } else {
+                    List<SerializedTripPostResponse> trips = response.body();
+                    String viajesRealizadosDriver = String.valueOf(trips.size());
+                    String viajesRealizadosStr = viajesRealizadosDriver + " viajes realizados";
+                    viajesRealizados.setText(viajesRealizadosStr);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<SerializedTripPostResponse>> call, Throwable t) {
+
+                String viajesRealizadosDriver = "0";
+                String viajesRealizadosStr = viajesRealizadosDriver + " viajes realizados";
+                viajesRealizados.setText(viajesRealizadosStr);
+            }
+        });
         asignaciones.setOnClickListener(v -> {
 
             Intent navigationIntent = new Intent(DriverProfileActivity.this, ChoferActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putLong("driverId", driverId );
+            bundle.putLong("driverId", driverId);
             navigationIntent.putExtra("bundle", bundle);
             startActivity(navigationIntent);
 
         });
+    }
+
+    static int monthsBetween(Date a, Date b) {
+        Calendar cal = Calendar.getInstance();
+        if (a.before(b)) {
+            cal.setTime(a);
+        } else {
+            cal.setTime(b);
+            b = a;
+        }
+        int c = 0;
+        while (cal.getTime().before(b)) {
+            cal.add(Calendar.MONTH, 1);
+            c++;
+        }
+        return c - 1;
+    }
+
+    public static int getDaysDifference(Date fromDate, Date toDate) {
+        if (fromDate == null || toDate == null)
+            return 0;
+
+        return (int) ((toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24));
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
 }

@@ -37,15 +37,34 @@
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
-        android:layout_width="match_parent"
+        android:layout_width="369dp"
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="312dp"
         android:layout_marginBottom="5dp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.405" />
+
+    <Button
+        android:id="@+id/login_button2"
+        android:layout_width="369dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="312dp"
+        android:layout_marginBottom="5dp"
+        android:background="#4167B2"
+        android:text="Continue"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.536" />
+
 
 </android.support.constraint.ConstraintLayout>

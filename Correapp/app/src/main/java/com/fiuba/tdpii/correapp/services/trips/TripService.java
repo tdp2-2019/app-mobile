@@ -1,5 +1,7 @@
 package com.fiuba.tdpii.correapp.services.trips;
 
+import com.fiuba.tdpii.correapp.models.web.DriversByTrip;
+import com.fiuba.tdpii.correapp.models.web.Rejected;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.StartTripPutRequest;
 import com.fiuba.tdpii.correapp.models.web.TripClientRatingRequest;
@@ -56,6 +58,22 @@ public class TripService {
 
     public Call<SerializedTripPostResponse> rateClient(TripClientRatingRequest body, String tripId) {
         return coreAPI.putClientRating(tripId, body);
+    }
+
+    public Call<List<SerializedTripPostResponse>> getTripsDoneByDriver(String driverId) {
+
+        return coreAPI.getTripsDoneByDriver(driverId, "finished");
+
+    }
+
+    public Call<List<Rejected>> getRejectedsByTrip(String tripId) {
+
+        return coreAPI.getRejectedByTrips(tripId);
+    }
+
+    public Call<List<DriversByTrip>> getDriversByTrip(String tripId) {
+
+        return coreAPI.getDriversByTrip(tripId);
     }
 
 

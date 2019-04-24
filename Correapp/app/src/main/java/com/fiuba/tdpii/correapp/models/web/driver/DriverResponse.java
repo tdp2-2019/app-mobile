@@ -3,7 +3,7 @@ import com.fiuba.tdpii.correapp.models.web.Destination;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DriverPost {
+public class DriverResponse {
 
     @SerializedName("dni")
     @Expose
@@ -51,7 +51,7 @@ public class DriverPost {
     @Expose
     private String carcolour;
 
-    @SerializedName("currentPosition")
+    @SerializedName("currentposition")
     @Expose
     private Destination currentposition;
 
@@ -66,19 +66,6 @@ public class DriverPost {
     @SerializedName("photo_url")
     @Expose
     private String photoUrl;
-
-    public String getSignupDate() {
-        return signupDate;
-    }
-
-    public void setSignupDate(String signupDate) {
-        this.signupDate = signupDate;
-    }
-
-    @SerializedName("signup_date")
-    @Expose
-    private String signupDate;
-
 
     public String getPhotoUrl() {
         return photoUrl;
