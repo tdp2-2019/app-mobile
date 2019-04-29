@@ -1,10 +1,15 @@
 package com.fiuba.tdpii.correapp.activities;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +33,12 @@ import com.fiuba.tdpii.correapp.services.drivers.DriverService;
 import com.fiuba.tdpii.correapp.services.trips.TripClient;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -37,12 +48,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CreateDriverActivity extends AppCompatActivity {
+
+    private final int PICK_IMAGE_REQUEST = 71;
+
+    private Uri filePath;
+
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
 
     private EditText dni;
@@ -74,10 +93,16 @@ public class CreateDriverActivity extends AppCompatActivity {
     private String lastName;
     private String profilePictureUri;
 
+    private Button uploadProfileImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_driver);
+
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
 
         bundle = getIntent().getParcelableExtra("bundle");
@@ -125,8 +150,74 @@ public class CreateDriverActivity extends AppCompatActivity {
             }
         });
 
+
+        uploadProfileImage = findViewById(R.id.uploadPhoto);
+        uploadProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadImageFull();
+            }
+        });
+
+
         setUpEvents();
 
+    }
+
+    private void uploadImageFull() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            filePath = data.getData();
+            uploadImage();
+        }
+    }
+
+
+    private void uploadImage() {
+
+        if (filePath != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Subiendo...");
+            progressDialog.show();
+
+            StorageReference ref = storageReference.child(UUID.randomUUID().toString());
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+
+                            profilePictureUri = taskSnapshot.getDownloadUrl().toString();
+
+                            Toast.makeText(CreateDriverActivity.this, "Subida", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(CreateDriverActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Subiendo " + (int) progress + "%");
+                        }
+                    });
+        }
     }
 
     private void setUpEvents() {
@@ -178,7 +269,7 @@ public class CreateDriverActivity extends AppCompatActivity {
 
                 currentPosition = getLocation(direccion.getText().toString());
 
-                if ( currentPosition  == null){
+                if (currentPosition == null) {
                     Toast.makeText(CreateDriverActivity.this, "Ingrese una direccion valida", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -196,22 +287,22 @@ public class CreateDriverActivity extends AppCompatActivity {
 //
 //                bundle.putLong("id", tripId);
 
-                bundle.putString("dni",  dni.getText().toString());
-                bundle.putString("nombre",  nombre.getText().toString());
-                bundle.putString("apellido",  apellido.getText().toString());
-                bundle.putString("userName",  userName.getText().toString());
-                bundle.putString("email",  emailView.getText().toString());
+                bundle.putString("dni", dni.getText().toString());
+                bundle.putString("nombre", nombre.getText().toString());
+                bundle.putString("apellido", apellido.getText().toString());
+                bundle.putString("userName", userName.getText().toString());
+                bundle.putString("email", emailView.getText().toString());
 
-                bundle.putString("cel",  cel.getText().toString());
+                bundle.putString("cel", cel.getText().toString());
 
-                bundle.putString("tel",  tel.getText().toString());
+                bundle.putString("tel", tel.getText().toString());
 
-                bundle.putString("direccion",  direccion.getText().toString());
+                bundle.putString("direccion", direccion.getText().toString());
 
-                bundle.putString("nombre",  nombre.getText().toString());
+                bundle.putString("nombre", nombre.getText().toString());
                 bundle.putParcelable("currentPosition", currentPosition);
 
-                bundle.putString("picture",profilePictureUri );
+                bundle.putString("picture", profilePictureUri);
 
                 navigationIntent.putExtra("bundle", bundle);
                 startActivity(navigationIntent);

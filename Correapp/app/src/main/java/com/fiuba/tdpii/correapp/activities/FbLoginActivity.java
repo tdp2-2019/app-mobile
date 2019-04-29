@@ -196,8 +196,16 @@ public class FbLoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<List<DriverPost>> call, Response<List<DriverPost>> response) {
 
+                                    Intent navigationIntent = new Intent(FbLoginActivity.this, CreateDriverActivity.class);
+                                    Bundle bundle = new Bundle();
 
-                                    if (response.code() == 404) {
+                                    bundle.putString("email", email);
+                                    bundle.putString("firstname", firstName);
+                                    bundle.putString("lastName", lastName);
+                                    bundle.putString("picture", profileUrl.toString());
+                                    navigationIntent.putExtra("bundle", bundle);
+                                    startActivity(navigationIntent);
+                                    /*if (response.code() == 404) {
                                         Intent navigationIntent = new Intent(FbLoginActivity.this, CreateDriverActivity.class);
                                         Bundle bundle = new Bundle();
 
@@ -222,7 +230,7 @@ public class FbLoginActivity extends AppCompatActivity {
                                         startActivity(navigationIntent);
 
                                     }
-
+*/
                                 }
 
                                 @Override
