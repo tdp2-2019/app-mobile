@@ -118,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:text="AGREGAR FOTO"
+            android:text="AGREGAR FOTO DEL REGISTRO"
             android:textSize="10dp" />
 
         <EditText
@@ -158,7 +158,7 @@
             android:id="@+id/subirPatente"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="AGREGAR FOTO"
+            android:text="AGREGAR FOTO DE LA PATENTE"
             android:layout_gravity="right"
             android:textSize="10dp"/>
 
