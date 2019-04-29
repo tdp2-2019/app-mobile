@@ -149,6 +149,44 @@
             android:textColor="#FFF" />
 
         <TextView
+            android:id="@+id/acompañanteStr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000"
+            android:text="¿Tus mascotas viajan solas?"
+            android:textColor="@color/black_overlay"
+            android:padding="10dp"
+            android:layout_gravity="left"
+            android:layout_weight="0"/>
+
+        <RadioGroup
+            android:id="@+id/acompañante"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/con"
+                android:checked="true"
+                android:buttonTint="#6892E9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_overlay"
+                android:text="Con acompañante"/>
+            <RadioButton
+                android:id="@+id/sin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_overlay"
+                android:buttonTint="#6892E9"
+                android:checked="false"
+                android:text="Solas"/>
+
+        </RadioGroup>
+
+
+        <TextView
             android:id="@+id/payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

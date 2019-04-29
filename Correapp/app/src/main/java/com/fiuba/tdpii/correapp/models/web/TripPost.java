@@ -11,6 +11,10 @@ public class TripPost {
     @SerializedName("client")
     @Expose
     private String client;
+
+    @SerializedName("companion")
+    @Expose
+    private Boolean companion;
     @SerializedName("destination")
     @Expose
     private Destination destination;
@@ -65,6 +69,13 @@ public class TripPost {
         this.startTime = startTime;
     }
 
+    public Boolean getCompanion() {
+        return companion;
+    }
+
+    public void setCompanion(Boolean companion) {
+        this.companion = companion;
+    }
 
 
 }
