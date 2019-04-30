@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
@@ -86,7 +87,7 @@ public class CreateTripActivity extends AppCompatActivity
     private Boolean paymentMethod;
     private Boolean acompañante;
 
-    private RadioGroup acompañanteRadioGroup;
+    private CheckBox acompañanteBox;
 
     private Bundle bundle;
 
@@ -137,7 +138,7 @@ public class CreateTripActivity extends AppCompatActivity
         tabs = findViewById(R.id.tabLayout);
 
 
-        acompañanteRadioGroup = findViewById(R.id.acompañante);
+        acompañanteBox = findViewById(R.id.acompañante);
         
         origen = findViewById(R.id.origen);
         origen.setText(orAddress);
@@ -442,8 +443,8 @@ public class CreateTripActivity extends AppCompatActivity
                 source.setLat(Double.valueOf(originLocation.latitude).toString());
                 source.setLong(Double.valueOf(originLocation.longitude).toString());
 
-                Integer acompañanteId = acompañanteRadioGroup.getCheckedRadioButtonId();
-                s_trip.setCompanion(acompañanteId.equals(R.id.con));
+
+                s_trip.setCompanion(acompañanteBox.isChecked());
 
                 s_trip.setStartTime(time.toString());
                 s_trip.setDestination(destination);
