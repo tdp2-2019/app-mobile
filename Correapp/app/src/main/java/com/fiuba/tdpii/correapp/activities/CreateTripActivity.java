@@ -11,8 +11,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,6 +85,10 @@ public class CreateTripActivity extends AppCompatActivity
     private PetLocal mascota3;
 
     private Boolean paymentMethod;
+    private Boolean acompañante;
+
+    private CheckBox acompañanteBox;
+
     private Bundle bundle;
 
 
@@ -132,6 +138,8 @@ public class CreateTripActivity extends AppCompatActivity
         tabs = findViewById(R.id.tabLayout);
 
 
+        acompañanteBox = findViewById(R.id.acompañante);
+        
         origen = findViewById(R.id.origen);
         origen.setText(orAddress);
         destino = findViewById(R.id.destino);
@@ -434,6 +442,9 @@ public class CreateTripActivity extends AppCompatActivity
                 Destination source = new Destination();
                 source.setLat(Double.valueOf(originLocation.latitude).toString());
                 source.setLong(Double.valueOf(originLocation.longitude).toString());
+
+
+                s_trip.setCompanion(acompañanteBox.isChecked());
 
                 s_trip.setStartTime(time.toString());
                 s_trip.setDestination(destination);

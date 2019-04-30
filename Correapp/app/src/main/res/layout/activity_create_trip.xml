@@ -149,11 +149,41 @@
             android:textColor="#FFF" />
 
         <TextView
+            android:id="@+id/acompañanteStr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000"
+            android:text="¿Tus mascotas viajan solas?"
+            android:textColor="@color/black_overlay"
+            android:padding="10dp"
+            android:layout_gravity="left"
+            android:layout_weight="0"/>
+
+        <CheckBox
+            android:id="@+id/acompañante"
+            android:checked="false"
+            android:buttonTint="@color/buttonBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black_overlay"
+            android:textColor="@color/black_overlay"
+            android:text="Con acompañante"/>
+
+        <TextView
+            android:id="@+id/empty3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:backgroundTint="#000"
+            android:textColor="#FFF" />
+
+        <TextView
             android:id="@+id/payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#000"
-            android:text="Froma de pago"
+            android:text="Forma de pago"
             android:textColor="@color/black_overlay"
             android:padding="10dp"
             android:layout_gravity="left"

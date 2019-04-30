@@ -7,180 +7,191 @@ import java.util.List;
 
 public class SerializedTripPostResponse {
 
-        @SerializedName("id")
-        @Expose
-        private Long id;
-        @SerializedName("source")
-        @Expose
-        private Destination source;
-        @SerializedName("destination")
-        @Expose
-        private Destination destination;
-        @SerializedName("start_time")
-        @Expose
-        private String startTime;
-        @SerializedName("end_time")
-        @Expose
-        private Object endTime;
-        @SerializedName("rejecteds")
-        @Expose
-        private List<Long> rejecteds = null;
-        @SerializedName("pets")
-        @Expose
-        private List<Pet> pets = null;
-        @SerializedName("driver_rating")
-        @Expose
-        private Rating driverRating;
-        @SerializedName("user_rating")
-        @Expose
-        private Rating userRating;
-        @SerializedName("status")
-        @Expose
-        private String status;
-        @SerializedName("driver_id")
-        @Expose
-        private Long driverId;
-        @SerializedName("user_id")
-        @Expose
-        private Long userId;
-        @SerializedName("price")
-        @Expose
-        private Long price;
-        @SerializedName("points")
-        @Expose
-        private List<List<Float>> points = null;
-        @SerializedName("duration")
-        @Expose
-        private Long duration;
-        @SerializedName("client")
-        @Expose
-        private String client;
+    @SerializedName("id")
+    @Expose
+    private Long id;
+    @SerializedName("companion")
+    @Expose
+    private Boolean companion;
+    @SerializedName("source")
+    @Expose
+    private Destination source;
+    @SerializedName("destination")
+    @Expose
+    private Destination destination;
+    @SerializedName("start_time")
+    @Expose
+    private String startTime;
+    @SerializedName("end_time")
+    @Expose
+    private Object endTime;
+    @SerializedName("rejecteds")
+    @Expose
+    private List<Long> rejecteds = null;
+    @SerializedName("pets")
+    @Expose
+    private List<Pet> pets = null;
+    @SerializedName("driver_rating")
+    @Expose
+    private Rating driverRating;
+    @SerializedName("user_rating")
+    @Expose
+    private Rating userRating;
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("driver_id")
+    @Expose
+    private Long driverId;
+    @SerializedName("user_id")
+    @Expose
+    private Long userId;
+    @SerializedName("price")
+    @Expose
+    private Long price;
+    @SerializedName("points")
+    @Expose
+    private List<List<Float>> points = null;
+    @SerializedName("duration")
+    @Expose
+    private Long duration;
+    @SerializedName("client")
+    @Expose
+    private String client;
 
-        public Long getId() {
-            return id;
-        }
+    public Long getId() {
+        return id;
+    }
 
-        public void setId(Long id) {
-            this.id = id;
-        }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-        public Destination getSource() {
-            return source;
-        }
+    public Boolean getCompanion() {
+        return companion;
+    }
 
-        public void setSource(Destination source) {
-            this.source = source;
-        }
+    public void setCompanion(Boolean companion) {
+        this.companion = companion;
+    }
 
-        public Destination getDestination() {
-            return destination;
-        }
+    public Destination getSource() {
+        return source;
+    }
 
-        public void setDestination(Destination destination) {
-            this.destination = destination;
-        }
+    public void setSource(Destination source) {
+        this.source = source;
+    }
 
-        public String getStartTime() {
-            return startTime;
-        }
+    public Destination getDestination() {
+        return destination;
+    }
 
-        public void setStartTime(String startTime) {
-            this.startTime = startTime;
-        }
+    public void setDestination(Destination destination) {
+        this.destination = destination;
+    }
 
-        public Object getEndTime() {
-            return endTime;
-        }
+    public String getStartTime() {
+        return startTime;
+    }
 
-        public void setEndTime(Object endTime) {
-            this.endTime = endTime;
-        }
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
 
-        public List<Long> getRejecteds() {
-            return rejecteds;
-        }
+    public Object getEndTime() {
+        return endTime;
+    }
 
-        public void setRejecteds(List<Long> rejecteds) {
-            this.rejecteds = rejecteds;
-        }
+    public void setEndTime(Object endTime) {
+        this.endTime = endTime;
+    }
 
-        public List<Pet> getPets() {
-            return pets;
-        }
+    public List<Long> getRejecteds() {
+        return rejecteds;
+    }
 
-        public void setPets(List<Pet> pets) {
-            this.pets = pets;
-        }
+    public void setRejecteds(List<Long> rejecteds) {
+        this.rejecteds = rejecteds;
+    }
 
-        public Object getDriverRating() {
-            return driverRating;
-        }
+    public List<Pet> getPets() {
+        return pets;
+    }
 
-        public void setDriverRating(Rating driverRating) {
-            this.driverRating = driverRating;
-        }
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
+    }
 
-        public Object getUserRating() {
-            return userRating;
-        }
+    public Object getDriverRating() {
+        return driverRating;
+    }
 
-        public void setUserRating(Rating userRating) {
-            this.userRating = userRating;
-        }
+    public void setDriverRating(Rating driverRating) {
+        this.driverRating = driverRating;
+    }
 
-        public String getStatus() {
-            return status;
-        }
+    public Object getUserRating() {
+        return userRating;
+    }
 
-        public void setStatus(String status) {
-            this.status = status;
-        }
+    public void setUserRating(Rating userRating) {
+        this.userRating = userRating;
+    }
 
-        public Long getDriverId() {
-            return driverId;
-        }
+    public String getStatus() {
+        return status;
+    }
 
-        public void setDriverId(Long driverId) {
-            this.driverId = driverId;
-        }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-        public Long getUserId() {
-            return userId;
-        }
+    public Long getDriverId() {
+        return driverId;
+    }
 
-        public void setUserId(Long userId) {
-            this.userId = userId;
-        }
+    public void setDriverId(Long driverId) {
+        this.driverId = driverId;
+    }
 
-        public Long getPrice() {
-            return price;
-        }
+    public Long getUserId() {
+        return userId;
+    }
 
-        public void setPrice(Long price) {
-            this.price = price;
-        }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-        public List<List<Float>> getPoints() {
-            return points;
-        }
+    public Long getPrice() {
+        return price;
+    }
 
-        public void setPoints(List<List<Float>> points) {
-            this.points = points;
-        }
+    public void setPrice(Long price) {
+        this.price = price;
+    }
 
-        public Long getDuration() {
-            return duration;
-        }
+    public List<List<Float>> getPoints() {
+        return points;
+    }
 
-        public void setDuration(Long duration) {
-            this.duration = duration;
-        }
+    public void setPoints(List<List<Float>> points) {
+        this.points = points;
+    }
 
-        public String getClient() {
-            return client;
-        }
+    public Long getDuration() {
+        return duration;
+    }
 
-        public void setClient(String client) {
-            this.client = client;
-        }
+    public void setDuration(Long duration) {
+        this.duration = duration;
+    }
+
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
 }
