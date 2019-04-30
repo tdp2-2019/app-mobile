@@ -195,8 +195,6 @@ public class FbLoginActivity extends AppCompatActivity {
                             driverService.getDriversByEmail(email).enqueue(new Callback<List<DriverPost>>() {
                                 @Override
                                 public void onResponse(Call<List<DriverPost>> call, Response<List<DriverPost>> response) {
-
-
                                     if (response.code() == 404) {
                                         Intent navigationIntent = new Intent(FbLoginActivity.this, CreateDriverActivity.class);
                                         Bundle bundle = new Bundle();

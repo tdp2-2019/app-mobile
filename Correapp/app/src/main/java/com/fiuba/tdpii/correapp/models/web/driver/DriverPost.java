@@ -8,6 +8,15 @@ public class DriverPost {
     @SerializedName("dni")
     @Expose
     private String dni;
+
+
+    @SerializedName("license_photo_url")
+    @Expose
+    private String licensePhotoUrl;
+
+    @SerializedName("car_plate_photo_url")
+    @Expose
+    private String patentePhotoUrl;
     @SerializedName("name")
     @Expose
     private String name;
@@ -232,4 +241,21 @@ public class DriverPost {
     public void setCarcolour(String carcolour) {
         this.carcolour = carcolour;
     }
+
+    public String getLicensePhotoUrl() {
+        return licensePhotoUrl;
+    }
+
+    public void setLicensePhotoUrl(String licensePhotoUrl) {
+        this.licensePhotoUrl = licensePhotoUrl;
+    }
+
+    public String getPatentePhotoUrl() {
+        return patentePhotoUrl;
+    }
+
+    public void setPatentePhotoUrl(String patentePhotoUrl) {
+        this.patentePhotoUrl = patentePhotoUrl;
+    }
+
 }

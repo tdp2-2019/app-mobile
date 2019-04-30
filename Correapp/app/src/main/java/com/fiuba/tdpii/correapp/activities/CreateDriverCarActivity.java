@@ -1,8 +1,12 @@
 package com.fiuba.tdpii.correapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,11 +16,18 @@ import com.fiuba.tdpii.correapp.models.web.Destination;
 import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
 import com.fiuba.tdpii.correapp.services.drivers.DriverService;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,6 +38,16 @@ public class CreateDriverCarActivity extends AppCompatActivity {
 
     private static final Double DEFAULT_RANKING = 3d;
     private Bundle bundle;
+
+    private final int PICK_IMAGE_PATENTE_REQUEST = 71;
+    private final int PICK_IMAGE_REGISTRO_REQUEST = 72;
+
+    private Uri patenteFilePath;
+    private Uri registroFilePath;
+
+
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
 
     private EditText marca;
@@ -41,15 +62,25 @@ public class CreateDriverCarActivity extends AppCompatActivity {
 
     private EditText patente;
 
+
+    private Button uploadRegistro;
+    private Button uploadPatente;
+
     private Button finalizar;
     private DriverService driverService;
     private String profilePictureUri;
-
+    private String patenteUri = "";
+    private String registroUri = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_driver_car);
+
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
 
         driverService = new DriverService();
 
@@ -64,6 +95,22 @@ public class CreateDriverCarActivity extends AppCompatActivity {
         registro = findViewById(R.id.registro);
         seguro = findViewById(R.id.seguro);
         patente = findViewById(R.id.patente);
+
+        uploadPatente = findViewById(R.id.subirPatente);
+        uploadPatente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadFullImagePatente();
+            }
+        });
+
+        uploadRegistro = findViewById(R.id.subirRegistro);
+        uploadRegistro.setOnClickListener( v -> {
+            uploadFullImageRegistro();
+        });
+
+
+
 
         finalizar = findViewById(R.id.confirm);
 
@@ -95,6 +142,15 @@ public class CreateDriverCarActivity extends AppCompatActivity {
                 return;
             }
 
+            if(patenteUri.equals("")){
+                Toast.makeText(CreateDriverCarActivity.this, "Te olvidaste de subir una foto de la patente de tu auto", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if(registroUri.equals("")){
+                Toast.makeText(CreateDriverCarActivity.this, "Te olvidaste de subir una foto de tu registro de conducir", Toast.LENGTH_LONG).show();
+                return;
+            }
 
             DriverPost driver = new DriverPost();
             driver.setAddress(bundle.getString("direccion"));
@@ -114,7 +170,8 @@ public class CreateDriverCarActivity extends AppCompatActivity {
             driver.setCarcolour(color.getText().toString());
 
             driver.setPhotoUrl(profilePictureUri);
-
+            driver.setLicensePhotoUrl(registroUri);
+            driver.setPatentePhotoUrl(patenteUri);
 
 
             Date cDate = new Date();
@@ -160,5 +217,109 @@ public class CreateDriverCarActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    private void uploadFullImageRegistro() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REGISTRO_REQUEST);
+    }
+
+
+    private void uploadFullImagePatente() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_PATENTE_REQUEST);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_PATENTE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            patenteFilePath = data.getData();
+            uploadImagePatente();
+        } else if (requestCode == PICK_IMAGE_REGISTRO_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            registroFilePath = data.getData();
+            uploadImageRegistro();
+        }
+    }
+
+    private void uploadImagePatente() {
+
+        if (patenteFilePath != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Subiendo...");
+            progressDialog.show();
+
+            StorageReference ref = storageReference.child(UUID.randomUUID().toString());
+            ref.putFile(patenteFilePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+
+                            patenteUri = taskSnapshot.getDownloadUrl().toString();
+
+                            Toast.makeText(CreateDriverCarActivity.this, "Subida", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(CreateDriverCarActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Subiendo " + (int) progress + "%");
+                        }
+                    });
+        }
+    }
+
+    private void uploadImageRegistro() {
+
+        if (registroFilePath != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Subiendo...");
+            progressDialog.show();
+
+            StorageReference ref = storageReference.child(UUID.randomUUID().toString());
+            ref.putFile(registroFilePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+
+                            registroUri = taskSnapshot.getDownloadUrl().toString();
+
+                            Toast.makeText(CreateDriverCarActivity.this, "Subida", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(CreateDriverCarActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Subiendo " + (int) progress + "%");
+                        }
+                    });
+        }
     }
 }

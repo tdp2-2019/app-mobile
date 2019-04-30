@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context=".activities.CreateTripActivity">
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:id="@+id/title_layout"
@@ -115,11 +114,11 @@
 
         <Button
             style="@style/AppButton"
+            android:id="@+id/subirRegistro"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:enabled="false"
-            android:text="AGREGAR FOTO"
+            android:text="AGREGAR FOTO DEL REGISTRO"
             android:textSize="10dp" />
 
         <EditText
@@ -156,11 +155,11 @@
 
         <Button
             style="@style/AppButton"
+            android:id="@+id/subirPatente"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="AGREGAR FOTO"
+            android:text="AGREGAR FOTO DE LA PATENTE"
             android:layout_gravity="right"
-            android:enabled="false"
             android:textSize="10dp"/>
 
     </LinearLayout>
