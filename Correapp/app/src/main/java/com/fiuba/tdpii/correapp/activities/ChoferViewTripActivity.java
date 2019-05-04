@@ -183,7 +183,7 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 destino.setText(getAddress(dest));
                 origen.setText(getAddress(sourc));
 
-                precio.setText("$".concat(trip.getPrice().toString()));
+                precio.setText("$ ".concat(String.format(Locale.ITALY, "%,d", trip.getPrice().intValue())));
 
             }
 
