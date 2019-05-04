@@ -177,18 +177,16 @@ public class ChoferViewFinishedTripActivity extends AppCompatActivity {
                 destino.setText(getAddress(dest));
                 origen.setText(getAddress(sourc));
 
-                rating.isIndicator();
-                rating.setEnabled(Boolean.FALSE);
                 Rating ratingD = trip.getDriverRating();
                 if(ratingD != null){
-                    rating.setNumStars(ratingD.getRating() != null ? ratingD.getRating().intValue() : 3);
-                    comentariosDelViaje.setText(ratingD.getComment() != null && !ratingD.getComment().isEmpty()? ratingD.getComment() : "Sin comentarios");
+                    rating.setRating(ratingD.getRating() != null ? ratingD.getRating().intValue() : 3);
+                    comentariosDelViaje.setText((ratingD.getComment() != null && !ratingD.getComment().isEmpty()) ? ratingD.getComment() : "Sin comentarios");
                 } else {
-                    rating.setNumStars(3);
+                    rating.setRating(3);
                     comentariosDelViaje.setText("Sin comentarios");
                 }
 
-                precio.setText("$".concat(trip.getPrice().toString()));
+                precio.setText("$ ".concat(String.format(Locale.ITALY, "%,d", trip.getPrice().intValue())));
 
 
             }

@@ -18,6 +18,7 @@ import com.fiuba.tdpii.correapp.services.trips.TripService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -108,7 +109,7 @@ public class ChoferActivity extends AppCompatActivity {
         Long totalGains = getSumPrices(this.tripsArray);
 
         TextView total = findViewById(R.id.totalViajes);
-        total.setText("Total recaudado: $".concat(totalGains.toString()));
+        total.setText("Total recaudado: $ ".concat(String.format(Locale.ITALY, "%,d", totalGains.intValue())));
 
         tripList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TripAdapter extends ArrayAdapter<SerializedTripPostResponse> {
     private Context mcon;
@@ -66,7 +67,7 @@ public class TripAdapter extends ArrayAdapter<SerializedTripPostResponse> {
         nameView.setText(trip.getClient());
 
         TextView id = convertView.findViewById(R.id.precio);
-        id.setText("$".concat(trip.getPrice().toString()));
+        id.setText("$ ".concat(String.format(Locale.ITALY, "%,d", trip.getPrice().longValue())));
 
         return convertView;
     }
