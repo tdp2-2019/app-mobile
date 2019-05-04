@@ -422,10 +422,12 @@
                     android:id="@+id/rating_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:isIndicator="true"
                     android:numStars="5"
-                    android:backgroundTint="@color/buttonBackground"
                     android:progressDrawable="@drawable/rating_bar"
+                    android:rating="0"
                     android:stepSize="1" />
+
                 <TextView
                     android:id="@+id/rate_comentario"
                     android:layout_width="match_parent"
