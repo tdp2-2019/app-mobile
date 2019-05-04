@@ -18,13 +18,18 @@ import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.Trip;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class TripAdapter extends ArrayAdapter<SerializedTripPostResponse> {
     private Context mcon;
 
 
-    public TripAdapter(Context context, ArrayList<SerializedTripPostResponse> trips) {
+    public TripAdapter(Context context, List<SerializedTripPostResponse> trips) {
         super(context, 0, trips);
         mcon = context;
     }
@@ -38,16 +43,38 @@ public class TripAdapter extends ArrayAdapter<SerializedTripPostResponse> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.trip_view, parent, false);
         }
+
+        TextView fechaView = convertView.findViewById(R.id.fecha);
+
+
+        String sDate1=trip.getStartTime().substring(0,10);
+        Date startDate= null;
+        try {
+            //2019-04-22T00:46:50.000Z
+            startDate = new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        String dateStr = "El " + calendar.get(Calendar.DAY_OF_MONTH) + " de " + theMonth(calendar.get(Calendar.MONTH));
+
+        fechaView.setText(dateStr);
+
         TextView nameView = convertView.findViewById(R.id.nombre);
         nameView.setText(trip.getClient());
 
-        TextView id = convertView.findViewById(R.id.id);
-        id.setText(trip.getId().toString());
-
-        TextView dest = convertView.findViewById(R.id.destino);
-        dest.setText(trip.getDestination().getLat().substring(0, 6) + ", " +  trip.getDestination().getLong().substring(0, 6));
+        TextView id = convertView.findViewById(R.id.precio);
+        id.setText("$".concat(trip.getPrice().toString()));
 
         return convertView;
+    }
+
+    public static String theMonth(int month){
+        String[] monthNames = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        return monthNames[month];
     }
 
 

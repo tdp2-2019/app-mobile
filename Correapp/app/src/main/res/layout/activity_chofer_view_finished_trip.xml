@@ -14,16 +14,18 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:translationZ="300dp"
         >
 
+        <ImageView
+            android:id="@+id/back_arrow"
+            style="@style/HeaderArrow" />
 
         <TextView
             style="@style/HeaderTitle"
-            android:id="@+id/title"
-            android:text="Nueva reserva disponible" />
+            android:text="Detalles del viaje" />
 
     </LinearLayout>
-
     <LinearLayout
         android:id="@+id/inputs"
         android:layout_width="match_parent"
@@ -390,32 +392,53 @@
             </LinearLayout>
 
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/rr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFF"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@+id/origen_layout"
+            >
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/star" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                >
+
+
+                <RatingBar
+                    android:id="@+id/rating_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:numStars="5"
+                    android:backgroundTint="@color/buttonBackground"
+                    android:progressDrawable="@drawable/rating_bar"
+                    android:stepSize="1" />
+                <TextView
+                    android:id="@+id/rate_comentario"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_height="wrap_content"
+                    android:text="Sin comentarios"
+                    android:textColor="@color/black_overlay" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
 
-        <Button
-            android:id="@+id/confirm"
-            style="@style/AppButton"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Aceptar" />
-
-        <Button
-            android:id="@+id/rechazar"
-            style="@style/AppButton"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="Rechazar" />
-
-    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

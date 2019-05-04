@@ -123,7 +123,7 @@ public class SerializedTripPostResponse {
         this.pets = pets;
     }
 
-    public Object getDriverRating() {
+    public Rating getDriverRating() {
         return driverRating;
     }
 
@@ -131,7 +131,7 @@ public class SerializedTripPostResponse {
         this.driverRating = driverRating;
     }
 
-    public Object getUserRating() {
+    public Rating getUserRating() {
         return userRating;
     }
 
