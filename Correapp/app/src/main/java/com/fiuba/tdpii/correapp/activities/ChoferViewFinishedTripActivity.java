@@ -82,8 +82,13 @@ public class ChoferViewFinishedTripActivity extends AppCompatActivity {
         comentariosDelViaje = findViewById(R.id.rate_comentario);
         precio = findViewById(R.id.precio);
 
-
         goBack = findViewById(R.id.back_arrow);
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         bundle = getIntent().getParcelableExtra("bundle");
 
@@ -196,22 +201,6 @@ public class ChoferViewFinishedTripActivity extends AppCompatActivity {
 
             }
         });
-
-        goBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                Intent navigationIntent = new Intent(ChoferViewFinishedTripActivity.this,ChoferActivity.class);
-                Bundle bundle = new Bundle();
-
-                bundle.putLong("driverId",driverId );
-
-                navigationIntent.putExtra("bundle", bundle);
-                startActivity(navigationIntent);
-            }
-        });
-
     }
 
     public static String theMonth(int month){
@@ -242,10 +231,4 @@ public class ChoferViewFinishedTripActivity extends AppCompatActivity {
 
         return address != null ? address.getAddressLine(0) : "";
     }
-
-    @Override
-    public void onBackPressed() {
-
-    }
-
 }
