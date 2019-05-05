@@ -14,6 +14,7 @@ import com.fiuba.tdpii.correapp.models.web.TripPutClientRatingRequest;
 import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
 import com.fiuba.tdpii.correapp.models.web.TripRejectionRequest;
 import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
+import com.fiuba.tdpii.correapp.models.web.driver.FirebaseIdDriverPutRequest;
 
 import java.util.List;
 
@@ -73,5 +74,7 @@ public interface CorreappApi {
     @GET("/trips/{id}/drivers")
     Call<List<DriversByTrip>> getDriversByTrip(@Path("id") String tripId);
 
+    @PUT("/drivers/{id}")
+    Call<DriverPost> putFirebaseIdById(String driverId, FirebaseIdDriverPutRequest request);
 }
 
