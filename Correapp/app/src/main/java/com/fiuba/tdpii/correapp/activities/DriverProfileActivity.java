@@ -136,30 +136,6 @@ public class DriverProfileActivity extends AppCompatActivity {
 
             }
         });
-//
-//        tripService.getTrips().enqueue(new Callback<List<SerializedTripPostResponse>>() {
-//            @Override
-//            public void onResponse(Call<List<SerializedTripPostResponse>> call, Response<List<SerializedTripPostResponse>> response) {
-//
-//                List<SerializedTripPostResponse> tripResponseArrayList = response.body();
-//
-//                Integer cantidadDeViajes = 0;
-//                for (SerializedTripPostResponse trip : tripResponseArrayList) {
-//                    if (trip.getStatus().equals("finished") && trip.getDriverId().equals(driverId)) {
-//                            cantidadDeViajes++;
-//                    }
-//                }
-//
-//                String viajesRealizadosStr = cantidadDeViajes + " viajes realizados";
-//                viajesRealizados.setText(viajesRealizadosStr);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<SerializedTripPostResponse>> call, Throwable t) {
-//
-//            }
-//        });
 
 
         tripService.getTripsDoneByDriver(driverId.toString()).enqueue(new Callback<List<SerializedTripPostResponse>>() {

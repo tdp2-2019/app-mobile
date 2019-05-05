@@ -13,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/back_arrow"
@@ -22,21 +21,37 @@
 
         <TextView
             style="@style/HeaderTitle"
-            android:text="Viajes disponibles" />
+            android:text="Viajes realizados" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/totalViajes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Total recaudado:"
+        android:textColor="@color/buttonBackground"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/list_of_trips"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout"
+        app:layout_constraintVertical_bias="0.0" />
+
 
     <ListView
         android:id="@+id/list_of_trips"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="100dp"
         android:background="#FFFFFF"
         android:divider="@android:color/transparent"
         android:dividerHeight="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_layout"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.574"
         tools:layout_editor_absoluteX="0dp" />
 
