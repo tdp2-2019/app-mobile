@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
@@ -99,7 +100,7 @@ public class DriverProfileActivity extends AppCompatActivity {
                 String autoStr = driver.getBrand() + " " + driver.getModel() + " " + driver.getCarcolour();
                 auto.setText(autoStr);
 
-                String ratingDriver = driver.getRating() != null ? String.format("%.3f", driver.getRating()) : "3.0";
+                String ratingDriver = driver.getRating() != null ? String.format(Locale.ITALY, "%.2f", driver.getRating()) : "3.00";
                 String puntajeStr = "Puntaje " + ratingDriver;
                 puntaje.setText(puntajeStr);
 
