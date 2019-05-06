@@ -75,6 +75,6 @@ public interface CorreappApi {
     Call<List<DriversByTrip>> getDriversByTrip(@Path("id") String tripId);
 
     @PUT("/drivers/{id}")
-    Call<DriverPost> putFirebaseIdById(String driverId, FirebaseIdDriverPutRequest request);
+    Call<DriverPost> putFirebaseIdById(@Path("id") String driverId, @Body FirebaseIdDriverPutRequest request);
 }
 
