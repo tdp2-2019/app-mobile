@@ -15,9 +15,12 @@ import com.bumptech.glide.Glide;
 import com.fiuba.tdpii.correapp.R;
 import com.fiuba.tdpii.correapp.models.web.Rejected;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
+import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
 import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
+import com.fiuba.tdpii.correapp.models.web.driver.FirebaseIdDriverPutRequest;
 import com.fiuba.tdpii.correapp.services.drivers.DriverService;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -79,9 +82,22 @@ public class DriverProfileActivity extends AppCompatActivity {
         Long driverId = bundle.getLong("driverId");
 
         profile = findViewById(R.id.imagen_perfil);
+        String token =  FirebaseInstanceId.getInstance().getToken();
 
 
-//        Glide.with(this).load(driver.getPhotoUrl()).into(profile);
+        FirebaseIdDriverPutRequest request = new FirebaseIdDriverPutRequest();
+        request.setFirebaseId(token);
+        driverService.putFirebaseIdBydId(request, driverId.toString()).enqueue(new Callback<DriverPost>() {
+            @Override
+            public void onResponse(Call<DriverPost> call, Response<DriverPost> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<DriverPost> call, Throwable t) {
+
+            }
+        });
 
         driverService.getDriverById(driverId.toString()).enqueue(new Callback<DriverPost>() {
 

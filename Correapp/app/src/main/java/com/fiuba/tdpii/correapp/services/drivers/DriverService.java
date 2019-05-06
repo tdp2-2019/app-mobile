@@ -4,6 +4,8 @@ import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.TripPost;
 import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
 import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
+import com.fiuba.tdpii.correapp.models.web.driver.DriverResponse;
+import com.fiuba.tdpii.correapp.models.web.driver.FirebaseIdDriverPutRequest;
 import com.fiuba.tdpii.correapp.networking.ApiClient;
 import com.fiuba.tdpii.correapp.networking.CorreappApi;
 
@@ -71,6 +73,10 @@ public class DriverService {
         public Call<List<DriverPost>> getDriversByEmail(String email){
             return coreAPI.getDriversByEmail(email);
         }
+
+    public Call<DriverPost> putFirebaseIdBydId(FirebaseIdDriverPutRequest request, String driverId) {
+        return coreAPI.putFirebaseIdById(driverId, request);
+    }
 
 
 //    public Call<ArrayList<TripResponse>> getTrips(final ApiClient delegate){
