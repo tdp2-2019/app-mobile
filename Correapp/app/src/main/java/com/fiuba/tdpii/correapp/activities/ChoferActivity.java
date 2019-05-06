@@ -80,8 +80,13 @@ public class ChoferActivity extends AppCompatActivity {
             public void onResponse(Call<List<SerializedTripPostResponse>> call, Response<List<SerializedTripPostResponse>> response) {
 
                 List<SerializedTripPostResponse> tripResponseArrayList = response.body();
-                tripResponseArrayList.sort(null);
-                tripsArray = tripResponseArrayList;
+
+                if (tripResponseArrayList != null && !tripResponseArrayList.isEmpty()) {
+                    tripResponseArrayList.sort(null);
+                    tripsArray = tripResponseArrayList;
+                } else {
+                    tripsArray = new ArrayList<>();
+                }
                 displayTrips();
             }
 
@@ -93,7 +98,6 @@ public class ChoferActivity extends AppCompatActivity {
 
 
     }
-
 
 
     private Map<Long, Long> getRejectedDriverIds(List<Rejected> rejections) {
