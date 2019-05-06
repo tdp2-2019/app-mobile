@@ -42,7 +42,7 @@ public class TripSerialized {
 
             @Expose
             @SerializedName("_price")
-            public Long price;
+            public Double price;
 
     }
 }
