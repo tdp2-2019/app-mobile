@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.fiuba.tdpii.correapp.R;
 import com.fiuba.tdpii.correapp.models.web.Destination;
 import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
@@ -66,11 +68,16 @@ public class CreateDriverCarActivity extends AppCompatActivity {
     private Button uploadRegistro;
     private Button uploadPatente;
 
+    private ImageView patenteImage;
+    private ImageView registroImage;
+
     private Button finalizar;
     private DriverService driverService;
     private String profilePictureUri;
     private String patenteUri = "";
     private String registroUri = "";
+
+    CreateDriverCarActivity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +88,7 @@ public class CreateDriverCarActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+        activity = this;
 
         driverService = new DriverService();
 
@@ -109,6 +117,8 @@ public class CreateDriverCarActivity extends AppCompatActivity {
             uploadFullImageRegistro();
         });
 
+        patenteImage = findViewById(R.id.patentePicture);
+        registroImage = findViewById(R.id.registroPicture);
 
 
 
@@ -264,6 +274,8 @@ public class CreateDriverCarActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
                             patenteUri = taskSnapshot.getDownloadUrl().toString();
+                            if (patenteUri != null)
+                                Glide.with(activity).load(patenteUri).into(patenteImage);
 
                             Toast.makeText(CreateDriverCarActivity.this, "Subida", Toast.LENGTH_SHORT).show();
                         }
@@ -301,7 +313,8 @@ public class CreateDriverCarActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
                             registroUri = taskSnapshot.getDownloadUrl().toString();
-
+                            if (registroUri != null)
+                                Glide.with(activity).load(registroUri).into(registroImage);
                             Toast.makeText(CreateDriverCarActivity.this, "Subida", Toast.LENGTH_SHORT).show();
                         }
                     })

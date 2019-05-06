@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.fiuba.tdpii.correapp.R;
 import com.fiuba.tdpii.correapp.models.local.PetLocal;
 import com.fiuba.tdpii.correapp.models.web.Destination;
@@ -85,6 +86,7 @@ public class CreateDriverActivity extends AppCompatActivity {
     private ImageView backArrow;
 
     private Button continueButton;
+    CreateDriverActivity activity;
 
     private Bundle bundle;
 
@@ -93,12 +95,16 @@ public class CreateDriverActivity extends AppCompatActivity {
     private String lastName;
     private String profilePictureUri;
 
+    private ImageView profile;
+
     private Button uploadProfileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_driver);
+
+        activity = this;
 
 
         storage = FirebaseStorage.getInstance();
@@ -159,6 +165,10 @@ public class CreateDriverActivity extends AppCompatActivity {
             }
         });
 
+        profile = findViewById(R.id.profile);
+        if (profilePictureUri != null)
+            Glide.with(this).load(profilePictureUri).into(profile);
+
 
         setUpEvents();
 
@@ -198,6 +208,10 @@ public class CreateDriverActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
                             profilePictureUri = taskSnapshot.getDownloadUrl().toString();
+
+                            if (profilePictureUri != null)
+                                Glide.with(activity).load(profilePictureUri).into(profile);
+
 
                             Toast.makeText(CreateDriverActivity.this, "Subida", Toast.LENGTH_SHORT).show();
                         }

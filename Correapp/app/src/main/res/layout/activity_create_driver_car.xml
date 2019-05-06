@@ -120,7 +120,12 @@
             android:layout_gravity="right"
             android:text="AGREGAR FOTO DEL REGISTRO"
             android:textSize="10dp" />
-
+        <ImageView
+            android:layout_gravity="right"
+            android:layout_marginRight="30dp"
+            android:id="@+id/registroPicture"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
         <EditText
             android:id="@+id/seguro"
             android:layout_width="match_parent"
@@ -161,6 +166,12 @@
             android:text="AGREGAR FOTO DE LA PATENTE"
             android:layout_gravity="right"
             android:textSize="10dp"/>
+        <ImageView
+            android:layout_gravity="right"
+            android:layout_marginRight="30dp"
+            android:id="@+id/patentePicture"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
 
     </LinearLayout>
 

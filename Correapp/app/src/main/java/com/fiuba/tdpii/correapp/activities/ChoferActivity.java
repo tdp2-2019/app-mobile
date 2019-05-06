@@ -104,8 +104,9 @@ public class ChoferActivity extends AppCompatActivity {
         final ListView tripList = (ListView) findViewById(R.id.list_of_trips);
         TripAdapter tripAdapter = new TripAdapter(this, tripsArray);
         tripList.setAdapter(tripAdapter);
-        tripList.setSelection(this.tripsArray.size());
-
+        if(this.tripsArray != null) {
+            tripList.setSelection(this.tripsArray.size());
+        }
         Long totalGains = getSumPrices(this.tripsArray);
 
         TextView total = findViewById(R.id.totalViajes);
