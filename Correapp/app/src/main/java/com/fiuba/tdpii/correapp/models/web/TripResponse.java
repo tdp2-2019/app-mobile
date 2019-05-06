@@ -154,15 +154,15 @@ public class TripResponse {
         this.duration = duration;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
     @SerializedName("_price")
     @Expose
-    private Long price;
+    private Double price;
 }

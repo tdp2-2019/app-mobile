@@ -48,7 +48,7 @@ public class SerializedTripPostResponse {
     private Long userId;
     @SerializedName("price")
     @Expose
-    private Long price;
+    private Double price;
     @SerializedName("points")
     @Expose
     private List<List<Float>> points = null;
@@ -163,11 +163,11 @@ public class SerializedTripPostResponse {
         this.userId = userId;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

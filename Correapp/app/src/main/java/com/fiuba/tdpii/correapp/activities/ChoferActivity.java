@@ -107,7 +107,7 @@ public class ChoferActivity extends AppCompatActivity {
         if(this.tripsArray != null) {
             tripList.setSelection(this.tripsArray.size());
         }
-        Long totalGains = getSumPrices(this.tripsArray);
+        Double totalGains = getSumPrices(this.tripsArray);
 
         TextView total = findViewById(R.id.totalViajes);
         total.setText("Total recaudado: $ ".concat(String.format(Locale.ITALY, "%,d", totalGains.intValue())));
@@ -133,9 +133,9 @@ public class ChoferActivity extends AppCompatActivity {
         });
     }
 
-    private Long getSumPrices(List<SerializedTripPostResponse> tripsArray) {
+    private Double getSumPrices(List<SerializedTripPostResponse> tripsArray) {
 
-        Long sum = 0l;
+        Double sum = 0d;
 
         for (SerializedTripPostResponse trip : tripsArray) {
             sum += trip.getPrice();

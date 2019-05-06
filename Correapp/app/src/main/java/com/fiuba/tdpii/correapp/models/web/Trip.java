@@ -38,7 +38,7 @@ public class Trip {
     private String pets;
     @SerializedName("price")
     @Expose
-    private Long price;
+    private Double price;
 
     @SerializedName("client_rating")
     @Expose
@@ -108,11 +108,11 @@ public class Trip {
         this.pets = pets;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
