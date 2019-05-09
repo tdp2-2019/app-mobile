@@ -112,7 +112,7 @@ public class ClientDriverProfileActivity extends AppCompatActivity {
                 String autoStr = driver.getBrand() + " " + driver.getModel() + " " + driver.getCarcolour();
                 auto.setText(autoStr);
 
-                String ratingDriver = driver.getRating() != null ? String.format(Locale.ITALY, "%.2f", driver.getRating()) : "3,00";
+                String ratingDriver = driver.getRating() != null ? String.format(Locale.ITALY, "%.2f", driver.getRating()/2) : "3,00";
                 String puntajeStr = "Puntaje " + ratingDriver;
                 puntaje.setText(puntajeStr);
 
