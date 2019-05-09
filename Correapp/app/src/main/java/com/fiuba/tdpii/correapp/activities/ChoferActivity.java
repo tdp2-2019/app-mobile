@@ -15,7 +15,11 @@ import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.services.trips.TripAdapter;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -76,7 +80,13 @@ public class ChoferActivity extends AppCompatActivity {
             public void onResponse(Call<List<SerializedTripPostResponse>> call, Response<List<SerializedTripPostResponse>> response) {
 
                 List<SerializedTripPostResponse> tripResponseArrayList = response.body();
-                tripsArray = tripResponseArrayList;
+
+                if (tripResponseArrayList != null && !tripResponseArrayList.isEmpty()) {
+                    tripResponseArrayList.sort(null);
+                    tripsArray = tripResponseArrayList;
+                } else {
+                    tripsArray = new ArrayList<>();
+                }
                 displayTrips();
             }
 
@@ -104,9 +114,7 @@ public class ChoferActivity extends AppCompatActivity {
         final ListView tripList = (ListView) findViewById(R.id.list_of_trips);
         TripAdapter tripAdapter = new TripAdapter(this, tripsArray);
         tripList.setAdapter(tripAdapter);
-        if(this.tripsArray != null) {
-            tripList.setSelection(this.tripsArray.size());
-        }
+
         Double totalGains = getSumPrices(this.tripsArray);
 
         TextView total = findViewById(R.id.totalViajes);

@@ -1,11 +1,20 @@
 package com.fiuba.tdpii.correapp.models.web;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
+import java.util.Date;
 import java.util.List;
 
-public class SerializedTripPostResponse {
+public class SerializedTripPostResponse implements Comparable<SerializedTripPostResponse> {
 
     @SerializedName("id")
     @Expose
@@ -193,5 +202,19 @@ public class SerializedTripPostResponse {
 
     public void setClient(String client) {
         this.client = client;
+    }
+
+    @Override
+    public int compareTo(@NonNull SerializedTripPostResponse o) {
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+
+        try {
+            Date oDate = dateFormat.parse(o.getStartTime());
+            Date myDate = dateFormat.parse(this.getStartTime());
+            return oDate.compareTo(myDate);
+        } catch (ParseException e) {
+            return 1;
+        }
     }
 }
