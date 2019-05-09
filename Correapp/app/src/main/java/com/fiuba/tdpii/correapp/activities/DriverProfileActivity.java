@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +47,7 @@ public class DriverProfileActivity extends AppCompatActivity {
     private TextView nombre;
     private TextView auto;
     private TextView patente;
-    private TextView puntaje;
+    private RatingBar puntaje;
     private TextView viajesRealizados;
     private TextView antiguedad;
 
@@ -63,7 +64,7 @@ public class DriverProfileActivity extends AppCompatActivity {
         nombre = findViewById(R.id.nombre);
         auto = findViewById(R.id.auto);
         patente = findViewById(R.id.patente);
-        puntaje = findViewById(R.id.puntaje);
+        puntaje = findViewById(R.id.rating_bar);
         viajesRealizados = findViewById(R.id.viajes_realizados);
         antiguedad = findViewById(R.id.antiguedad);
 
@@ -116,9 +117,7 @@ public class DriverProfileActivity extends AppCompatActivity {
                 String autoStr = driver.getBrand() + " " + driver.getModel() + " " + driver.getCarcolour();
                 auto.setText(autoStr);
 
-                String ratingDriver = driver.getRating() != null ? String.format(Locale.ITALY, "%.2f", driver.getRating()) : "3.00";
-                String puntajeStr = "Puntaje " + ratingDriver;
-                puntaje.setText(puntajeStr);
+                puntaje.setRating(driver.getRating()!= null ? driver.getRating().intValue() / 2 : 3);
 
 
                 String signUp = driver.getSignupDate().substring(0, 10);

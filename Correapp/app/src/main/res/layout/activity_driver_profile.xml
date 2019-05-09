@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    >
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:id="@+id/title_layout"
@@ -35,6 +34,7 @@
         tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
+
             android:id="@+id/names"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,12 +44,14 @@
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/title">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/imagen_perfil"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="270dp"
+                android:layout_height="172dp"
                 android:layout_gravity="center"
-                android:src="@drawable/uber_driver" />
+                android:src="@drawable/driver"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
 
             <TextView
                 android:id="@+id/nombre"
@@ -58,20 +60,20 @@
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="#000"
                 android:paddingLeft="20dp"
-                android:text="Nombre"
+                android:text="Nombre y apellido"
                 android:textColor="#000000"
                 android:textSize="16dp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.5"
-
             android:id="@+id/duracion_layout"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:layout_weight="0.5"
             android:background="#FFFF"
             android:orientation="horizontal"
             android:weightSum="1"
@@ -91,19 +93,19 @@
                 android:weightSum="2">
 
                 <TextView
-                    android:layout_weight="1"
                     android:id="@+id/auto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Marca Modelo - Color"
                     android:textColor="#000000"
                     android:textSize="16dp" />
 
                 <TextView
-                    android:layout_weight="1"
                     android:id="@+id/patente"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Patente"
                     android:textColor="@color/black_overlay" />
             </LinearLayout>
@@ -111,13 +113,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.5"
-
             android:id="@+id/mascotas_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="357dp"
+            android:layout_height="39dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:layout_weight="0.5"
             android:background="#FFFF"
             android:orientation="horizontal"
             android:weightSum="1"
@@ -129,26 +130,26 @@
                 android:layout_gravity="center"
                 android:src="@drawable/star" />
 
-            <TextView
-                android:id="@+id/puntaje"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Puntaje Numero"
-                android:textColor="#000000"
-                android:textSize="16dp"
-                android:paddingLeft="20dp"/>
+            <RatingBar
+                android:id="@+id/rating_bar"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressDrawable="@drawable/rating_bar"
+                android:rating="0"
+                android:stepSize="1" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.5"
-
             android:id="@+id/reserva_layout"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:layout_weight="0.5"
             android:background="#FFFF"
             android:orientation="horizontal"
             android:weightSum="1"
@@ -165,21 +166,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:paddingLeft="20dp"
                 android:text="Numero Viajes realizados"
                 android:textColor="#000000"
-                android:paddingLeft="20dp"
                 android:textSize="16dp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.5"
-
             android:id="@+id/origen_layout"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:layout_weight="0.5"
             android:background="#FFFF"
             android:orientation="horizontal"
             android:weightSum="1"
@@ -195,11 +196,11 @@
                 android:id="@+id/antiguedad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Antiguedad: x meses"
                 android:layout_gravity="center_vertical"
-
-                android:textColor="#000000"
                 android:paddingLeft="20dp"
+
+                android:text="Antiguedad: x meses"
+                android:textColor="#000000"
                 android:textSize="16dp" />
 
         </LinearLayout>
@@ -211,15 +212,15 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:textColor="@color/black_overlay"
-        android:textAlignment="center"
-        android:text="Esperando que el chofer comience el viaje"
         android:backgroundTint="@color/black_overlay"
+        android:paddingLeft="20dp"
+        android:paddingTop="30dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="30dp"
+        android:text="Esperando que el chofer comience el viaje"
+        android:textAlignment="center"
+        android:textColor="@color/black_overlay"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 

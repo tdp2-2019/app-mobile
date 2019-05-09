@@ -183,7 +183,7 @@ public class CreateDriverCarActivity extends AppCompatActivity {
             driver.setLicensePhotoUrl(registroUri);
             driver.setPatentePhotoUrl(patenteUri);
 
-
+            driver.setRating(3d);
             Date cDate = new Date();
             String fDate = new SimpleDateFormat("MM-dd-yyyy").format(cDate);
 
