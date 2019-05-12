@@ -17,7 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ChoferViewFinishedTripActivity"></activity>
+        <activity android:name=".activities.RegistroActivity"></activity>
+        <activity android:name=".activities.PatenteActivity" />
+        <activity android:name=".activities.ChoferViewFinishedTripActivity" />
         <activity android:name=".activities.TestPhotoUploadActivity" />
         <activity android:name=".activities.TripTooManyRejectsActivity" />
         <activity android:name=".activities.StartTripDriverActivity" />
@@ -72,7 +74,6 @@
             android:name=".services.LocationService"
             android:enabled="true"
             android:exported="true" />
-
         <service
             android:name=".services.CorreappFirebaseMessagingService"
             android:exported="false">
@@ -80,6 +81,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -100,13 +102,17 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--
+ Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/icon_dog_car" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/buttonBackground" />
