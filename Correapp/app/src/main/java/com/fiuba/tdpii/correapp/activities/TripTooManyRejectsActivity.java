@@ -21,6 +21,8 @@ public class TripTooManyRejectsActivity extends AppCompatActivity {
     private TripService tripService;
     private Bundle bundle;
     private Long tripId;
+    private Long clientId;
+    private String client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,10 @@ public class TripTooManyRejectsActivity extends AppCompatActivity {
 
         if (bundle != null) {
             tripId = bundle.getLong("tripId");
+            clientId = bundle.getLong("clientId");
+            client = bundle.getString("client");
         }
+
 
 
         tripService = new TripService();
@@ -55,6 +60,11 @@ public class TripTooManyRejectsActivity extends AppCompatActivity {
 
 
             Intent navigationIntent = new Intent(TripTooManyRejectsActivity.this, MapHomeActivity.class);
+
+            Bundle bundle = new Bundle();
+            bundle.putString("client",client );
+            bundle.putLong("clientId", clientId );
+            navigationIntent.putExtra("bundle",bundle );
             startActivity(navigationIntent);
 
         });

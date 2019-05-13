@@ -26,6 +26,10 @@ public class TripPost {
     @Expose
     private List<Pet> pets;
 
+    @SerializedName("user_id")
+    @Expose
+    private Long clientId;
+
     public void setPets(List<Pet> pets) {
         this.pets = pets;
     }
@@ -78,4 +82,7 @@ public class TripPost {
     }
 
 
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
 }

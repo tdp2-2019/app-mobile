@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
@@ -37,6 +38,7 @@ import static com.fiuba.tdpii.correapp.activities.DestinyMapActivity.ZOOM;
 import static com.fiuba.tdpii.correapp.activities.MapActivity.LOCATION_REQUEST_CODE;
 
 
+
 public class MapHomeActivity extends FragmentActivity implements OnMapReadyCallback {
 
     public static final String DESTINY_LOCATION_KEY = "destiny-location";
@@ -44,6 +46,8 @@ public class MapHomeActivity extends FragmentActivity implements OnMapReadyCallb
     private FusedLocationProviderClient fusedLocationProviderClient;
     private GoogleMap mMap;
     private SearchView searchView;
+    private Long clientId;
+    private String client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,12 @@ public class MapHomeActivity extends FragmentActivity implements OnMapReadyCallb
         setContentView(R.layout.activity_map_home);
 
 
-       searchView = findViewById(R.id.where);
+        Bundle bundle = getIntent().getParcelableExtra("bundle");
+
+        clientId = bundle.getLong("clientId");
+        client = bundle.getString("client");
+
+        searchView = findViewById(R.id.where);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(MapHomeActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapHomeActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -79,6 +88,8 @@ public class MapHomeActivity extends FragmentActivity implements OnMapReadyCallb
                     Intent navigationIntent = new Intent(MapHomeActivity.this, MapActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("SearchQuery",  destinynLocation);
+                    bundle.putLong("clientId",clientId );
+                    bundle.putString("client",client );
                     navigationIntent.putExtra("bundle", bundle );
                     startActivity(navigationIntent);
                     return true;

@@ -36,6 +36,9 @@ public class ClientDriverProfileActivity extends AppCompatActivity {
     private TripService tripService;
 
     private Bundle bundle;
+    private String client;
+    private Long clientId;
+
 
     private TextView nombre;
     private TextView auto;
@@ -95,6 +98,8 @@ public class ClientDriverProfileActivity extends AppCompatActivity {
         tripId = bundle.getLong("tripId");
         originLocation = bundle.getParcelable("lc_origin");
         destinynLocation = bundle.getParcelable("lc_dest");
+        clientId = bundle.getLong("clientId");
+        client = bundle.getString("client");
 
 
         driverService.getDriverById(driverId.toString()).enqueue(new Callback<DriverPost>() {
@@ -156,75 +161,7 @@ public class ClientDriverProfileActivity extends AppCompatActivity {
 
             }
         });
-//
-//        tripService.getTrips().enqueue(new Callback<List<SerializedTripPostResponse>>() {
-//            @Override
-//            public void onResponse(Call<List<SerializedTripPostResponse>> call, Response<List<SerializedTripPostResponse>> response) {
-//
-//                List<SerializedTripPostResponse> tripResponseArrayList = response.body();
-//
-//                Integer cantidadDeViajes = 0;
-//                for (SerializedTripPostResponse trip : tripResponseArrayList) {
-//                    if (trip.getStatus().equals("finished") && trip.getDriverId().equals(driverId)) {
-//                        cantidadDeViajes++;
-//                    }
-//                }
-//
-//                String viajesRealizadosStr = cantidadDeViajes + " viajes realizados";
-//                viajesRealizados.setText(viajesRealizadosStr);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<SerializedTripPostResponse>> call, Throwable t) {
-//
-//            }
-//        });
 
-
-//        //Esperando status started
-//        Handler handler = new Handler();
-//        Runnable runnableCode = new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
-//                    @Override
-//                    public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
-//
-//                        response.body();
-//
-//                        if(response.body().getStatus().equals("started")){
-//
-//
-//                            Intent navigationIntent = new Intent(ClientDriverProfileActivity.this, SeguimientoActivity.class);
-//
-//                            Bundle bundle = new Bundle();
-//
-//                            if(originLocation != null)
-//                                bundle.putParcelable("lc_origin",  originLocation);
-//                            if(destinynLocation != null)
-//                                bundle.putParcelable("lc_dest",  destinynLocation);
-//                            bundle.putLong("tripId",tripId );
-//                            bundle.putLong("driverId", response.body().getDriverId());
-//
-//                            navigationIntent.putExtra("bundle", bundle );
-//                            startActivity(navigationIntent);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
-//
-//                    }
-//                });
-//
-//                // Do something here on the main thread
-//                Log.d("Handlers", "Called on main thread");
-//            }
-//        };
-//
-//        handler.postDelayed(runnableCode, 2000);
         tripService.getTripsDoneByDriver(driverId.toString()).enqueue(new Callback<List<SerializedTripPostResponse>>() {
 
             @Override
@@ -277,6 +214,9 @@ public class ClientDriverProfileActivity extends AppCompatActivity {
                         bundle.putParcelable("lc_dest",  destinynLocation);
                     bundle.putLong("tripId",tripId );
                     bundle.putLong("driverId", response.body().getDriverId());
+                    bundle.putLong("clientId",clientId );
+                    bundle.putString("client",client );
+
 
                     navigationIntent.putExtra("bundle", bundle );
                     timer.cancel();
