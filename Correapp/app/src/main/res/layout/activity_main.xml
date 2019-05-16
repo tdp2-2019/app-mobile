@@ -4,14 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".activities.MainActivity"
-    >
+    android:orientation="vertical"
+    android:background="#FFF">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/activity_rate_trip_driver"
-        android:text="Puntuar viaje (Chofer)"
-        style="@style/AppButton" />
+    <TextView
+        android:id="@+id/fullscreen_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="164dp"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:text="@string/logo"
+        android:textColor="#000"
+        android:textSize="50sp"
+        android:textStyle="normal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="452dp"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:text="¿Qué usuario sos?"
+        android:textColor="#000"
+        android:textSize="30sp"
+        android:textStyle="normal"
+        android:backgroundTint="@color/black_overlay"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/client"
+        style="@style/AppButton"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="324dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#6892E9"
+        android:text="CLiente"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fullscreen_content"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/chofer"
+        style="@style/AppButton"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="324dp"
+        android:backgroundTint="#6892E9"
+        android:text="Chofer"
+        app:layout_constraintStart_toEndOf="@+id/client"
+        app:layout_constraintTop_toBottomOf="@+id/fullscreen_content" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/activity_rate_trip_client"

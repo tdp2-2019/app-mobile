@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".activities.CreateTripActivity">
+
+    <LinearLayout
+        android:id="@+id/title_layout"
+        style="@style/HeaderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:translationZ="300dp">
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            style="@style/HeaderArrow" />
+
+        <TextView
+            style="@style/HeaderTitle"
+            android:text="Alta chofer" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Datos personales:"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textColor="@color/black_87"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout" />
+
+    <LinearLayout
+        android:id="@+id/inputs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFF"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="7"
+        app:layout_constraintTop_toBottomOf="@+id/subtitle"
+        tools:layout_editor_absoluteX="0dp">
+
+        <EditText
+            android:id="@+id/dni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@drawable/text_border_bottom_line"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:textColorHint="@color/black_overlay"
+            android:maxLines="1"
+            android:inputType="number"
+            android:hint="DNI"
+            android:textColor="@color/black_overlay" />
+
+        <EditText
+            android:id="@+id/nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@drawable/text_border_bottom_line"
+            android:backgroundTint="#000"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:textColorHint="@color/black_overlay"
+            android:maxLines="1"
+            android:inputType="textPersonName"
+            android:hint="Nombre"
+            android:textColor="@color/black_overlay" />
+
+        <EditText
+            android:id="@+id/apellido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColorHint="@color/black_overlay"
+            android:maxLines="1"
+            android:inputType="textPersonName"
+            android:background="@drawable/text_border_bottom_line"
+            android:backgroundTint="#000"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:hint="Apellido"
+            android:textColor="@color/black_overlay" />
+
+        <EditText
+            android:id="@+id/user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColorHint="@color/black_overlay"
+            android:inputType="textPersonName"
+            android:background="@drawable/text_border_bottom_line"
+            android:backgroundTint="#000"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:hint="Nombre de usuario"
+            android:textColor="@color/black_overlay" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColorHint="@color/black_overlay"
+            android:maxLines="1"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/text_border_bottom_line"
+            android:backgroundTint="#000"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:text="e-mail"
+            android:textColor="@color/black_overlay" />
+
+        <EditText
+            android:id="@+id/cel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColorHint="@color/black_overlay"
+            android:maxLines="1"
+            android:background="@drawable/text_border_bottom_line"
+            android:backgroundTint="#000"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:inputType="phone"
+            android:hint="Celular"
+            android:textColor="@color/black_overlay" />
+
+        <EditText
+            android:id="@+id/tel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@drawable/text_border_bottom_line"
+            android:backgroundTint="#000"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:hint="Teléfono adicional"
+            android:textColorHint="@color/black_overlay"
+            android:textColor="@color/black_overlay" />
+
+        <EditText
+            android:id="@+id/direccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@drawable/text_border_bottom_line"
+            android:backgroundTint="#000"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/black_overlay"
+            android:maxLines="1"
+            android:hint="Dirección"
+            android:textColor="@color/black_overlay" />
+
+        <Button
+            style="@style/AppButton"
+            android:id="@+id/uploadPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:text="AGREGAR FOTO"
+            android:textSize="10dp"/>
+        <ImageView
+            android:layout_gravity="right"
+            android:layout_marginRight="30dp"
+            android:id="@+id/profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        style="@style/AppButton"
+        android:text="Siguiente"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="296dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/inputs"
+        app:layout_constraintTop_toTopOf="@+id/inputs" />
+
+</android.support.constraint.ConstraintLayout>

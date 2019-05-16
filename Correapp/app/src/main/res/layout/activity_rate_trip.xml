@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    tools:context=".activities.RateTripDriverActivity"
+    >
+
+    <LinearLayout
+        style="@style/HeaderLayout"
+        >
+
+        <TextView
+            style="@style/HeaderTitle"
+            android:text="@string/activity_rate_trip" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:layout_weight="3"
+        android:background="#FFFF"
+        >
+
+        <TextView
+            style="@style/Subtitle"
+            android:text="@string/rate_star_question" />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:numStars="5"
+            android:progressDrawable="@drawable/rating_bar"
+            android:rating="1"
+            android:stepSize="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:layout_weight="4"
+        android:background="#FFFF"
+        >
+
+        <TextView
+            style="@style/Subtitle"
+            android:text="@string/rate_client_improvements" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rate_client_improvements_driver"
+                android:textAlignment="viewEnd"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/switch_material_driver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rate_client_improvements_car"
+                android:textAlignment="viewEnd"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/switch_material_car"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rate_client_improvements_app"
+                android:textAlignment="viewEnd"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/switch_material_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="#FFF"
+        >
+
+        <TextView
+            style="@style/Subtitle"
+            android:text="@string/rate_client_extra_comment_question" />
+
+
+        <EditText
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:id="@+id/comment"
+            android:hint="Comentario"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_submit"
+        style="@style/AppButton" />
+
+</LinearLayout>

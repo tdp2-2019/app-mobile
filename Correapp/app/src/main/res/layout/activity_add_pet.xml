@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AddPetActivity"
+    android:background="#FFFFFF"
+    >
+
+    <LinearLayout
+        android:id="@+id/title_layout"
+        style="@style/HeaderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            style="@style/HeaderArrow" />
+
+        <TextView
+            style="@style/HeaderTitle"
+            android:text="Agregar mascota" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/inputs"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="20dp"
+        android:background="#FFFF"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout"
+        tools:layout_editor_absoluteX="0dp"
+        android:weightSum="8"
+        >
+
+        <EditText
+            android:id="@+id/nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:layout_gravity="left"
+            android:textSize="14sp"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
+            android:background="@drawable/text_border_bottom_line"
+            android:hint="Nombre"
+            android:textColorHint="@color/black_overlay"
+            >
+        </EditText>
+
+        <Spinner
+            android:id="@+id/tipo_de_mascota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/text_border_bottom_line"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:textColor="@color/black_overlay"
+            android:entries="@array/items_tipos_de_mascotas" />
+        <Spinner
+            android:id="@+id/tamaño_de_mascota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black_overlay"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:background="@drawable/text_border_bottom_line"
+            android:entries="@array/items_tamano_mascotas" />
+
+        <EditText
+            android:id="@+id/obs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"
+            android:layout_gravity="left"
+            android:background="@drawable/text_border_bottom_line"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:textColor="@color/black_overlay"
+            android:hint="Observaciones"
+            android:textColorHint="@color/black_overlay"
+            >
+        </EditText>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/AppButton"
+        android:text="Agregar" />
+
+</android.support.constraint.ConstraintLayout>
