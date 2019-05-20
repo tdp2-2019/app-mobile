@@ -66,6 +66,9 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
     private Bundle bundle;
     private Long tripId;
     private Long driverId;
+    private Long clientId;
+    private String client;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,9 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
 
             tripId = bundle.getLong("tripId");
             driverId = bundle.getLong("driverId");
+            clientId = bundle.getLong("clientId");
+            client = bundle.getString("client");
+
         }
 
 
@@ -179,7 +185,8 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
                         bundle.putParcelable("lc_dest", destinynLocation);
                     bundle.putLong("tripId", tripId);
                     bundle.putLong("driverId", driverId);
-
+                    bundle.putLong("clientId",clientId );
+                    bundle.putString("client",client );
 
                     navigationIntent.putExtra("bundle", bundle );
 

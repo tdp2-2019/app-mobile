@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 public class RateTripDriverActivity extends AppCompatActivity {
 
-    
+
     private Switch switchMaterialDriver;
     private Switch switchMaterialApp;
     private Switch switchMaterialCar;
@@ -33,6 +33,8 @@ public class RateTripDriverActivity extends AppCompatActivity {
     private Bundle bundle;
     private Long tripId;
     private Long driverId;
+    private Long clientId;
+    private String client;
 
     private TripService tripService;
 
@@ -46,6 +48,9 @@ public class RateTripDriverActivity extends AppCompatActivity {
 
         tripId = bundle.getLong("tripId");
         driverId = bundle.getLong("driverId");
+
+        clientId = bundle.getLong("clientId");
+        client = bundle.getString("client");
 
         tripService = new TripService();
 
@@ -74,6 +79,13 @@ public class RateTripDriverActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
                         Intent mainActivity = new Intent(getApplicationContext(), MapHomeActivity.class);
+
+                        Bundle bundle = new Bundle();
+
+                        bundle.putString("client", client);
+                        bundle.putLong("clientId",clientId );
+
+                        mainActivity.putExtra("bundle",bundle );
                         startActivity(mainActivity);
                     }
 

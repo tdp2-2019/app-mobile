@@ -91,6 +91,8 @@ public class CreateTripActivity extends AppCompatActivity
 
     private Bundle bundle;
 
+    private Long clientId;
+    private String client;
 
     private Long tripId;
 
@@ -108,7 +110,8 @@ public class CreateTripActivity extends AppCompatActivity
             destinyLocation = bundle.getParcelable("lc_dest");
             orAddress = bundle.getString("add_origin");
             destAddress = bundle.getString("add_dest");
-
+            clientId = bundle.getLong("clientId");
+            client = bundle.getString("client");
 
             mascota1 = bundle.getParcelable("pet_1");
             mascota2 = bundle.getParcelable("pet_2");
@@ -360,6 +363,9 @@ public class CreateTripActivity extends AppCompatActivity
                 if(minutes != null)
                     bundle.putLong("minutos", minutes);
 
+                bundle.putLong("clientId",clientId );
+                bundle.putString("client",client );
+
                 navigationIntent.putExtra("bundle", bundle );
                 startActivity(navigationIntent);
 
@@ -434,7 +440,8 @@ public class CreateTripActivity extends AppCompatActivity
 
 
                 TripPost s_trip = new TripPost();
-                s_trip.setClient("Alejandra");
+                s_trip.setClient(client);
+                s_trip.setClientId(clientId);
                 Destination destination = new Destination();
                 destination.setLat(Double.valueOf(destinyLocation.latitude).toString());
                 destination.setLong(Double.valueOf(destinyLocation.longitude).toString());
@@ -493,6 +500,8 @@ public class CreateTripActivity extends AppCompatActivity
                         tripId = response.body().getId();
 
                         bundle.putLong("id",tripId );
+                        bundle.putLong("clientId",clientId );
+                        bundle.putString("client", client);
                         navigationIntent.putExtra("bundle", bundle );
                         startActivity(navigationIntent);
                     }

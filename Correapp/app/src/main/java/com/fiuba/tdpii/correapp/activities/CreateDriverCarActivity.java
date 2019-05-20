@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -25,9 +25,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -68,8 +66,8 @@ public class CreateDriverCarActivity extends AppCompatActivity {
     private Button uploadRegistro;
     private Button uploadPatente;
 
-    private ImageView patenteImage;
-    private ImageView registroImage;
+    private ImageButton patenteImage;
+    private ImageButton registroImage;
 
     private Button finalizar;
     private DriverService driverService;
@@ -119,6 +117,39 @@ public class CreateDriverCarActivity extends AppCompatActivity {
 
         patenteImage = findViewById(R.id.patentePicture);
         registroImage = findViewById(R.id.registroPicture);
+
+        patenteImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!patenteUri.equals("")) {
+                    Intent patenteIntent = new Intent(CreateDriverCarActivity.this, PatenteActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("patente", patenteUri);
+
+                    patenteIntent.putExtra("bundle", bundle);
+
+                    startActivity(patenteIntent);
+                }
+            }
+        });
+
+
+        registroImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!registroUri.equals("")) {
+
+                    Intent registroIntent = new Intent(CreateDriverCarActivity.this, RegistroActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("registro", registroUri);
+
+                    registroIntent.putExtra("bundle", bundle);
+                    startActivity(registroIntent);
+                }
+            }
+        });
 
 
 
@@ -183,7 +214,7 @@ public class CreateDriverCarActivity extends AppCompatActivity {
             driver.setLicensePhotoUrl(registroUri);
             driver.setPatentePhotoUrl(patenteUri);
 
-
+            driver.setRating(3d);
             Date cDate = new Date();
             String fDate = new SimpleDateFormat("MM-dd-yyyy").format(cDate);
 

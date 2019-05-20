@@ -78,6 +78,8 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
 
     private TripService tripService;
     private Long tripId;
+    private Long clientId;
+    private String client;
 
     private ImageView backArrow;
     private CountDownTimer timer = new CountDownTimer(30000000, 3000) {
@@ -104,6 +106,8 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
 
         tripService = new TripService();
 
+
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(WaitingActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(WaitingActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -117,6 +121,9 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
             originLocation = bundle.getParcelable("lc_origin");
             destinynLocation = bundle.getParcelable("lc_dest");
             tripId = bundle.getLong("id");
+            clientId = bundle.getLong("clientId");
+            client = bundle.getString("client");
+
         }
 
 
@@ -176,12 +183,12 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
                             public void onResponse(Call<List<Rejected>> call, Response<List<Rejected>> response) {
                                 List<Rejected> rejections = response.body();
 
-                                if(response.code()==404) {
+                                if (response.code() == 404) {
                                     System.out.print("he");
                                 } else {
 
 
-                                    if(response.body().size() >= 3){
+                                    if (response.body().size() >= 3) {
                                         Intent navigationIntent = new Intent(WaitingActivity.this, TripTooManyRejectsActivity.class);
                                         timer.cancel();
 
@@ -189,6 +196,8 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
 
 
                                         bundle.putLong("tripId", tripId);
+                                        bundle.putLong("clientId",clientId );
+                                        bundle.putString("client",client );
 
                                         navigationIntent.putExtra("bundle", bundle);
 
@@ -218,6 +227,9 @@ public class WaitingActivity extends FragmentActivity implements OnMapReadyCallb
                                 bundle.putParcelable("lc_dest", destinynLocation);
                             bundle.putLong("tripId", tripId);
                             bundle.putLong("driverId", response.body().getDriverId());
+
+                            bundle.putLong("clientId",clientId );
+                            bundle.putString("client",client );
 
                             navigationIntent.putExtra("bundle", bundle);
                             timer.cancel();

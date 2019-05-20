@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         client.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent navigationIntent = new Intent(MainActivity.this, MapHomeActivity.class);
+                Intent navigationIntent = new Intent(MainActivity.this, ClientLoginActivity.class);
                 startActivity(navigationIntent);
             }
         });

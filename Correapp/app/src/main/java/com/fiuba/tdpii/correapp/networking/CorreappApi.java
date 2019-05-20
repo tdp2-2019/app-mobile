@@ -15,6 +15,7 @@ import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
 import com.fiuba.tdpii.correapp.models.web.TripRejectionRequest;
 import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
 import com.fiuba.tdpii.correapp.models.web.driver.FirebaseIdDriverPutRequest;
+import com.fiuba.tdpii.correapp.models.web.user.ClientResponse;
 
 import java.util.List;
 
@@ -76,5 +77,14 @@ public interface CorreappApi {
 
     @PUT("/drivers/{id}")
     Call<DriverPost> putFirebaseIdById(@Path("id") String driverId, @Body FirebaseIdDriverPutRequest request);
+
+    @GET("/users/{id}")
+    Call<ClientResponse> getUserById(@Path("id") String clientId);
+
+    @GET("/users")
+    Call<List<ClientResponse>> getUsersByEmail(@Query("email") String email);
+
+    @POST("/users")
+    Call<ClientResponse> createUser(@Header("Content-Type") String content_type, @Body ClientResponse client);
 }
 

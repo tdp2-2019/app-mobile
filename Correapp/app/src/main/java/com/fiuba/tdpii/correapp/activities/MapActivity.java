@@ -68,6 +68,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private SearchView searchView;
     private SearchView destinySearchView;
 
+    private Long clientId;
+    private String client;
+
     private GoogleMap mMap;
     public static final String DESTINATION_KEY = "destination-location-key";
 
@@ -75,6 +78,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+
+        Bundle bundle = getIntent().getParcelableExtra("bundle");
+
+        clientId = bundle.getLong("clientId");
+        client = bundle.getString("client");
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(MapActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -87,6 +97,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             @Override
             public void onClick(View v) {
                 Intent backIntent = new Intent(MapActivity.this, MapHomeActivity.class);
+
+                Bundle args = new Bundle();
+
+                args.putLong("clientId",clientId );
+                args.putString("client",client );
+                backIntent.putExtra("bundle", args);
+
+
                 startActivity(backIntent);
                 finish();
             }
@@ -152,6 +170,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
                 args.putString("add_origin", searchView.getQuery().toString());
                 args.putString("add_dest", destinySearchView.getQuery().toString());
+
+                args.putLong("clientId",clientId );
+                args.putString("client",client );
 
                 destinyIntent.putExtra("bundle", args);
                 startActivity(destinyIntent);
@@ -310,6 +331,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
                     args.putString("add_origin", getAddress(originLocation));
                     args.putString("add_dest", getAddress(destinynLocation));
+
+                    args.putLong("clientId",clientId );
+                    args.putString("client",client );
 
                     destinyIntent.putExtra("bundle", args);
                     startActivity(destinyIntent);

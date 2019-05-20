@@ -53,6 +53,36 @@
         app:layout_constraintTop_toBottomOf="@+id/subtitle"
         tools:layout_editor_absoluteX="0dp">
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile"
+                android:layout_width="286dp"
+                android:layout_height="172dp"
+                android:layout_gravity="center"
+                android:src="@drawable/driver"
+                app:civ_border_color="#FF000000"
+                android:layout_weight="3.5"
+                app:civ_border_width="2dp" />
+
+            <Button
+                android:id="@+id/uploadPhoto"
+                style="@style/AppButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:text="CAMBIAR FOTO"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+
         <EditText
             android:id="@+id/dni"
             android:layout_width="match_parent"
@@ -60,13 +90,13 @@
             android:layout_gravity="left"
             android:background="@drawable/text_border_bottom_line"
             android:gravity="center_vertical"
-            android:padding="15dp"
-            android:textSize="14sp"
-            android:textColorHint="@color/black_overlay"
-            android:maxLines="1"
-            android:inputType="number"
             android:hint="DNI"
-            android:textColor="@color/black_overlay" />
+            android:inputType="number"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/nombre"
@@ -76,76 +106,76 @@
             android:background="@drawable/text_border_bottom_line"
             android:backgroundTint="#000"
             android:gravity="center_vertical"
-            android:padding="15dp"
-            android:textSize="14sp"
-            android:textColorHint="@color/black_overlay"
-            android:maxLines="1"
-            android:inputType="textPersonName"
             android:hint="Nombre"
-            android:textColor="@color/black_overlay" />
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/apellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:textColorHint="@color/black_overlay"
-            android:maxLines="1"
-            android:inputType="textPersonName"
             android:background="@drawable/text_border_bottom_line"
             android:backgroundTint="#000"
             android:gravity="center_vertical"
-            android:padding="15dp"
-            android:textSize="14sp"
             android:hint="Apellido"
-            android:textColor="@color/black_overlay" />
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:textColorHint="@color/black_overlay"
-            android:inputType="textPersonName"
             android:background="@drawable/text_border_bottom_line"
             android:backgroundTint="#000"
             android:gravity="center_vertical"
-            android:padding="15dp"
-            android:textSize="14sp"
             android:hint="Nombre de usuario"
-            android:textColor="@color/black_overlay" />
+            android:inputType="textPersonName"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:textColorHint="@color/black_overlay"
-            android:maxLines="1"
-            android:inputType="textEmailAddress"
             android:background="@drawable/text_border_bottom_line"
             android:backgroundTint="#000"
             android:gravity="center_vertical"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
             android:padding="15dp"
-            android:textSize="14sp"
             android:text="e-mail"
-            android:textColor="@color/black_overlay" />
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/cel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:textColorHint="@color/black_overlay"
-            android:maxLines="1"
             android:background="@drawable/text_border_bottom_line"
             android:backgroundTint="#000"
             android:gravity="center_vertical"
-            android:padding="15dp"
-            android:textSize="14sp"
-            android:inputType="phone"
             android:hint="Celular"
-            android:textColor="@color/black_overlay" />
+            android:inputType="phone"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/tel"
@@ -155,13 +185,13 @@
             android:background="@drawable/text_border_bottom_line"
             android:backgroundTint="#000"
             android:gravity="center_vertical"
-            android:padding="15dp"
-            android:textSize="14sp"
+            android:hint="Teléfono adicional"
             android:inputType="phone"
             android:maxLines="1"
-            android:hint="Teléfono adicional"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
             android:textColorHint="@color/black_overlay"
-            android:textColor="@color/black_overlay" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/direccion"
@@ -171,28 +201,14 @@
             android:background="@drawable/text_border_bottom_line"
             android:backgroundTint="#000"
             android:gravity="center_vertical"
-            android:padding="15dp"
-            android:textSize="14sp"
-            android:inputType="textPersonName"
-            android:textColorHint="@color/black_overlay"
-            android:maxLines="1"
             android:hint="Dirección"
-            android:textColor="@color/black_overlay" />
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:textSize="14sp" />
 
-        <Button
-            style="@style/AppButton"
-            android:id="@+id/uploadPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:text="AGREGAR FOTO"
-            android:textSize="10dp"/>
-        <ImageView
-            android:layout_gravity="right"
-            android:layout_marginRight="30dp"
-            android:id="@+id/profile"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
 
     </LinearLayout>
 

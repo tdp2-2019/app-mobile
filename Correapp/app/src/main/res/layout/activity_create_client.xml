@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    tools:context=".activities.CreateClientActivity">
 
     <LinearLayout
         android:id="@+id/title_layout"
@@ -21,159 +21,168 @@
 
         <TextView
             style="@style/HeaderTitle"
-            android:text="Alta chofer" />
+            android:text="Carga tus datos" />
 
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:padding="8dp"
-        android:text="Datos del auto:"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:textColor="@color/black_87"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_layout" />
 
     <LinearLayout
         android:id="@+id/inputs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#FFFF"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
         android:weightSum="7"
-        app:layout_constraintTop_toBottomOf="@+id/subtitle"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout"
         tools:layout_editor_absoluteX="0dp">
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile"
+                android:layout_width="286dp"
+                android:layout_height="172dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/driver"
+                app:civ_border_color="#FF000000"
+                android:layout_weight="3.5"
+                app:civ_border_width="2dp" />
+
+            <Button
+                android:id="@+id/uploadPhoto"
+                style="@style/AppButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:text="CAMBIAR FOTO"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+
         <EditText
-            android:id="@+id/marca"
+            android:id="@+id/dni"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:background="@drawable/text_border_bottom_line"
             android:gravity="center_vertical"
-            android:padding="15dp"
-            android:textSize="14sp"
-            android:inputType="textPersonName"
-            android:hint="Marca"
-            android:textColorHint="@color/black_overlay"
-            android:textColor="@color/black_overlay" />
-
-        <EditText
-            android:id="@+id/modelo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:background="@drawable/text_border_bottom_line"
-            android:backgroundTint="#000"
-            android:gravity="center_vertical"
-            android:padding="15dp"
-            android:textSize="14sp"
-            android:inputType="textPersonName"
-            android:hint="Modelo"
-            android:textColorHint="@color/black_overlay"
-            android:textColor="@color/black_overlay" />
-
-
-        <EditText
-            android:id="@+id/color"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:inputType="textPersonName"
-            android:background="@drawable/text_border_bottom_line"
-            android:backgroundTint="#000"
-            android:gravity="center_vertical"
-            android:padding="15dp"
-            android:textSize="14sp"
-            android:hint="Color"
-            android:textColorHint="@color/black_overlay"
-            android:textColor="@color/black_overlay" />
-
-        <EditText
-            android:id="@+id/registro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:background="@drawable/text_border_bottom_line"
-            android:backgroundTint="#000"
-            android:gravity="center_vertical"
-            android:padding="15dp"
-            android:textSize="14sp"
+            android:hint="DNI"
             android:inputType="number"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
             android:textColorHint="@color/black_overlay"
-            android:hint="Número de registro de conducir"
-            android:textColor="@color/black_overlay" />
+            android:textSize="14sp" />
 
-        <Button
-            style="@style/AppButton"
-            android:id="@+id/subirRegistro"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:text="AGREGAR FOTO DEL REGISTRO"
-            android:textSize="10dp" />
-        <ImageButton
-            android:layout_gravity="right"
-            android:layout_marginRight="30dp"
-            android:id="@+id/registroPicture"
-            android:backgroundTint="#FFF"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
         <EditText
-            android:id="@+id/seguro"
+            android:id="@+id/nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:background="@drawable/text_border_bottom_line"
             android:backgroundTint="#000"
             android:gravity="center_vertical"
+            android:hint="Nombre"
+            android:inputType="textPersonName"
+            android:maxLines="1"
             android:padding="15dp"
-            android:textSize="14sp"
-            android:inputType="text"
-            android:hint="Número de seguro"
+            android:textColor="@color/black_overlay"
             android:textColorHint="@color/black_overlay"
-
-            android:textColor="@color/black_overlay" />
-
+            android:textSize="14sp" />
 
         <EditText
-            android:id="@+id/patente"
+            android:id="@+id/apellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:background="@drawable/text_border_bottom_line"
             android:backgroundTint="#000"
             android:gravity="center_vertical"
+            android:hint="Apellido"
+            android:inputType="textPersonName"
+            android:maxLines="1"
             android:padding="15dp"
-            android:textSize="14sp"
+            android:textColor="@color/black_overlay"
             android:textColorHint="@color/black_overlay"
-            android:hint="Patente"
-            android:inputType="text"
-            android:textColor="@color/black_overlay" />
+            android:textSize="14sp" />
 
-        <Button
-            style="@style/AppButton"
-            android:id="@+id/subirPatente"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="AGREGAR FOTO DE LA PATENTE"
-            android:layout_gravity="right"
-            android:textSize="10dp"/>
-        <ImageButton
-            android:backgroundTint="#FFF"
-            android:layout_gravity="right"
-            android:layout_marginRight="30dp"
-            android:id="@+id/patentePicture"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@drawable/text_border_bottom_line"
+            android:backgroundTint="#000"
+            android:gravity="center_vertical"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:text="e-mail"
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/cel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@drawable/text_border_bottom_line"
+            android:backgroundTint="#000"
+            android:gravity="center_vertical"
+            android:hint="Celular"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/tel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@drawable/text_border_bottom_line"
+            android:backgroundTint="#000"
+            android:gravity="center_vertical"
+            android:hint="Teléfono adicional"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/direccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@drawable/text_border_bottom_line"
+            android:backgroundTint="#000"
+            android:gravity="center_vertical"
+            android:hint="Dirección"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/black_overlay"
+            android:textColorHint="@color/black_overlay"
+            android:textSize="14sp" />
+
 
     </LinearLayout>
 
@@ -194,6 +203,5 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/inputs"
         app:layout_constraintTop_toTopOf="@+id/inputs" />
-
 
 </android.support.constraint.ConstraintLayout>
