@@ -162,7 +162,7 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
 
 
         Handler h = new Handler();
-        int delay = 4 * 100;
+        int delay = 8 * 100;
         int i = 0;
         MarkerOptions driverMarker = new MarkerOptions().position(path.get(i)).title("Chofer");
         driverMarker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_dog_car, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
