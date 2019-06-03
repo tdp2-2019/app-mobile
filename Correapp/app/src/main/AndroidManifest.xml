@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CreateClientActivity"></activity>
+        <activity android:name=".activities.DriverBloqueadoActivity"></activity>
+        <activity android:name=".activities.CreateClientActivity" />
         <activity android:name=".activities.ClientLoginActivity" />
         <activity android:name=".activities.RegistroActivity" />
         <activity android:name=".activities.PatenteActivity" />

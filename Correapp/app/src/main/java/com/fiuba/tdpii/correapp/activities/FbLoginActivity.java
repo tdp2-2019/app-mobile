@@ -210,15 +210,24 @@ public class FbLoginActivity extends AppCompatActivity {
 
                                         List<DriverPost> drivers = response.body();
                                         DriverPost driver = drivers.get(0);
-
                                         Long driverId = driver.getId();
 
-                                        Intent navigationIntent = new Intent(FbLoginActivity.this, DriverProfileActivity.class);
-                                        Bundle bundle = new Bundle();
-                                        bundle.putLong("driverId", driverId);
-                                        navigationIntent.putExtra("bundle", bundle);
-                                        startActivity(navigationIntent);
+                                        if(driver.getStatus().equals("Bloqueado")){
+                                            Intent navigationIntent = new Intent(FbLoginActivity.this, DriverBloqueadoActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putLong("driverId", driverId);
+                                            bundle.putString("comment", driver.getComment());
+                                            navigationIntent.putExtra("bundle", bundle);
+                                            startActivity(navigationIntent);
+                                        } else {
 
+
+                                            Intent navigationIntent = new Intent(FbLoginActivity.this, DriverProfileActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putLong("driverId", driverId);
+                                            navigationIntent.putExtra("bundle", bundle);
+                                            startActivity(navigationIntent);
+                                        }
                                     }
 
                                 }

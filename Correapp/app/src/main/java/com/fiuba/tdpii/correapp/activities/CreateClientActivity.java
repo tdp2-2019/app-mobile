@@ -101,9 +101,7 @@ public class CreateClientActivity extends AppCompatActivity {
         email = bundle.getString("email");
         firstName = bundle.getString("firstname");
         lastName = bundle.getString("lastName");
-        profilePictureUri = bundle.getString("picture");
 
-        dni = findViewById(R.id.dni);
 
         nombre = findViewById(R.id.nombre);
         nombre.setText(firstName);
@@ -112,53 +110,9 @@ public class CreateClientActivity extends AppCompatActivity {
         apellido = findViewById(R.id.apellido);
         apellido.setText(lastName);
 
-
-        emailView = findViewById(R.id.email);
-        emailView.setText(email);
-
-        cel = findViewById(R.id.cel);
-
-        tel = findViewById(R.id.tel);
-
-        direccion = findViewById(R.id.direccion);
-
-
-        backArrow = findViewById(R.id.back_arrow);
-
         continueButton = findViewById(R.id.confirm);
 
-
-        backArrow = findViewById(R.id.back_arrow);
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-
-        uploadProfileImage = findViewById(R.id.uploadPhoto);
-        uploadProfileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadImageFull();
-            }
-        });
-
-        profile = findViewById(R.id.profile);
-        if (profilePictureUri != null)
-            Glide.with(this).load(profilePictureUri).into(profile);
-
-
         setUpEvents();
-
-    }
-
-    private void uploadImageFull() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
 
     }
 
@@ -221,11 +175,6 @@ public class CreateClientActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-                if (dni.getText().toString().equals("")) {
-                    Toast.makeText(CreateClientActivity.this, "Te olvidaste de agregar tu dni", Toast.LENGTH_LONG).show();
-                    return;
-                }
                 if (nombre.getText().toString().equals("")) {
                     Toast.makeText(CreateClientActivity.this, "Te olvidaste de agregar tu nombre", Toast.LENGTH_LONG).show();
                     return;
@@ -236,42 +185,18 @@ public class CreateClientActivity extends AppCompatActivity {
 
                     return;
                 }
-                if (emailView.getText().toString().equals("")) {
-                    Toast.makeText(CreateClientActivity.this, "Te olvidaste de agregar tu email", Toast.LENGTH_LONG).show();
 
-                    return;
-                }
-                if (cel.getText().toString().equals("")) {
-                    Toast.makeText(CreateClientActivity.this, "Te olvidaste de agregar tu celular", Toast.LENGTH_LONG).show();
 
-                    return;
-                }
-                if (tel.getText().toString().equals("")) {
-                    Toast.makeText(CreateClientActivity.this, "Te olvidaste de agregar tu telefono", Toast.LENGTH_LONG).show();
-
-                    return;
-                }
-                if (direccion.getText().toString().equals("")) {
-                    Toast.makeText(CreateClientActivity.this, "Te olvidaste de agregar tu direccion", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                currentPosition = getLocation(direccion.getText().toString());
-
-                if (currentPosition == null) {
-                    Toast.makeText(CreateClientActivity.this, "Ingrese una direccion valida", Toast.LENGTH_LONG).show();
-                    return;
-                }
 
 
                 ClientResponse client = new ClientResponse();
-                client.setAddress(direccion.getText().toString());
-                client.setCelphone(cel.getText().toString());
-                client.setDni(dni.getText().toString());
-                client.setEmail(emailView.getText().toString());
+                client.setAddress("a");
+                client.setCelphone("15616828332");
+                client.setDni("3849772");
+                client.setEmail(email);
                 client.setLastname(apellido.getText().toString());
                 client.setName(nombre.getText().toString());
-                client.setTelephone(tel.getText().toString());
+                client.setTelephone("47860146");
                 client.setRating(3f);
                 String token =  FirebaseInstanceId.getInstance().getToken();
 

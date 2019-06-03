@@ -104,10 +104,9 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 nombre.setText(trip.getClient());
 
 
-
                 Long duracionTrip = trip.getDuration();
                 Long min = duracionTrip / 60;
-                if(min < 60){
+                if (min < 60) {
                     duracion.setText(min + " minutos");
                 } else {
 
@@ -117,14 +116,14 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 }
 
 
-                if (trip.getPets().size() == 1){
+                if (trip.getPets().size() == 1) {
                     mascotas.setText("1 mascota");
                 } else {
-                    mascotas.setText(trip.getPets().size()  + " mascotas");
+                    mascotas.setText(trip.getPets().size() + " mascotas");
                 }
 
                 int count = 1;
-                for(Pet pet : trip.getPets()){
+                for (Pet pet : trip.getPets()) {
                     switch (count) {
                         case 1:
                             mascotasDetalle.setText(pet.getKey2());
@@ -150,34 +149,17 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                     count++;
                 }
 
-                try {
+
+                reserva.setText("El día de hoy");
+                LinearLayout reservaLayout = findViewById(R.id.reserva_layout);
+                reservaLayout.setVisibility(View.GONE);
+                titulo.setText("Nuevo viaje disponible");
 
 
-                    String sDate1=trip.getStartTime().substring(0,10);
-                    Date startDate= null;
-                    try {
-                        //2019-04-22T00:46:50.000Z
-                        startDate = new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(startDate);
-                    String dateStr = "El " + calendar.get(Calendar.DAY_OF_MONTH) + " de " + theMonth(calendar.get(Calendar.MONTH));
-
-                    reserva.setText(dateStr);
-                    titulo.setText("Nueva reserva disponible");
-                } catch (Exception e){
-                    reserva.setText("El día de hoy");
-                    LinearLayout reservaLayout = findViewById(R.id.reserva_layout);
-                    reservaLayout.setVisibility(View.GONE);
-                    titulo.setText("Nuevo viaje disponible");
-                }
-                LatLng dest = new LatLng(Double.valueOf(trip.getDestination().getLat()), Double.valueOf(trip.getDestination().getLong() ));
+                LatLng dest = new LatLng(Double.valueOf(trip.getDestination().getLat()), Double.valueOf(trip.getDestination().getLong()));
                 destLoc = dest;
 
-                LatLng sourc = new LatLng(Double.valueOf(trip.getSource().getLat()), Double.valueOf(trip.getSource().getLong() ));
+                LatLng sourc = new LatLng(Double.valueOf(trip.getSource().getLat()), Double.valueOf(trip.getSource().getLong()));
                 orLoc = sourc;
 
                 destino.setText(getAddress(dest));
@@ -202,7 +184,7 @@ public class ChoferViewTripActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
 
                 bundle.putLong("tripId", tripId);
-                bundle.putLong("driverId",driverId );
+                bundle.putLong("driverId", driverId);
 
                 navigationIntent.putExtra("bundle", bundle);
                 startActivity(navigationIntent);
@@ -223,12 +205,12 @@ public class ChoferViewTripActivity extends AppCompatActivity {
 
                         response.body();
 
-                        bundle.putLong("tripId",tripId );
-                        bundle.putLong("driverId",driverId );
+                        bundle.putLong("tripId", tripId);
+                        bundle.putLong("driverId", driverId);
 
                         Intent navigationIntent = new Intent(ChoferViewTripActivity.this, StartTripDriverActivity.class);
 
-                        navigationIntent.putExtra("bundle", bundle );
+                        navigationIntent.putExtra("bundle", bundle);
                         startActivity(navigationIntent);
                     }
 
@@ -245,7 +227,7 @@ public class ChoferViewTripActivity extends AppCompatActivity {
 
     }
 
-    public static String theMonth(int month){
+    public static String theMonth(int month) {
         String[] monthNames = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
                 "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
         return monthNames[month];

@@ -17,6 +17,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.Destination;
+import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
+import com.fiuba.tdpii.correapp.models.web.StartTripPutRequest;
+import com.fiuba.tdpii.correapp.models.web.TripPositionPutRequest;
+import com.fiuba.tdpii.correapp.services.trips.TripService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -48,6 +53,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SeguimientoActivity extends FragmentActivity implements OnMapReadyCallback {
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -68,6 +77,10 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
     private Long driverId;
     private Long clientId;
     private String client;
+
+    private Boolean finished = Boolean.FALSE;
+
+    private TripService tripService;
 
 
     @Override
@@ -93,7 +106,7 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
 
         }
 
-
+        tripService = new TripService();
 
     }
 
@@ -159,53 +172,69 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
         addPoly(path, mMap);
 
 
-
-
         Handler h = new Handler();
-        int delay = 8 * 100;
+        int delay = 14 * 100;
         int i = 0;
         MarkerOptions driverMarker = new MarkerOptions().position(path.get(i)).title("Chofer");
         driverMarker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_dog_car, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
 
         Marker driver = googleMap.addMarker(driverMarker);
 
-        Iterator<LatLng> iter = path.iterator();
-        h.postDelayed(new Runnable(){
-            public void run(){
+        h.postDelayed(new Runnable() {
+            public void run() {
 
-                if(!iter.hasNext()) {
-                    Intent navigationIntent = new Intent(SeguimientoActivity.this, RateTripDriverActivity.class);
+                if (!finished) {
+                    tripService.getTripById(tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
+                        @Override
+                        public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
 
 
-                    Bundle bundle = new Bundle();
+                            SerializedTripPostResponse trip = response.body();
 
-                    if (originLocation != null)
-                        bundle.putParcelable("lc_origin", originLocation);
-                    if (destinynLocation != null)
-                        bundle.putParcelable("lc_dest", destinynLocation);
-                    bundle.putLong("tripId", tripId);
-                    bundle.putLong("driverId", driverId);
-                    bundle.putLong("clientId",clientId );
-                    bundle.putString("client",client );
+                            if (trip.getStatus().equals("finished") && !finished) {
+                                Intent navigationIntent = new Intent(SeguimientoActivity.this, RateTripDriverActivity.class);
 
-                    navigationIntent.putExtra("bundle", bundle );
 
-                    startActivity(navigationIntent);
-                    finish();
-                } else {
-                    driver.setPosition(iter.next());
+                                Bundle bundle = new Bundle();
 
-                    h.postDelayed(this, delay);
+                                if (originLocation != null)
+                                    bundle.putParcelable("lc_origin", originLocation);
+                                if (destinynLocation != null)
+                                    bundle.putParcelable("lc_dest", destinynLocation);
+                                bundle.putLong("tripId", tripId);
+                                bundle.putLong("driverId", driverId);
+                                bundle.putLong("clientId", clientId);
+                                bundle.putString("client", client);
 
+                                navigationIntent.putExtra("bundle", bundle);
+                                finished = Boolean.TRUE;
+                                startActivity(navigationIntent);
+                                finish();
+                            }
+                            Destination currPosition = trip.getPosition();
+
+                            LatLng pos = new LatLng(Double.valueOf(currPosition.getLat()), Double.valueOf(currPosition.getLong()));
+                            driver.setPosition(pos);
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+                            Toast.makeText(SeguimientoActivity.this, "Error obtaining position", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
                 }
+
+                h.postDelayed(this, delay);
+
             }
+
         }, delay);
 
 
-
-
         googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 40));
-
 
 
     }
