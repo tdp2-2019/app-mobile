@@ -28,6 +28,19 @@ public class SerializedTripPostResponse implements Comparable<SerializedTripPost
     @SerializedName("destination")
     @Expose
     private Destination destination;
+
+    @SerializedName("currentposition")
+    @Expose
+    private Destination position;
+
+    public Destination getPosition() {
+        return position;
+    }
+
+    public void setPosition(Destination position) {
+        this.position = position;
+    }
+
     @SerializedName("start_time")
     @Expose
     private String startTime;

@@ -74,7 +74,6 @@ public class ClientLoginActivity extends AppCompatActivity {
     private UserService userService;
 
 
-    private Button continueButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,25 +86,13 @@ public class ClientLoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_client_login);
 
-        continueButton = findViewById(R.id.login_button2);
-        continueButton.setVisibility(View.GONE);
-
 
         final AccessToken[] accessToken = {AccessToken.getCurrentAccessToken()};
         boolean isLoggedIn = accessToken[0] != null && !accessToken[0].isExpired();
 
 
         if (isLoggedIn) {
-            continueButton.setVisibility(View.VISIBLE);
-            continueButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    boolean isLoggedIn = accessToken[0] != null && !accessToken[0].isExpired();
-                    if (isLoggedIn) {
-                        setFacebookData(accessToken[0]);
-                    }
-                }
-            });
+            setFacebookData(accessToken[0]);
         }
 
         callbackManager = CallbackManager.Factory.create();

@@ -6,6 +6,7 @@ import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.StartTripPutRequest;
 import com.fiuba.tdpii.correapp.models.web.TripClientRatingRequest;
 import com.fiuba.tdpii.correapp.models.web.TripDriverRatingRequest;
+import com.fiuba.tdpii.correapp.models.web.TripPositionPutRequest;
 import com.fiuba.tdpii.correapp.models.web.TripPost;
 import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
 import com.fiuba.tdpii.correapp.models.web.TripRejectionRequest;
@@ -77,34 +78,8 @@ public class TripService {
     }
 
 
-//    public Call<ArrayList<TripResponse>> getTrips(final ApiClient delegate){
-//        coreAPI.getTrips().enqueue(new Callback<ArrayList<TripResponse>>() {
-//            @Override
-//            public void onResponse(Call<ArrayList<TripResponse>> call, Response<ArrayList<TripResponse>> response) {
-//                if (response.code() > 199 && response.code() < 300) {
-//                    if(response.body() != null) {
-//                        Log.i("BOOKSERVICE", response.body().toString());
-//                        delegate.onResponseSuccess(response.body());
-//                    }else {
-//                        Log.i("BOOKSERVICE", "NO RESPONSE");
-//                        delegate.onResponseError();
-//                    }
-//                } else {
-//                    if(response.body() != null) {
-//                        Log.e("BOOKSERVICE", response.body().toString());
-//                    }else {
-//                        Log.e("BOOKSERVICE", "NO RESPONSE");
-//                    }
-//                    delegate.onResponseError();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArrayList<TripResponse>> call, Throwable t) {
-//                delegate.onResponseError();
-//                Log.e("BOOKSERVICE", t.getMessage());
-//            }
-//        });
-//
-//    }
+    public Call<SerializedTripPostResponse> updatePosition(TripPositionPutRequest body, String tripId) {
+        return coreAPI.putTripPosition(tripId, body);
+    }
+
 }

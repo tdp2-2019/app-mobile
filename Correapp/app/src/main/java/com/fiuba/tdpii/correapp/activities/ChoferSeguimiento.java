@@ -22,6 +22,7 @@ import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.StartTripPutRequest;
 import com.fiuba.tdpii.correapp.models.web.Trip;
+import com.fiuba.tdpii.correapp.models.web.TripPositionPutRequest;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -172,7 +173,7 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
 
 
                 Handler h = new Handler();
-                int delay = 4 * 100;
+                int delay = 14 * 100;
                 int i = 0;
                 MarkerOptions driverMarker = new MarkerOptions().position(path.get(i)).title("Chofer");
                 driverMarker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_dog_car, CUSTOM_MARKER_WIDTH, CUSTOM_MARKER_HEIGHT)));
@@ -210,7 +211,28 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
                             startActivity(navigationIntent);
                             finish();
                         } else {
-                            driver.setPosition(iter.next());
+
+                            LatLng nextPosition = iter.next();
+
+                            TripPositionPutRequest request = new TripPositionPutRequest();
+                            Destination currentPosition = new Destination();
+                            currentPosition.setLong(String.valueOf(nextPosition.longitude));
+                            currentPosition.setLat(String.valueOf(nextPosition.latitude));
+                            request.setCurrentPosition(currentPosition);
+                            tripService.updatePosition(request,tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
+                                @Override
+                                public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+//                                    Toast.makeText(ChoferSeguimiento.this,nextPosition.toString() ,Toast.LENGTH_LONG ).show();
+                                }
+
+                                @Override
+                                public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+                                    Toast.makeText(ChoferSeguimiento.this,"ERror updateando posicion" ,Toast.LENGTH_LONG ).show();
+
+                                }
+                            });
+
+                            driver.setPosition(nextPosition);
 
                             h.postDelayed(this, delay);
 

@@ -77,15 +77,26 @@ public class RateTripDriverActivity extends AppCompatActivity {
                 tripService.rateDriver(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
                     @Override
                     public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
-                        Intent mainActivity = new Intent(getApplicationContext(), MapHomeActivity.class);
+                        tripService.rateDriver(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
+                            @Override
+                            public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
 
-                        Bundle bundle = new Bundle();
+                                Intent mainActivity = new Intent(getApplicationContext(), MapHomeActivity.class);
 
-                        bundle.putString("client", client);
-                        bundle.putLong("clientId",clientId );
+                                Bundle bundle = new Bundle();
 
-                        mainActivity.putExtra("bundle",bundle );
-                        startActivity(mainActivity);
+                                bundle.putString("client", client);
+                                bundle.putLong("clientId",clientId );
+
+                                mainActivity.putExtra("bundle",bundle );
+                                startActivity(mainActivity);
+                            }
+
+                            @Override
+                            public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+
+                            }
+                        });
                     }
 
                     @Override

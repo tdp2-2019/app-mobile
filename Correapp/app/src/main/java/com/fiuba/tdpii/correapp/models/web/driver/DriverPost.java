@@ -9,6 +9,32 @@ public class DriverPost {
     @Expose
     private String dni;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @SerializedName("status")
+    @Expose
+    private String status;
+
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    @SerializedName("comment")
+    @Expose
+    private String comment;
+
+
 
     @SerializedName("license_photo_url")
     @Expose
@@ -88,6 +114,17 @@ public class DriverPost {
     @Expose
     private String signupDate;
 
+    @SerializedName("active")
+    @Expose
+    private String active;
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
 
     public String getPhotoUrl() {
         return photoUrl;

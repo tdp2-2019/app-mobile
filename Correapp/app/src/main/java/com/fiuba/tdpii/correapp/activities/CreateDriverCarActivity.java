@@ -219,6 +219,7 @@ public class CreateDriverCarActivity extends AppCompatActivity {
             String fDate = new SimpleDateFormat("MM-dd-yyyy").format(cDate);
 
             driver.setSignupDate(fDate);
+            driver.setActive("S");
 
             LatLng currentPosition = bundle.getParcelable("currentPosition");
 
