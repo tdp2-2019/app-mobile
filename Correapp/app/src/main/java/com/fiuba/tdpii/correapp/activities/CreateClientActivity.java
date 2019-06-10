@@ -101,6 +101,7 @@ public class CreateClientActivity extends AppCompatActivity {
         email = bundle.getString("email");
         firstName = bundle.getString("firstname");
         lastName = bundle.getString("lastName");
+        profilePictureUri = bundle.getString("picture");
 
 
         nombre = findViewById(R.id.nombre);
@@ -111,6 +112,10 @@ public class CreateClientActivity extends AppCompatActivity {
         apellido.setText(lastName);
 
         continueButton = findViewById(R.id.confirm);
+
+        profile = findViewById(R.id.profile);
+        if (profilePictureUri != null)
+            Glide.with(this).load(profilePictureUri).into(profile);
 
         setUpEvents();
 
@@ -196,6 +201,7 @@ public class CreateClientActivity extends AppCompatActivity {
                 client.setEmail(email);
                 client.setLastname(apellido.getText().toString());
                 client.setName(nombre.getText().toString());
+                client.setPhotoUrl(profilePictureUri);
                 client.setTelephone("47860146");
                 client.setRating(3f);
                 String token =  FirebaseInstanceId.getInstance().getToken();
