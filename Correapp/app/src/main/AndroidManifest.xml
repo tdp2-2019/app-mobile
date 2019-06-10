@@ -33,7 +33,12 @@
         <activity android:name=".activities.FbLoginActivity" />
         <activity android:name=".activities.ChoferSeguimiento" />
         <activity android:name=".activities.RechazarActivity" />
-        <activity android:name=".activities.ChoferViewTripActivity" />
+        <activity android:name=".activities.ChoferViewTripActivity">
+            <intent-filter>
+                <action android:name=".activities.ChoferViewTripActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.ChoferActivity" />
         <activity android:name=".activities.RateTripDriverActivity" />
         <activity android:name=".activities.SeguimientoActivity" />

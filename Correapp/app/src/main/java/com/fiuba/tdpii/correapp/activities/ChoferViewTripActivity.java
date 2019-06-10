@@ -90,6 +90,9 @@ public class ChoferViewTripActivity extends AppCompatActivity {
         rechazar = findViewById(R.id.rechazar);
 
         bundle = getIntent().getParcelableExtra("bundle");
+        if (bundle == null) {
+            bundle = getIntent().getParcelableExtra("data");
+        }
 
         tripId = bundle.getLong("tripId");
         driverId = bundle.getLong("driverId");
