@@ -100,10 +100,11 @@ public class StartTripDriverActivity extends FragmentActivity implements OnMapRe
                 @Override
                 public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
 
-                    response.body();
+                    SerializedTripPostResponse trip = response.body();
 
                     bundle.putLong("tripId",tripId );
                     bundle.putLong("driverId",driverId );
+                    bundle.putDouble("price",trip.getPrice() );
 
                     Intent navigationIntent = new Intent(StartTripDriverActivity.this, ChoferSeguimiento.class);
 

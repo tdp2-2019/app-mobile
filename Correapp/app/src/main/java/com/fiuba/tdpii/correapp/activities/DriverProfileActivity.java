@@ -216,7 +216,6 @@ public class DriverProfileActivity extends AppCompatActivity {
         h.postDelayed(new Runnable() {
             public void run() {
 
-
                 if(!finished) {
                     driverService.getDriverById(driverId.toString()).enqueue(new Callback<DriverPost>() {
 

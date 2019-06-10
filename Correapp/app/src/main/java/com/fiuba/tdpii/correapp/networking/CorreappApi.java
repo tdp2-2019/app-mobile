@@ -1,5 +1,6 @@
 package com.fiuba.tdpii.correapp.networking;
 
+import com.fiuba.tdpii.correapp.models.web.AbortTripRequest;
 import com.fiuba.tdpii.correapp.models.web.DriversByTrip;
 import com.fiuba.tdpii.correapp.models.web.PutTrip;
 import com.fiuba.tdpii.correapp.models.web.Rejected;
@@ -90,5 +91,8 @@ public interface CorreappApi {
 
     @PUT("/trips/{id}")
     Call<SerializedTripPostResponse> putTripPosition(@Path("id") String tripId, @Body TripPositionPutRequest body);
+
+    @PUT("/trips/{id}")
+    Call<SerializedTripPostResponse> putAbort(@Path("id") String tripId, @Body AbortTripRequest body);
 }
 

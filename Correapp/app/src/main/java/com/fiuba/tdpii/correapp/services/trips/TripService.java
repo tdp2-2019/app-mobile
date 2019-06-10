@@ -1,5 +1,6 @@
 package com.fiuba.tdpii.correapp.services.trips;
 
+import com.fiuba.tdpii.correapp.models.web.AbortTripRequest;
 import com.fiuba.tdpii.correapp.models.web.DriversByTrip;
 import com.fiuba.tdpii.correapp.models.web.Rejected;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
@@ -24,6 +25,10 @@ public class TripService {
     public TripService() {
         coreAPI = ApiClient.getInstance().getCorreapClient();
 
+    }
+
+    public Call<SerializedTripPostResponse> abortTrip(AbortTripRequest body, String tripId) {
+        return coreAPI.putAbort(tripId, body);
     }
 
     public Call<List<SerializedTripPostResponse>> getTrips() {

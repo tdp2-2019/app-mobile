@@ -191,7 +191,7 @@ public class SeguimientoActivity extends FragmentActivity implements OnMapReadyC
 
                             SerializedTripPostResponse trip = response.body();
 
-                            if (trip.getStatus().equals("finished") && !finished) {
+                            if (trip.getStatus().equals("finished") && !finished || trip.getStatus().equals("Aborted") && !finished) {
                                 Intent navigationIntent = new Intent(SeguimientoActivity.this, RateTripDriverActivity.class);
 
 

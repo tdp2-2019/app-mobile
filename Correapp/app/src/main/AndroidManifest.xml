@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.DriverBloqueadoActivity"></activity>
+        <activity android:name=".activities.ClientBlockedActivity"></activity>
+        <activity android:name=".activities.DriverBloqueadoActivity" />
         <activity android:name=".activities.CreateClientActivity" />
         <activity android:name=".activities.ClientLoginActivity" />
         <activity android:name=".activities.RegistroActivity" />
@@ -32,8 +33,13 @@
         <activity android:name=".activities.CreateDriverActivity" />
         <activity android:name=".activities.FbLoginActivity" />
         <activity android:name=".activities.ChoferSeguimiento" />
+        <activity android:name=".activities.ChoferViewTripActivity">
+            <intent-filter>
+                <action android:name=".activities.ChoferViewTripActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.RechazarActivity" />
-        <activity android:name=".activities.ChoferViewTripActivity" />
         <activity android:name=".activities.ChoferActivity" />
         <activity android:name=".activities.RateTripDriverActivity" />
         <activity android:name=".activities.SeguimientoActivity" />

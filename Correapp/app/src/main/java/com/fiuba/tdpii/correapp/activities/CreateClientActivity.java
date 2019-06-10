@@ -101,7 +101,7 @@ public class CreateClientActivity extends AppCompatActivity {
         email = bundle.getString("email");
         firstName = bundle.getString("firstname");
         lastName = bundle.getString("lastName");
-
+        profilePictureUri = bundle.getString("picture");
 
         nombre = findViewById(R.id.nombre);
         nombre.setText(firstName);
@@ -200,6 +200,7 @@ public class CreateClientActivity extends AppCompatActivity {
                 client.setRating(3f);
                 String token =  FirebaseInstanceId.getInstance().getToken();
 
+                client.setPhoto(profilePictureUri);
                 client.setFirebaseId(token);
 
 

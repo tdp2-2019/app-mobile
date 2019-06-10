@@ -26,7 +26,7 @@ public class TripPost {
     @Expose
     private List<Pet> pets;
 
-    @SerializedName("user_id")
+    @SerializedName("client_id")
     @Expose
     private Long clientId;
 

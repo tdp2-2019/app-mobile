@@ -1,6 +1,8 @@
 package com.fiuba.tdpii.correapp.activities;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,9 +16,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.AbortTripRequest;
 import com.fiuba.tdpii.correapp.models.web.Destination;
 import com.fiuba.tdpii.correapp.models.web.SerializedTrip;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
@@ -65,6 +69,7 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
     private LatLng destinynLocation;
     private Location currentLocation;
 
+    private Boolean finished = Boolean.FALSE;
     private FusedLocationProviderClient fusedLocationProviderClient;
     public static final int LOCATION_REQUEST_CODE = 101;
     private static final int ZOOM = 16;
@@ -75,8 +80,11 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
     private Bundle bundle;
     private Long tripId;
     private Long driverId;
+    private Button abort;
 
     private TripService tripService;
+    private ChoferSeguimiento activity;
+    private Double tripPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +102,12 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
     
         tripId = bundle.getLong("tripId");
         driverId = bundle.getLong("driverId");
+        tripPrice = bundle.getDouble("price");
 
         tripService = new TripService();
+
+        activity = this;
+        abort = findViewById(R.id.abortar);
 
 
     }
@@ -181,10 +193,12 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
                 Marker driver = googleMap.addMarker(driverMarker);
 
                 Iterator<LatLng> iter = path.iterator();
+                Integer pathSize = path.size();
+                final Integer[] iterCount = {0};
                 h.postDelayed(new Runnable(){
                     public void run(){
 
-                        if(!iter.hasNext()){
+                        if(!iter.hasNext() && !finished){
 
                             StartTripPutRequest request = new StartTripPutRequest();
                             request.setStatus("finished");
@@ -213,24 +227,84 @@ public class ChoferSeguimiento  extends FragmentActivity implements OnMapReadyCa
                         } else {
 
                             LatLng nextPosition = iter.next();
+                            iterCount[0]++;
+
+                            abort.setOnClickListener(v -> {
+
+                                AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+                                alert.setTitle("Seguro quiere abortar el viaje?");
+                                // alert.setMessage("Message");
+
+                                alert.setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        AbortTripRequest request = new AbortTripRequest();
+                                        request.setStatus("Aborted");
+
+                                        Double newPrice = (iterCount[0].floatValue()/pathSize) * tripPrice;
+                                        Toast.makeText(ChoferSeguimiento.this, iterCount[0] + " " + pathSize + " " + tripPrice + " " + newPrice, Toast.LENGTH_SHORT).show();
+
+                                        request.setPrice(newPrice);
+
+                                        AlertDialog.Builder debugAlert = new AlertDialog.Builder(activity);
+                                        alert.setTitle(iterCount[0] + " " + pathSize + " " + tripPrice + " " + newPrice);
+
+                                        tripService.abortTrip(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
+                                            @Override
+                                            public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+                                                finished = Boolean.TRUE;
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+
+                                            }
+                                        });
+
+                                        Intent navigationIntent = new Intent(ChoferSeguimiento.this, RateTripClientActivity.class);
+
+                                        Bundle bundle = new Bundle();
+
+                                        bundle.putLong("tripId",tripId );
+                                        bundle.putLong("driverId",driverId );
+
+                                        navigationIntent.putExtra("bundle",bundle );
+                                        startActivity(navigationIntent);
+                                        finish();
+                                    }
+                                });
+
+                                alert.setNegativeButton("No",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                            }
+                                        });
+
+                                alert.show();
+
+                            });
+
+
 
                             TripPositionPutRequest request = new TripPositionPutRequest();
                             Destination currentPosition = new Destination();
                             currentPosition.setLong(String.valueOf(nextPosition.longitude));
                             currentPosition.setLat(String.valueOf(nextPosition.latitude));
                             request.setCurrentPosition(currentPosition);
-                            tripService.updatePosition(request,tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
-                                @Override
-                                public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
+
+                            if(!finished) {
+                                tripService.updatePosition(request, tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
+                                    @Override
+                                    public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
 //                                    Toast.makeText(ChoferSeguimiento.this,nextPosition.toString() ,Toast.LENGTH_LONG ).show();
-                                }
+                                    }
 
-                                @Override
-                                public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
-                                    Toast.makeText(ChoferSeguimiento.this,"ERror updateando posicion" ,Toast.LENGTH_LONG ).show();
+                                    @Override
+                                    public void onFailure(Call<SerializedTripPostResponse> call, Throwable t) {
+                                        Toast.makeText(ChoferSeguimiento.this, "ERror updateando posicion", Toast.LENGTH_LONG).show();
 
-                                }
-                            });
+                                    }
+                                });
+                            }
 
                             driver.setPosition(nextPosition);
 

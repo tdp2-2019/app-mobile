@@ -18,6 +18,9 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
+import com.fiuba.tdpii.correapp.models.web.user.ClientResponse;
+import com.fiuba.tdpii.correapp.services.users.UserService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,6 +37,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static com.fiuba.tdpii.correapp.activities.DestinyMapActivity.ZOOM;
 import static com.fiuba.tdpii.correapp.activities.MapActivity.LOCATION_REQUEST_CODE;
 
@@ -48,6 +55,7 @@ public class MapHomeActivity extends FragmentActivity implements OnMapReadyCallb
     private SearchView searchView;
     private Long clientId;
     private String client;
+    private Boolean finished = Boolean.FALSE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,47 @@ public class MapHomeActivity extends FragmentActivity implements OnMapReadyCallb
 
         clientId = bundle.getLong("clientId");
         client = bundle.getString("client");
+
+        UserService userService = new UserService();
+
+        Handler h = new Handler();
+        int delay = 14 * 100;
+
+        h.postDelayed(new Runnable() {
+            public void run() {
+
+                if(!finished) {
+                    userService.getUserById(clientId.toString()).enqueue(new Callback<ClientResponse>() {
+                        @Override
+                        public void onResponse(Call<ClientResponse> call, Response<ClientResponse> response) {
+                            ClientResponse client = response.body();
+
+                            if("Bloqueado".equals(client.getStatus())){
+                                Intent navigationIntent = new Intent(MapHomeActivity.this, ClientBlockedActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putLong("driverId", clientId);
+                                bundle.putString("comment", client.getComment());
+                                navigationIntent.putExtra("bundle", bundle);
+                                startActivity(navigationIntent);
+                                finished = Boolean.TRUE;
+                                finish();
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<ClientResponse> call, Throwable t) {
+
+                        }
+                    });
+                }
+                h.postDelayed(this, delay);
+
+            }
+
+        }, delay);
+
+
 
         searchView = findViewById(R.id.where);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);

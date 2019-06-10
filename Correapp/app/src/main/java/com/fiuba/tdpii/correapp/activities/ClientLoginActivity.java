@@ -74,7 +74,6 @@ public class ClientLoginActivity extends AppCompatActivity {
     private UserService userService;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,12 +171,6 @@ public class ClientLoginActivity extends AppCompatActivity {
 
 
                             Profile profile = Profile.getCurrentProfile();
-                            String link = profile.getLinkUri().toString();
-                            Log.i("Link", link);
-                            if (Profile.getCurrentProfile() != null) {
-                                Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
-                                profileUrl = Profile.getCurrentProfile().getProfilePictureUri(200, 200);
-                            }
 
                             Log.i("Login" + "Email", email);
                             Log.i("Login" + "FirstName", firstName);
@@ -191,14 +184,14 @@ public class ClientLoginActivity extends AppCompatActivity {
                                         Intent navigationIntent = new Intent(ClientLoginActivity.this, CreateClientActivity.class);
                                         Bundle bundle = new Bundle();
 
+
+                                        bundle.putString("picture", profile != null ? profile.getProfilePictureUri(360, 360).toString() : "https://graph.facebook.com/v3.2/10219407561286759/picture?height=200&width=200&migration_overrides=%7Boctober_2012%3Atrue%7D");
                                         bundle.putString("email", email);
                                         bundle.putString("firstname", firstName);
                                         bundle.putString("lastName", lastName);
-                                        bundle.putString("picture", profileUrl.toString());
                                         navigationIntent.putExtra("bundle", bundle);
                                         startActivity(navigationIntent);
                                     } else {
-
 
                                         List<ClientResponse> users = response.body();
                                         ClientResponse user = users.get(0);

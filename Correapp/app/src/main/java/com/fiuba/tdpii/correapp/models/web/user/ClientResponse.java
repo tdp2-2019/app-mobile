@@ -35,6 +35,40 @@ public class ClientResponse {
     @Expose
     private String firebaseId;
 
+    @SerializedName("comment")
+    @Expose
+    private String comment;
+
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("photo_url")
+    @Expose
+    private String photo;
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
     public String getName() {
         return name;
     }
