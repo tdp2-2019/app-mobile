@@ -34,6 +34,17 @@ public class ClientResponse {
     @SerializedName("firebase_id")
     @Expose
     private String firebaseId;
+    @SerializedName("photo_url")
+    @Expose
+    private String photoUrl;
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
 
     public String getName() {
         return name;

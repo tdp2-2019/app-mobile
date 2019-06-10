@@ -9,6 +9,7 @@ import com.fiuba.tdpii.correapp.models.web.SerializedTrips;
 import com.fiuba.tdpii.correapp.models.web.StartTripPutRequest;
 import com.fiuba.tdpii.correapp.models.web.TripClientRatingRequest;
 import com.fiuba.tdpii.correapp.models.web.TripDriverRatingRequest;
+import com.fiuba.tdpii.correapp.models.web.TripPositionPutRequest;
 import com.fiuba.tdpii.correapp.models.web.TripPost;
 import com.fiuba.tdpii.correapp.models.web.TripPutClientRatingRequest;
 import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
@@ -86,5 +87,8 @@ public interface CorreappApi {
 
     @POST("/users")
     Call<ClientResponse> createUser(@Header("Content-Type") String content_type, @Body ClientResponse client);
+
+    @PUT("/trips/{id}")
+    Call<SerializedTripPostResponse> putTripPosition(@Path("id") String tripId, @Body TripPositionPutRequest body);
 }
 

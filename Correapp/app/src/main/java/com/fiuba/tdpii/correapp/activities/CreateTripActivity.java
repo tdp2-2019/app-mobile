@@ -445,11 +445,12 @@ public class CreateTripActivity extends AppCompatActivity
                 Destination destination = new Destination();
                 destination.setLat(Double.valueOf(destinyLocation.latitude).toString());
                 destination.setLong(Double.valueOf(destinyLocation.longitude).toString());
+                destination.setNombre(destAddress);
 
                 Destination source = new Destination();
                 source.setLat(Double.valueOf(originLocation.latitude).toString());
                 source.setLong(Double.valueOf(originLocation.longitude).toString());
-
+                source.setNombre(orAddress);
 
                 s_trip.setCompanion(acompañanteBox.isChecked());
 

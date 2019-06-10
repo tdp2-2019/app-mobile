@@ -12,6 +12,17 @@ public class Destination {
     @Expose
     private String _long;
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    @SerializedName("name")
+    @Expose
+    private String nombre;
     public String getLat() {
         return lat;
     }

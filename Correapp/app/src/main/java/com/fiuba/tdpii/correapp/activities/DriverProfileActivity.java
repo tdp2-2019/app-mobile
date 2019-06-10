@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fiuba.tdpii.correapp.R;
+import com.fiuba.tdpii.correapp.models.web.Destination;
 import com.fiuba.tdpii.correapp.models.web.Rejected;
 import com.fiuba.tdpii.correapp.models.web.SerializedTripPostResponse;
 import com.fiuba.tdpii.correapp.models.web.TripPutRequest;
@@ -21,6 +23,10 @@ import com.fiuba.tdpii.correapp.models.web.driver.DriverPost;
 import com.fiuba.tdpii.correapp.models.web.driver.FirebaseIdDriverPutRequest;
 import com.fiuba.tdpii.correapp.services.drivers.DriverService;
 import com.fiuba.tdpii.correapp.services.trips.TripService;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.ParseException;
@@ -40,6 +46,7 @@ public class DriverProfileActivity extends AppCompatActivity {
 
     private DriverService driverService;
     private TripService tripService;
+    private Boolean finished = Boolean.FALSE;
 
 
     private Bundle bundle;
@@ -106,6 +113,15 @@ public class DriverProfileActivity extends AppCompatActivity {
             public void onResponse(Call<DriverPost> call, Response<DriverPost> response) {
 
                 DriverPost driver = response.body();
+
+                if(driver.getStatus().equals("Bloqueado")){
+                    Intent navigationIntent = new Intent(DriverProfileActivity.this, DriverBloqueadoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("driverId", driverId);
+                    bundle.putString("comment", driver.getComment());
+                    navigationIntent.putExtra("bundle", bundle);
+                    startActivity(navigationIntent);
+                }
 
                 if (driver.getPhotoUrl() != null && !driver.getPhotoUrl().equals(""))
                     Glide.with(activity).load(driver.getPhotoUrl()).into(profile);
@@ -187,9 +203,72 @@ public class DriverProfileActivity extends AppCompatActivity {
             Bundle bundle = new Bundle();
             bundle.putLong("driverId", driverId);
             navigationIntent.putExtra("bundle", bundle);
+
             startActivity(navigationIntent);
 
         });
+
+
+
+        Handler h = new Handler();
+        int delay = 14 * 100;
+
+        h.postDelayed(new Runnable() {
+            public void run() {
+
+
+                if(!finished) {
+                    driverService.getDriverById(driverId.toString()).enqueue(new Callback<DriverPost>() {
+
+                        @Override
+                        public void onResponse(Call<DriverPost> call, Response<DriverPost> response) {
+
+                            DriverPost driver = response.body();
+
+                            if (driver.getStatus().equals("Bloqueado")) {
+                                Intent navigationIntent = new Intent(DriverProfileActivity.this, DriverBloqueadoActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putLong("driverId", driverId);
+                                bundle.putString("comment", driver.getComment());
+                                navigationIntent.putExtra("bundle", bundle);
+                                startActivity(navigationIntent);
+                                finished = Boolean.TRUE;
+                                finish();
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<DriverPost> call, Throwable t) {
+
+                        }
+                    });
+
+                }
+
+
+                h.postDelayed(this, delay);
+
+            }
+
+        }, delay);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     static int monthsBetween(Date a, Date b) {

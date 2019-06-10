@@ -41,7 +41,7 @@ public class TripTooManyRejectsActivity extends AppCompatActivity {
         tripService = new TripService();
 
         StartTripPutRequest request = new StartTripPutRequest();
-        request.setStatus("finished");
+        request.setStatus("Aborted");
         tripService.startTrip(request,tripId.toString()).enqueue(new Callback<SerializedTripPostResponse>() {
             @Override
             public void onResponse(Call<SerializedTripPostResponse> call, Response<SerializedTripPostResponse> response) {
